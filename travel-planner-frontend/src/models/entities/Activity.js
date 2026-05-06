@@ -1,3 +1,5 @@
+import { ActivityStatus } from "../../enums/ActivityStatus";
+
 /**
  * @typedef {object} Activity
  * @property {number} id
@@ -5,5 +7,5 @@
  * @property {string} date
  * @property {string} description
  * @property {number} estimatedCost
- * @property {ActivityStatus} activityStatus
+ * @property {keyof typeof ActivityStatus} activityStatus
  */
