@@ -39,6 +39,9 @@
     <ProjectReference Include="..\AuthService\AuthService.csproj">
       <ServiceLaunchUrl>http://localhost:{ServicePort}/swagger</ServiceLaunchUrl>
     </ProjectReference>
+    <ProjectReference Include="TravelService\TravelService.csproj">
+      <ServiceLaunchUrl>http://localhost:{ServicePort}/swagger</ServiceLaunchUrl>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

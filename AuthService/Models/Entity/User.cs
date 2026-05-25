@@ -1,6 +1,6 @@
 ﻿using AuthService.Models.Enums;
 
-namespace AuthService.Models
+namespace AuthService.Models.Entity
 {
     public class User
     {
@@ -9,5 +9,15 @@ namespace AuthService.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public Role Role { get; set; }
+
+        public User() { }
+
+        public User(string name, string email, string password, Role role)
+        {
+            Name = name;
+            Email = email;
+            Password = password;
+            Role = role;
+        }
     }
 }
