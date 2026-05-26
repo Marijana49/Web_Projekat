@@ -1,11 +1,33 @@
+import axios from "axios";
 import { useState } from "react"
+import { Link } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export function LogIn(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const user = {
+            email: email,
+            password: password
+        };
+
+        try{
+            const res = await axios.post(`${API_URL}/login`, user);
+
+            if(res.status == 200){
+                console.log(res.data);
+
+                setEmail("");
+                setPassword("");
+            }
+        } catch(error){
+            console.log(error);
+        }
     };
 
 return (
@@ -25,6 +47,9 @@ return (
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button type="submit">Log in</button>
+            <p style={{ marginTop: "15px" }}>
+                No account? <Link to="/register">Regiser</Link>
+            </p>
         </form>
     </div>
 )

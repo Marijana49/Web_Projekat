@@ -36,6 +36,16 @@ namespace AuthService
                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                     .UseUrls(url);
 
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowReactApp", policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") 
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+                });
+
                 builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TravelPlanDb;Trusted_Connection=True;TrustServerCertificate=True;"));
 
@@ -52,6 +62,8 @@ namespace AuthService
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
+
+                app.UseCors("AllowReactApp");
 
                 app.UseAuthorization();
                 app.MapControllers();

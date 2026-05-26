@@ -1,13 +1,35 @@
+import axios from "axios";
 import { useState } from "react";
+
+const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export function Register(){
     const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        try{
+            const res = await axios.post(`${API_URL}/register`, user);
+
+            if(res.status == 200 || res.status == 201){
+                console.log(res.data);
+
+                setName("");
+                setEmail("");
+                setPassword("");
+            }
+        } catch(error){
+            console.log(error);
+        }
     }
 
     return(
@@ -19,12 +41,6 @@ export function Register(){
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Surname"
-                value={surname}
-                onChange={(e) => setSurname(e.target.value)}
             />
             <input
                 type="email"
