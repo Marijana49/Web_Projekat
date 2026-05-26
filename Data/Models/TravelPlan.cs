@@ -1,4 +1,10 @@
-﻿namespace TravelService.Models.Entity
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data.Models
 {
     public class TravelPlan
     {
@@ -10,7 +16,7 @@
         public double Budget { get; set; }
         public string Notes { get; set; }
 
-        public TravelPlan(){}
+        public TravelPlan() { }
 
         public TravelPlan(string name, string description, DateOnly startDate, DateOnly endDate, double budget, string notes)
         {

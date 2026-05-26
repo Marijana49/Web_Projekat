@@ -3,6 +3,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.EntityFrameworkCore;
 using System.Fabric;
+using Data.Data;
 
 namespace TravelService
 {
@@ -31,7 +32,7 @@ namespace TravelService
                         var builder = WebApplication.CreateBuilder();
                         builder.Services.AddSingleton<StatelessServiceContext>(serviceContext);
 
-                        builder.Services.AddDbContext<Data.AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
                         builder.WebHost
                                     .UseKestrel()
                                     .UseContentRoot(Directory.GetCurrentDirectory())
@@ -41,7 +42,7 @@ namespace TravelService
                         builder.Services.AddEndpointsApiExplorer();
                         builder.Services.AddSwaggerGen();
                         var app = builder.Build();
-                        IServiceCollection serviceCollection = builder.Services.AddDbContext<Data.AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
                         if (app.Environment.IsDevelopment())
                         {
                         app.UseSwagger();

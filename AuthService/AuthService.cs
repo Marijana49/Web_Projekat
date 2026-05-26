@@ -1,4 +1,5 @@
-using AuthService.Data;
+using AuthService.Services.Interface;
+using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -29,8 +30,16 @@ namespace AuthService
             {
                 var builder = WebApplication.CreateBuilder();
 
+                builder.WebHost
+                    .UseKestrel()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                    .UseUrls(url);
+
                 builder.Services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TravelAuthDb;Trusted_Connection=True;"));
+                    options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TravelPlanDb;Trusted_Connection=True;TrustServerCertificate=True;"));
+
+                builder.Services.AddScoped<IAuthService, global:: AuthService.Services.Service.AuthService>();
 
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();

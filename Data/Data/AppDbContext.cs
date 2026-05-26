@@ -1,7 +1,12 @@
-﻿using AuthService.Models.Entity;
+﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AuthService.Data
+namespace Data.Data
 {
     public class AppDbContext : DbContext
     {
@@ -10,5 +15,6 @@ namespace AuthService.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<TravelPlan> TravelPlans { get; set; }
     }
 }

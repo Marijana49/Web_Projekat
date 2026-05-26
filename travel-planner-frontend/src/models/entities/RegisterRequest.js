@@ -1,6 +1,7 @@
-/**
- * @typedef {Object} ReqisterRequest
- * @property {string} name
- * @property {string} email
- * @property {string} password
- */
+export class ReqisterRequest {
+    constructor(name, email, passwor) {
+        this.name = name;
+        this.email = email;
+        this.password = password; 
+    }
+}

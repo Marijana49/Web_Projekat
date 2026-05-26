@@ -1,5 +1,5 @@
-﻿using TravelService.Models.DTOs;
-using TravelService.Models.Entity;
+﻿using Data.DTOs;
+using Data.Models;
 
 namespace TravelService.Services.Interface
 {

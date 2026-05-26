@@ -1,6 +1,11 @@
-﻿using AuthService.Models.Enums;
+﻿using Data.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AuthService.Models.Entity
+namespace Data.Models
 {
     public class User
     {

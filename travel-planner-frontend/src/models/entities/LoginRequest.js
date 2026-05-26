@@ -1,5 +1,6 @@
-/**
- * @typedef {Object} LoginRequest
- * @property {string} email
- * @property {string} password
- */
+export class LoginRequest {
+    constructor(email, password) {
+        this.email = email;
+        this.password = password; 
+    }
+}

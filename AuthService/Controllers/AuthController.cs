@@ -1,33 +1,53 @@
-﻿using AuthService.Data;
-using AuthService.Models.Entity;
+﻿using AuthService.Services.Interface;
+using Data.Data;
+using Data.DTOs;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace AuthService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAuthService _authService;
 
-        public AuthController(AppDbContext context)
+        public AuthController(IAuthService authService)
         {
-            _context = context;
+            _authService = authService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
-            if (_context.Users.Any(u => u.Email == user.Email))
+            var success = await _authService.RegisterAsync(dto);
+
+            if (!success)
             {
-                return BadRequest("User alredy exists!");
+                return BadRequest();
             }
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            return Ok(new { message = "Korisnik registrovan!"});
+        }
 
-            return Ok("User registred!");
+        [HttpPost("login")]
+        public async Task<IActionResult> LogIn([FromBody]LogInDto dto)
+        {
+            var user = await _authService.LogInAsync(dto);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Neispravni podaci!"});
+            }
+
+            return Ok(new
+            {
+                id = user.Id,
+                name = user.Name,
+                email = user.Email,
+                role = user.Role,
+            });
         }
     }
 }
