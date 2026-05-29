@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { useAuth } from "../../hooks/auth/UseAuthHook";
+import { Link, useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
@@ -7,6 +9,9 @@ export function Register(){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { login } = useAuth();
+    const navigate = useNavigate();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,9 +28,17 @@ export function Register(){
             if(res.status == 200 || res.status == 201){
                 console.log(res.data);
 
-                setName("");
-                setEmail("");
-                setPassword("");
+                const loginRes = await axios.post(`${API_URL}/login`, {
+                    email: email,
+                    password: password
+                });
+
+                if(loginRes.status == 200){
+                    const tokenString = loginRes.data.token;
+
+                    login(tokenString);
+                    navigate("/");
+                }
             }
         } catch(error){
             console.log(error);
