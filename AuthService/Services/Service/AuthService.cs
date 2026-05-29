@@ -3,19 +3,26 @@ using Data.Data;
 using Data.DTOs;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration; 
+using Microsoft.IdentityModel.Tokens;    
+using System.IdentityModel.Tokens.Jwt;   
+using System.Security.Claims;
+using System.Text;
 
 namespace AuthService.Services.Service
 {
     public class AuthService : IAuthService
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(AppDbContext context)
+        public AuthService(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
-        public async Task<User?> LogInAsync(LogInDto logInDto)
+        public async Task<string?> LogInAsync(LogInDto logInDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == logInDto.Email);
 
@@ -31,7 +38,33 @@ namespace AuthService.Services.Service
                 return null;
             }
 
-            return user;
+            return GenerateJwtToken(user);
+        }
+
+        public string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+
+            var claims = new List<Claim>
+            {
+                new Claim("id", user.Id.ToString()),
+                new Claim("email", user.Email.ToString()),
+                new Claim("role", user.Role.ToString())
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public async Task<bool> RegisterAsync(RegisterDto registerDto)

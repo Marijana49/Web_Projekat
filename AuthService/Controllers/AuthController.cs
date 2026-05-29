@@ -34,19 +34,16 @@ namespace AuthService.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LogIn([FromBody]LogInDto dto)
         {
-            var user = await _authService.LogInAsync(dto);
+            var token = await _authService.LogInAsync(dto);
 
-            if (user == null)
+            if (token == null)
             {
                 return Unauthorized(new { message = "Neispravni podaci!"});
             }
 
             return Ok(new
             {
-                id = user.Id,
-                name = user.Name,
-                email = user.Email,
-                role = user.Role,
+                token = token,
             });
         }
     }

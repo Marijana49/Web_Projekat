@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth/UseAuthHook";
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export function LogIn(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const { login } = useAuth(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,9 +25,13 @@ export function LogIn(){
 
             if(res.status == 200){
                 console.log(res.data);
+                const tokenString = res.data.token;
+                login(tokenString);
 
                 setEmail("");
                 setPassword("");
+
+                navigate("/");
             }
         } catch(error){
             console.log(error);
