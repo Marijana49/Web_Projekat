@@ -8,7 +8,7 @@ namespace Data.Data
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
+            /*var configuration = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "TravelService"))
                 .AddJsonFile("appsettings.json", optional: true)
                 .Build();
@@ -24,6 +24,9 @@ namespace Data.Data
 
             builder.UseSqlServer(connectionString);
 
+            return new AppDbContext(builder.Options);*/
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
+            builder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TravelServiceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
             return new AppDbContext(builder.Options);
         }
     }

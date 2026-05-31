@@ -4,6 +4,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.EntityFrameworkCore;
 using System.Fabric;
 using Data.Data;
+using TravelService.Services.Interface;
 
 namespace TravelService
 {
@@ -30,24 +31,54 @@ namespace TravelService
                         ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
 
                         var builder = WebApplication.CreateBuilder();
+
+                        var codePath = serviceContext.CodePackageActivationContext.GetCodePackageObject("Code").Path;
+                        builder.Configuration
+                            .SetBasePath(codePath)
+                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
                         builder.Services.AddSingleton<StatelessServiceContext>(serviceContext);
 
+                        builder.Services.AddCors(options =>
+                        {
+                            options.AddPolicy("AllowReactApp", policy =>
+                            {
+                                policy.WithOrigins("http://localhost:5173")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                            });
+                        });
+
                         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+                        builder.Services.AddScoped<ITravelService, Services.Service.TravelPlanService>();
+
                         builder.WebHost
                                     .UseKestrel()
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseUrls(url);
+
                         builder.Services.AddControllers();
                         builder.Services.AddEndpointsApiExplorer();
                         builder.Services.AddSwaggerGen();
+
                         var app = builder.Build();
 
                         if (app.Environment.IsDevelopment())
                         {
-                        app.UseSwagger();
-                        app.UseSwaggerUI();
+                            app.UseSwagger();
+                            app.UseSwaggerUI();
                         }
+
+                        using (var scope = app.Services.CreateScope())
+                        {
+                            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                            dbContext.Database.EnsureCreated(); 
+                        }
+
+                        app.UseCors("AllowReactApp");
+
                         app.UseAuthorization();
                         app.MapControllers();
 

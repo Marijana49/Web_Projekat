@@ -15,6 +15,8 @@ namespace Data.Models
         public string Password { get; set; }
         public Role Role { get; set; }
 
+        public ICollection<TravelPlan> TravelPlans { get; set; } = new List<TravelPlan>();
+
         public User() { }
 
         public User(string name, string email, string password, Role role)

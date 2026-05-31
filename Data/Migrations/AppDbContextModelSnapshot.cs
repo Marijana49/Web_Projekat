@@ -51,7 +51,12 @@ namespace Data.Migrations
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("TravelPlans");
                 });
@@ -82,6 +87,22 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Data.Models.TravelPlan", b =>
+                {
+                    b.HasOne("Data.Models.User", "User")
+                        .WithMany("TravelPlans")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Models.User", b =>
+                {
+                    b.Navigation("TravelPlans");
                 });
 #pragma warning restore 612, 618
         }

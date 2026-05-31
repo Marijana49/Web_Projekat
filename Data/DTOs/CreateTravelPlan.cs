@@ -14,5 +14,6 @@ namespace Data.DTOs
         public DateOnly EndDate { get; set; }
         public double Budget { get; set; }
         public string Notes { get; set; }
+        public int UserId { get; set; }
     }
 }

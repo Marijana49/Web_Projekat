@@ -16,6 +16,9 @@ namespace Data.Models
         public double Budget { get; set; }
         public string Notes { get; set; }
 
+        public int UserId { get; set; }
+        public User User { get; set; }
+
         public TravelPlan() { }
 
         public TravelPlan(string name, string description, DateOnly startDate, DateOnly endDate, double budget, string notes)

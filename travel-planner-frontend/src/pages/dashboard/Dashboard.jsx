@@ -24,6 +24,12 @@ export function Dashboard(){
                     Log Out
                 </button>
             </div>
-            </div>
+            <button onClick={() => navigate("/newPlan")}>
+                Kreiraj plan putovanja
+            </button>
+            <button onClick={() => navigate("/plans")}>
+                Planovi putovanja
+            </button>
+        </div>
     )
 };

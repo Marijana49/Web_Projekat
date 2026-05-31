@@ -16,5 +16,16 @@ namespace Data.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<TravelPlan> TravelPlans { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TravelPlan>()
+                .HasOne(tp => tp.User)
+                .WithMany(u => u.TravelPlans)
+                .HasForeignKey(tp => tp.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
