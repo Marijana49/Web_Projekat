@@ -25,6 +25,7 @@ export function TravelList ({ onDelete, onEdit, onViewDetails}){
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Description</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Budget</th>
@@ -34,6 +35,7 @@ export function TravelList ({ onDelete, onEdit, onViewDetails}){
                     {travelPlans.map((plan) => (
                         <tr key={plan.id}>
                             <td>{plan.name}</td>
+                            <td>{plan.description}</td>
                             <td>{plan.startDate}</td>
                             <td>{plan.endDate}</td>
                             <td>{plan.budget}</td>
