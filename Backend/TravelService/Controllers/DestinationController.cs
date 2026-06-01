@@ -17,24 +17,15 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("newDestination/{id}")]
-        public async Task<IActionResult> AddNewDestination(int id,[FromBody]CreateDestinationDto dto)
+        public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateDestinationDto dto)
         {
-            if(dto == null)
+            if (dto == null)
             {
                 return BadRequest("Prazni podaci");
             }
-            
+
             if (!ModelState.IsValid)
             {
-                //return BadRequest(ModelState);
-                foreach (var modelStateKey in ModelState.Keys)
-                {
-                    var value = ModelState[modelStateKey];
-                    foreach (var error in value.Errors)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Greška u {modelStateKey}: {error.ErrorMessage}");
-                    }
-                }
                 return BadRequest(ModelState);
             }
 
@@ -42,10 +33,25 @@ namespace TravelService.Controllers
             {
                 await _destinationService.CreateDestinationAsync(id, dto);
                 return Ok();
-            } catch(Exception) 
+            } catch (Exception)
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("destinations/{id}")]
+        public async Task<IActionResult> GetTravelPlanDestinations(int id)
+        {
+            var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);
+
+            return Ok(destinations);
+        }
+
+        [HttpDelete("destination/{id}")]
+        public async Task<IActionResult> DeleteDestination(int id)
+        {
+            await _destinationService.DeleteDestinationAsync(id);
+            return NoContent();
         }
     }
 }
