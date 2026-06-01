@@ -3,9 +3,8 @@ using Data.Data;
 using Data.DTOs;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration; 
-using Microsoft.IdentityModel.Tokens;    
-using System.IdentityModel.Tokens.Jwt;   
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -71,7 +70,7 @@ namespace AuthService.Services.Service
         {
             if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
             {
-                return false; 
+                return false;
             }
 
             var newUser = new User

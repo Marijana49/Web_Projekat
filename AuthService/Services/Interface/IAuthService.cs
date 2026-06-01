@@ -1,5 +1,4 @@
 ﻿using Data.DTOs;
-using Data.Models;
 
 namespace AuthService.Services.Interface
 {

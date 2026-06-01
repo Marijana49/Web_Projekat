@@ -1,9 +1,9 @@
+using Data.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.EntityFrameworkCore;
 using System.Fabric;
-using Data.Data;
 using TravelService.Services.Interface;
 
 namespace TravelService
@@ -74,7 +74,7 @@ namespace TravelService
                         using (var scope = app.Services.CreateScope())
                         {
                             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                            dbContext.Database.EnsureCreated(); 
+                            dbContext.Database.EnsureCreated();
                         }
 
                         app.UseCors("AllowReactApp");

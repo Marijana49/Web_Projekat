@@ -10,5 +10,6 @@ namespace TravelService.Services.Interface
         Task DeteletTravelPlanAsync(int planId);
         Task<IEnumerable<TravelPlan>> GetAllTravelPlansAsync();
         Task<IEnumerable<TravelPlan>> GetUserTravelPlansAsync(int id);
+        Task<TravelPlanDto> GetTravelPlanAsync(int id);
     }
 }

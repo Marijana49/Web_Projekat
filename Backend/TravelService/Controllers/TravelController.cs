@@ -16,9 +16,9 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("newPlan")]
-        public async Task<IActionResult> CreatePlan([FromBody]CreateTravelPlan dto)
+        public async Task<IActionResult> CreatePlan([FromBody] CreateTravelPlan dto)
         {
-            if(dto == null)
+            if (dto == null)
             {
                 return BadRequest("Prazni podaci");
             }
@@ -32,7 +32,8 @@ namespace TravelService.Controllers
             {
                 await _travelService.CreateTravelPlanAsync(dto);
                 return Ok();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 var inner = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 return BadRequest("GREŠKA JE: " + inner);
@@ -68,6 +69,48 @@ namespace TravelService.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Došlo je do greške: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("deletePlan/{userId}")]
+        public async Task<IActionResult> DeleteTravelPlan(int userId)
+        {
+            await _travelService.DeteletTravelPlanAsync(userId);
+            return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTravelPlan(int id)
+        {
+            try
+            {
+                var plan = await _travelService.GetTravelPlanAsync(id);
+                return Ok(plan);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPatch("edit/{id}")]
+        public async Task<IActionResult> EditTravelPlan(int id, [FromBody] UpdateTravelPlanDto dto)
+        {
+            try
+            {
+                 await _travelService.UpdateTravelPlan(id, dto);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

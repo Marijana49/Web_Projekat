@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { GetUserTravelPlans } from "../../services/TravelService";
+import { GetUserTravelPlans, DeleteTravelPlan } from "../../services/TravelService";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
+import { useNavigate } from "react-router-dom";
 
-export function TravelList ({ onDelete, onEdit, onViewDetails}){
+export function TravelList ({ onEdit}){
     const { user } = useAuth();
     const [ travelPlans, setTravelPlans ] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!user || !user.id) return;
@@ -14,6 +16,17 @@ export function TravelList ({ onDelete, onEdit, onViewDetails}){
         }
         loadData();
     }, [user]);
+
+    const handleDelete = async (id) => {
+        if(!window.confirm("Da li želite da obrišete ovaj plan?")) return;
+
+        try{
+            await DeleteTravelPlan(id);
+            setTravelPlans(prev => prev.filter(plan => plan.id !== id));
+        } catch(error){
+            console.log(error);
+        }
+    }
 
     return(
         <>
@@ -40,9 +53,8 @@ export function TravelList ({ onDelete, onEdit, onViewDetails}){
                             <td>{plan.endDate}</td>
                             <td>{plan.budget}</td>
                             <td>
-                                <button onClick={() => onViewDetails(plan)}>Details</button>
-                                <button onClick={() => onEdit(plan)}>Edit</button>
-                                <button onClick={() => onDelete(plan.id)} style={{ color: "red" }}>Delete</button>
+                                <button onClick={() => navigate(`/edit/${plan.id}`)}>Edit</button>
+                                <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Delete</button>
                             </td>
                         </tr>
                     ))}

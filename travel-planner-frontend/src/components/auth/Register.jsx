@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { Link, useNavigate } from "react-router-dom";
+import { Register } from "../../services/AuthService";
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
-export function Register(){
+export function RegisterForm(){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,7 +24,7 @@ export function Register(){
         };
 
         try{
-            const res = await axios.post(`${API_URL}/register`, user);
+            const res = await Register(user);
 
             if(res.status == 200 || res.status == 201){
                 console.log(res.data);

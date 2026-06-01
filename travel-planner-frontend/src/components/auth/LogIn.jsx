@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
+import { LogIn } from "../../services/AuthService";
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
-export function LogIn(){
+export function LogInForm(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ export function LogIn(){
         };
 
         try{
-            const res = await axios.post(`${API_URL}/login`, user);
+            const res = await LogIn(user);
 
             if(res.status == 200){
                 console.log(res.data);
