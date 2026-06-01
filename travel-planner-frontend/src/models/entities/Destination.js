@@ -1,9 +1,11 @@
-/**
- * @typedef {Object} Destination
- * @property {number} id
- * @property {string} name
- * @property {string} location
- * @property {string} arrivalDate
- * @property {string} deparatureDate
- * @property {string} description
- */
+export class Destination {
+    constructor(id, name, location, arrivalDate, departureDate, description, planId) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.arrivalDate = new Date(arrivalDate); 
+        this.departureDate = new Date(departureDate);
+        this.description = description;
+        this.planId = planId;
+    }
+}

@@ -11,6 +11,7 @@ namespace Data.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<TravelPlan> TravelPlans { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,12 @@ namespace Data.Data
                 .HasOne(tp => tp.User)
                 .WithMany(u => u.TravelPlans)
                 .HasForeignKey(tp => tp.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Destination>()
+                .HasOne(d => d.TravelPlan)
+                .WithMany(tp => tp.Destinations)
+                .HasForeignKey(d => d.TravelPlanId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -24,9 +24,12 @@ namespace Data.Data
             builder.UseSqlServer(connectionString);
 
             return new AppDbContext(builder.Options);*/
-            var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TravelServiceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
-            return new AppDbContext(builder.Options);
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            var connectionString = "Server=Marijana\\SQLEXPRESS;Database=ProjectDb;Trusted_Connection=True;TrustServerCertificate=True;";
+
+            optionsBuilder.UseSqlServer(connectionString);
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

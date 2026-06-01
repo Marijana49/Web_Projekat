@@ -22,6 +22,42 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Data.Models.Destination", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("ArrivalDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("DeparatureDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TravelPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TravelPlanId");
+
+                    b.ToTable("Destinations");
+                });
+
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
                     b.Property<int>("Id")
@@ -89,6 +125,17 @@ namespace Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Data.Models.Destination", b =>
+                {
+                    b.HasOne("Data.Models.TravelPlan", "TravelPlan")
+                        .WithMany("Destinations")
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TravelPlan");
+                });
+
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
                     b.HasOne("Data.Models.User", "User")
@@ -98,6 +145,11 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Models.TravelPlan", b =>
+                {
+                    b.Navigation("Destinations");
                 });
 
             modelBuilder.Entity("Data.Models.User", b =>

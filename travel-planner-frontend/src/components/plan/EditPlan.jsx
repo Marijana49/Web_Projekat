@@ -42,6 +42,7 @@ export function EditTravelPlanForm(){
     return(
         <>
             <h1>Edit travel plan</h1>
+            <button type="button" onClick={() => navigate(`/plans`)}>Nazad</button>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"

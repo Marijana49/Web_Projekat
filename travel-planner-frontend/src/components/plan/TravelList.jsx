@@ -3,7 +3,7 @@ import { GetUserTravelPlans, DeleteTravelPlan } from "../../services/TravelServi
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { useNavigate } from "react-router-dom";
 
-export function TravelList ({ onEdit}){
+export function TravelList (){
     const { user } = useAuth();
     const [ travelPlans, setTravelPlans ] = useState([]);
     const navigate = useNavigate();
@@ -31,6 +31,7 @@ export function TravelList ({ onEdit}){
     return(
         <>
         <h2>List of Travel Plans</h2>
+        <button type="button" onClick={() => navigate(`/`)}>Nazad</button>
         {travelPlans.length === 0 ? (
             <p>No plans created yet</p>
         ) : (
@@ -42,6 +43,7 @@ export function TravelList ({ onEdit}){
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Budget</th>
+                        <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,9 +54,11 @@ export function TravelList ({ onEdit}){
                             <td>{plan.startDate}</td>
                             <td>{plan.endDate}</td>
                             <td>{plan.budget}</td>
+                            <td>{plan.notes}</td>
                             <td>
                                 <button onClick={() => navigate(`/edit/${plan.id}`)}>Edit</button>
                                 <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Delete</button>
+                                <button onClick={() => navigate(`/newDestination/${plan.id}`)}>Dodaj destinaciju</button>
                             </td>
                         </tr>
                     ))}

@@ -7,6 +7,7 @@ import { TravelList } from './components/plan/TravelList'
 import { EditTravelPlanForm } from './components/plan/EditPlan'
 import { LogInForm } from './components/auth/LogIn'
 import { RegisterForm } from './components/auth/Register'
+import { AddDestionation } from './components/destination/AddDestination'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/newPlan" element={<CreatePlan />}/>
       <Route path="/plans" element={<TravelList/>}/>
       <Route path="/edit/:id" element={<EditTravelPlanForm/>}/>
+      <Route path="/newDestination/:id" element={<AddDestionation/>}/>
     </Routes>
     </AuthProvider>
   )

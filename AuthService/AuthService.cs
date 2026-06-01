@@ -47,7 +47,7 @@ namespace AuthService
                 });
 
                 builder.Services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TravelPlanDb;Trusted_Connection=True;TrustServerCertificate=True;"));
+                    options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ProjectDb;Trusted_Connection=True;TrustServerCertificate=True;"));
 
                 builder.Services.AddScoped<IAuthService, global:: AuthService.Services.Service.AuthService>();
 
