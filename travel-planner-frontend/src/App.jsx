@@ -27,8 +27,8 @@ function App() {
 
       {/**Destinacije */}
       <Route path="/newDestination/:id" element={<AddDestionation/>}/>
-      <Route path="/destinations/:id" element={<DestinationsList/>}/>
-      <Route path="/editDestination/:id" element={<EditDestinationForm/>}/>
+      <Route path="/travel-plans/destinations/:id" element={<DestinationsList/>}/>
+      <Route path="/destinations/edit/:id" element={<EditDestinationForm/>}/>
     </Routes>
     </AuthProvider>
   )

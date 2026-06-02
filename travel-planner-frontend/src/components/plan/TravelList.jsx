@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GetUserTravelPlans, DeleteTravelPlan } from "../../services/TravelService";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { useNavigate } from "react-router-dom";
+import App from "../../App";
 
 export function TravelList (){
     const { user } = useAuth();
@@ -59,6 +60,7 @@ export function TravelList (){
                                 <button onClick={() => navigate(`/edit/${plan.id}`)}>Edit</button>
                                 <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Delete</button>
                                 <button onClick={() => navigate(`/newDestination/${plan.id}`)}>Dodaj destinaciju</button>
+                                <button onClick={() => navigate(`/travel-plans/destinations/${plan.id}`)}>Pregledaj destinacije</button>
                             </td>
                         </tr>
                     ))}

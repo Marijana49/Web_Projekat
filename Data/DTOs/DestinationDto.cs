@@ -14,5 +14,6 @@ namespace Data.DTOs
         public DateOnly ArrivalDate { get; set; }
         public DateOnly DepartureDate { get; set; }
         public string Description { get; set; }
+        public int TravelPlanId { get; set; }
     }
 }

@@ -51,6 +51,27 @@ namespace TravelService.Services.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task<DestinationDto> GetDestinationAsync(int id)
+        {
+            var destination = await _context.Destinations.FindAsync(id);
+
+            if(destination == null )
+            {
+                throw new KeyNotFoundException("Destinacija ne postoji!");
+            }
+
+            return new DestinationDto
+            {
+                Id = destination.Id,
+                Name = destination.Name,
+                Location = destination.Location,
+                ArrivalDate = destination.ArrivalDate,
+                DepartureDate = destination.DepartureDate,
+                Description = destination.Description,
+                TravelPlanId = destination.TravelPlanId
+            };
+        }
+
         public async Task<IEnumerable<DestinationDto>> GetTravelPlanDestinationsAsync(int id)
         {
             var plan = await _context.TravelPlans.FindAsync(id);
@@ -68,7 +89,26 @@ namespace TravelService.Services.Service
                 ArrivalDate = d.ArrivalDate,
                 DepartureDate = d.DepartureDate,
                 Description = d.Description,
+                TravelPlanId = d.TravelPlanId
             }).ToListAsync();
+        }
+
+        public async Task UpdateDestinationAsync(int id, UpdateDestinationDto updateDestinationDto)
+        {
+            var destination = await _context.Destinations.FindAsync(id);
+
+            if (destination == null)
+            {
+                throw new KeyNotFoundException("Plan nije pronađen!");
+            }
+
+            if (!string.IsNullOrEmpty(updateDestinationDto.Name)) destination.Name = updateDestinationDto.Name;
+            if(!string.IsNullOrEmpty(updateDestinationDto.Location)) destination.Location = updateDestinationDto.Location;
+            if(updateDestinationDto.ArrivalDate.HasValue) destination.ArrivalDate = updateDestinationDto.ArrivalDate.Value;
+            if(updateDestinationDto.DepartureDate.HasValue) destination.DepartureDate = updateDestinationDto.DepartureDate.Value;
+            if(!string.IsNullOrEmpty(updateDestinationDto.Description)) destination.Description = updateDestinationDto.Description;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

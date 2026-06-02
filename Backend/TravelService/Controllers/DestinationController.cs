@@ -1,5 +1,4 @@
 ﻿using Data.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
 
@@ -39,7 +38,7 @@ namespace TravelService.Controllers
             }
         }
 
-        [HttpGet("destinations/{id}")]
+        [HttpGet("travel-plans/destinations/{id}")]
         public async Task<IActionResult> GetTravelPlanDestinations(int id)
         {
             var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);
@@ -47,11 +46,38 @@ namespace TravelService.Controllers
             return Ok(destinations);
         }
 
-        [HttpDelete("destination/{id}")]
+        [HttpDelete("destinations/delete/{id}")]
         public async Task<IActionResult> DeleteDestination(int id)
         {
             await _destinationService.DeleteDestinationAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("destinations/{id}")]
+        public async Task<IActionResult> GetDestinationById(int id)
+        {
+            try
+            {
+                var destination = await _destinationService.GetDestinationAsync(id);
+                return Ok(destination);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPatch("destinations/edit/{id}")]
+        public async Task<IActionResult> EditDestination(int id, [FromBody]UpdateDestinationDto dto)
+        {
+            try
+            {
+                await _destinationService.UpdateDestinationAsync(id, dto);
+                return Ok();
+            } catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }
