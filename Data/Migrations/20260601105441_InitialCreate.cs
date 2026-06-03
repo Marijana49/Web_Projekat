@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -61,7 +60,7 @@ namespace Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ArrivalDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    DeparatureDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DepartureDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TravelPlanId = table.Column<int>(type: "int", nullable: false)
                 },

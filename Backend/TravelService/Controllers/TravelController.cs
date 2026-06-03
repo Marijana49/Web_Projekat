@@ -1,4 +1,5 @@
 ﻿using Data.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
 
@@ -6,6 +7,7 @@ namespace TravelService.Controllers
 {
     [Route("api/travel")]
     [ApiController]
+    [Authorize]
     public class TravelController : ControllerBase
     {
         private readonly ITravelService _travelService;
@@ -16,6 +18,7 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("newPlan")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> CreatePlan([FromBody] CreateTravelPlan dto)
         {
             if (dto == null)
@@ -41,6 +44,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("plans")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetAllTravelPlans()
         {
             var travelPlans = await _travelService.GetAllTravelPlansAsync();
@@ -48,13 +52,9 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("{userId}/plans")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetUserTravelPlans(int userId)
         {
-            if (userId == null)
-            {
-                return BadRequest("User ID je obavezan.");
-            }
-
             try
             {
                 var travelPlans = await _travelService.GetUserTravelPlansAsync(userId);
@@ -73,6 +73,7 @@ namespace TravelService.Controllers
         }
 
         [HttpDelete("deletePlan/{userId}")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> DeleteTravelPlan(int userId)
         {
             await _travelService.DeteletTravelPlanAsync(userId);
@@ -80,6 +81,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetTravelPlan(int id)
         {
             try
@@ -98,17 +100,19 @@ namespace TravelService.Controllers
         }
 
         [HttpPatch("edit/{id}")]
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> EditTravelPlan(int id, [FromBody] UpdateTravelPlanDto dto)
         {
             try
             {
-                 await _travelService.UpdateTravelPlan(id, dto);
+                await _travelService.UpdateTravelPlan(id, dto);
                 return NoContent();
             }
             catch (KeyNotFoundException)
             {
                 return NotFound();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

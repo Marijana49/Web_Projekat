@@ -1,9 +1,13 @@
 using Data.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using System.Fabric;
+using System.Security.Claims;
+using System.Text;
 using TravelService.Services.Interface;
 
 namespace TravelService
@@ -49,10 +53,27 @@ namespace TravelService
                             });
                         });
 
+                        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                        .AddJwtBearer(options =>
+                        {
+                            options.TokenValidationParameters = new TokenValidationParameters
+                            {
+                                ValidateIssuerSigningKey = true,
+                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                                ValidateIssuer = true,
+                                ValidIssuer = "MojAuthService",
+                                ValidateAudience = false,
+                                RoleClaimType = ClaimTypes.Role
+                            };
+                        });
+
+                        builder.Services.AddAuthorization();
+
                         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
                         builder.Services.AddScoped<ITravelService, Services.Service.TravelPlanService>();
                         builder.Services.AddScoped<IDestinationService, Services.Service.DestinationService>();
+                        builder.Services.AddScoped<IActivityService, Services.Service.ActivityService>();
 
                         builder.WebHost
                                     .UseKestrel()
@@ -80,6 +101,7 @@ namespace TravelService
 
                         app.UseCors("AllowReactApp");
 
+                        app.UseAuthentication();
                         app.UseAuthorization();
                         app.MapControllers();
 

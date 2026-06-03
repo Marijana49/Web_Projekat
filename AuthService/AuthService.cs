@@ -1,10 +1,14 @@
 using AuthService.Services.Interface;
 using Data.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using System.Fabric;
+using System.Security.Claims;
+using System.Text;
 
 namespace AuthService
 {
@@ -46,6 +50,21 @@ namespace AuthService
                     });
                 });
 
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                });
+
+                builder.Services.AddAuthorization();
+
                 builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ProjectDb;Trusted_Connection=True;TrustServerCertificate=True;"));
 
@@ -65,6 +84,7 @@ namespace AuthService
 
                 app.UseCors("AllowReactApp");
 
+                app.UseAuthentication();
                 app.UseAuthorization();
                 app.MapControllers();
 

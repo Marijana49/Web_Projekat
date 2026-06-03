@@ -61,12 +61,12 @@ namespace TravelService.Services.Service
         {
             var plan = await _context.TravelPlans.FindAsync(id);
 
-            if(plan == null)
+            if (plan == null)
             {
                 throw new KeyNotFoundException("Plan ne postoji!");
             }
 
-            return new TravelPlanDto 
+            return new TravelPlanDto
             {
                 Id = plan.Id,
                 Name = plan.Name,
@@ -87,17 +87,17 @@ namespace TravelService.Services.Service
         {
             var plan = await _context.TravelPlans.FindAsync(planId);
 
-            if(plan == null)
+            if (plan == null)
             {
                 throw new KeyNotFoundException("Plan nije pronađen!");
             }
 
-            if(!string.IsNullOrEmpty(dto.Name)) plan.Name = dto.Name;
-            if(!string.IsNullOrEmpty(dto.Description)) plan.Description = dto.Description;
-            if(dto.StartDate.HasValue) plan.StartDate = dto.StartDate.Value;
-            if(dto.EndDate.HasValue) plan.EndDate = dto.EndDate.Value;
-            if(dto.Budget.HasValue) plan.Budget = dto.Budget.Value;
-            if(!string.IsNullOrEmpty(dto.Notes)) plan.Notes = dto.Notes;
+            if (!string.IsNullOrEmpty(dto.Name)) plan.Name = dto.Name;
+            if (!string.IsNullOrEmpty(dto.Description)) plan.Description = dto.Description;
+            if (dto.StartDate.HasValue) plan.StartDate = dto.StartDate.Value;
+            if (dto.EndDate.HasValue) plan.EndDate = dto.EndDate.Value;
+            if (dto.Budget.HasValue) plan.Budget = dto.Budget.Value;
+            if (!string.IsNullOrEmpty(dto.Notes)) plan.Notes = dto.Notes;
 
             await _context.SaveChangesAsync();
         }

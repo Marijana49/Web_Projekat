@@ -1,11 +1,12 @@
 import { ActivityStatus } from "../../enums/ActivityStatus";
 
-/**
- * @typedef {object} Activity
- * @property {number} id
- * @property {string} name
- * @property {string} date
- * @property {string} description
- * @property {number} estimatedCost
- * @property {keyof typeof ActivityStatus} activityStatus
- */
+export class Activity {
+    constructor(id, name, date, description, budget, status) {
+        this.id = id;
+        this.name = name;
+        this.date = new Date(date); 
+        this.description = description;
+        this.budget = budget;
+        this.status = role || ActivityStatus.PLANNED;
+    }
+}

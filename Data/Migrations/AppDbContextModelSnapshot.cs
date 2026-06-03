@@ -22,6 +22,53 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Data.Models.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Budget")
+                        .HasColumnType("float");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DestinationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time");
+
+                    b.Property<int>("TravelPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DestinationId");
+
+                    b.HasIndex("TravelPlanId");
+
+                    b.ToTable("Activitys");
+                });
+
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.Property<int>("Id")
@@ -33,7 +80,7 @@ namespace Data.Migrations
                     b.Property<DateOnly>("ArrivalDate")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("DeparatureDate")
+                    b.Property<DateOnly>("DepartureDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
@@ -125,6 +172,24 @@ namespace Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Data.Models.Activity", b =>
+                {
+                    b.HasOne("Data.Models.Destination", "Destination")
+                        .WithMany("Activitys")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Data.Models.TravelPlan", "TravelPlan")
+                        .WithMany("Activitys")
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Destination");
+
+                    b.Navigation("TravelPlan");
+                });
+
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.HasOne("Data.Models.TravelPlan", "TravelPlan")
@@ -147,8 +212,15 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Data.Models.Destination", b =>
+                {
+                    b.Navigation("Activitys");
+                });
+
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
+                    b.Navigation("Activitys");
+
                     b.Navigation("Destinations");
                 });
 

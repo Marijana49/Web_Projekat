@@ -36,7 +36,7 @@ namespace Data.Migrations
                     b.Property<DateOnly>("ArrivalDate")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("DeparatureDate")
+                    b.Property<DateOnly>("DepartureDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")

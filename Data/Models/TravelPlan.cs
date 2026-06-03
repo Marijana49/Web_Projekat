@@ -13,6 +13,7 @@
         public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<Destination> Destinations { get; set; } = new List<Destination>();
+        public ICollection<Activity> Activitys { get; set; } = new List<Activity>();
 
         public TravelPlan() { }
 

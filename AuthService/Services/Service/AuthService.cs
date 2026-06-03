@@ -48,9 +48,9 @@ namespace AuthService.Services.Service
 
             var claims = new List<Claim>
             {
-                new Claim("id", user.Id.ToString()),
-                new Claim("email", user.Email.ToString()),
-                new Claim("role", user.Role.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Data.Models
+﻿namespace Data.Models
 {
     public class Destination
     {
@@ -17,8 +11,9 @@ namespace Data.Models
 
         public int TravelPlanId { get; set; }
         public TravelPlan TravelPlan { get; set; }
+        public ICollection<Activity> Activitys { get; set; }
 
-        public Destination(){}
+        public Destination() { }
 
         public Destination(string name, string location, DateOnly arrivalDate, DateOnly departureDate, string description)
         {

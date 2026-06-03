@@ -23,6 +23,7 @@ export function TravelList (){
 
         try{
             await DeleteTravelPlan(id);
+            alert("Plan je obrisan!");
             setTravelPlans(prev => prev.filter(plan => plan.id !== id));
         } catch(error){
             console.log(error);
