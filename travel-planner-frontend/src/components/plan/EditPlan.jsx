@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GetPlanById, EditTravelPlan } from "../../services/TravelService";
+import { EditPlanRequest } from "../../models/dtos/EditPlanRequest";
+import { formToJSON } from "axios";
 
 export function EditTravelPlanForm(){
     const { id } = useParams();
@@ -30,8 +32,19 @@ export function EditTravelPlanForm(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const plan = new EditPlanRequest(
+            formData.name,
+            formData.description,
+            formData.startDate,
+            formData.endDate,
+            Number(formData.budget),
+            formData.notes,
+            Number(id)
+        );
+
         try {
-            await EditTravelPlan(id, formData);
+            await EditTravelPlan(id, plan);
             alert("Podaci su ažurirani!");
             navigate("/plans");
         } catch (error) {

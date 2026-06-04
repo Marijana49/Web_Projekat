@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { LogIn } from "../../services/AuthService";
+import { LoginRequest } from "../../models/dtos/LoginRequest"
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
@@ -15,17 +16,18 @@ export function LogInForm(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const user = {
-            email: email,
-            password: password
-        };
+        const user = new LoginRequest(
+            email,
+            password
+        );
 
         try{
             const res = await LogIn(user);
 
             if(res.status == 200){
-                console.log(res.data);
+                //console.log(res.data);
                 const tokenString = res.data.token;
+                console.log(tokenString);
                 login(tokenString);
 
                 setEmail("");

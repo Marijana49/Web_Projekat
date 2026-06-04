@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AddNewDestination } from "../../services/DestinationService";
 import { useParams, useNavigate } from "react-router-dom";
+import { DestinationRequest } from "../../models/dtos/CreateDestinationRequest";
 
 export function AddDestionation(){
     const { id } = useParams();
@@ -27,11 +28,21 @@ export function AddDestionation(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const destination = new DestinationRequest(
+            formData.name,
+            formData.location,
+            formData.arrivalDate,
+            formData.departureDate,
+            formData.description,
+            Number(id)
+        );
+
         try {
-            await AddNewDestination(id, formData);
+            await AddNewDestination(id, destination);
             console.log(formData);
             alert("Destinacija dodana!");
-            navigate(`/destinations/${id}`);
+            navigate(`/travel-plans/destinations/${id}`);
         } catch (error) {
             console.error(error);
         }

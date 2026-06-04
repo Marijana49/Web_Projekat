@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { Link, useNavigate } from "react-router-dom";
 import { Register } from "../../services/AuthService";
+import { ReqisterRequest } from "../../models/dtos/RegisterRequest"
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
@@ -17,11 +18,11 @@ export function RegisterForm(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const user = {
-            name: name,
-            email: email,
-            password: password
-        };
+        const user = new ReqisterRequest(
+            name,
+            email,
+            password
+        );
 
         try{
             const res = await Register(user);

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateTravelPlan } from "../../services/TravelService";
 import { AuthContext } from "../../context/auth/AuthContext";
+import { TravelPlanRequest } from "../../models/dtos/CreatePlanRequest";
 
 export function CreatePlan(){
     const [formData, setFormData] = useState({
@@ -29,13 +30,18 @@ export function CreatePlan(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const dataToSend = {
-            ...formData,
-            userId: Number(user.id) 
-        };
+        const plan = new TravelPlanRequest(
+            formData.name,
+            formData.description,
+            formData.startDate,
+            formData.endDate,
+            formData.budget,
+            formData.notes,
+            Number(user.id)
+        );
 
         try{
-            await CreateTravelPlan(dataToSend);
+            await CreateTravelPlan(plan);
             navigate("/");
         } catch(error){
             alert("Greška prilikom kreiranja!");

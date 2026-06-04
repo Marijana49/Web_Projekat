@@ -10,6 +10,7 @@ import { RegisterForm } from './components/auth/Register'
 import { AddDestionation } from './components/destination/AddDestination'
 import { DestinationsList } from './components/destination/DestinationsList'
 import { EditDestinationForm } from './components/destination/EditDestination'
+import { AddActivity } from './components/activity/AddActivity'
 
 function App() {
 
@@ -29,6 +30,9 @@ function App() {
       <Route path="/newDestination/:id" element={<AddDestionation/>}/>
       <Route path="/travel-plans/destinations/:id" element={<DestinationsList/>}/>
       <Route path="/destinations/edit/:id" element={<EditDestinationForm/>}/>
+
+      {/**Aktivnosti */}
+      <Route path="/calendars" element={<AddActivity/>}/>
     </Routes>
     </AuthProvider>
   )

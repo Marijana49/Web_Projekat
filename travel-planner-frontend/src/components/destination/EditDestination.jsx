@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
 import { GetDestinationById, EditDestination } from "../../services/DestinationService";
+import { EditDestinationRequest } from "../../models/dtos/EditDestinationRequest";
 
 export function EditDestinationForm(){
     const { id } = useParams();
@@ -37,8 +38,18 @@ export function EditDestinationForm(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const destination = new EditDestinationRequest(
+            formData.name,
+            formData.location,
+            formData.arrivalDate,
+            formData.departureDate,
+            formData.description,
+            Number(id)
+        );
+
         try {
-            await EditDestination(id, formData);
+            await EditDestination(id, destination);
             alert("Destinacija ažurirana!");
             navigate(`/travel-plans/destinations/${formData.travelPlanId}`);
         } catch (error) {

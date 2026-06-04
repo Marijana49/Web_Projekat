@@ -30,6 +30,7 @@ export function Dashboard(){
             <button onClick={() => navigate("/plans")}>
                 Planovi putovanja
             </button>
+            <button onClick={() => navigate("/calendars")}>Kalendar</button>
         </div>
     )
 };
