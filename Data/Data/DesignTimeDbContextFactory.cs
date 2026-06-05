@@ -26,7 +26,7 @@ namespace Data.Data
             return new AppDbContext(builder.Options);*/
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            var connectionString = "Server=Marijana\\SQLEXPRESS;Database=ProjectDb;Trusted_Connection=True;TrustServerCertificate=True;";
+            var connectionString = "Server=Marijana\\SQLEXPRESS;Database=User_db;Trusted_Connection=True;TrustServerCertificate=True;";
 
             optionsBuilder.UseSqlServer(connectionString);
             return new AppDbContext(optionsBuilder.Options);

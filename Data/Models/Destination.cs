@@ -11,7 +11,7 @@
 
         public int TravelPlanId { get; set; }
         public TravelPlan TravelPlan { get; set; }
-        public ICollection<Activity> Activitys { get; set; }
+        public ICollection<Activity> Activitys { get; set; } = new List<Activity>();
 
         public Destination() { }
 

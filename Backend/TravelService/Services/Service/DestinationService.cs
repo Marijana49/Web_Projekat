@@ -8,9 +8,9 @@ namespace TravelService.Services.Service
 {
     public class DestinationService : IDestinationService
     {
-        private readonly AppDbContext _context;
+        private readonly TravelPlanDbContext _context;
 
-        public DestinationService(AppDbContext context)
+        public DestinationService(TravelPlanDbContext context)
         {
             _context = context;
         }

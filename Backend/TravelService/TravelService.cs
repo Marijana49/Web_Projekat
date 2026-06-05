@@ -36,10 +36,20 @@ namespace TravelService
 
                         var builder = WebApplication.CreateBuilder();
 
-                        var codePath = serviceContext.CodePackageActivationContext.GetCodePackageObject("Code").Path;
+                        /*var codePath = serviceContext.CodePackageActivationContext.GetCodePackageObject("Code").Path;
                         builder.Configuration
                             .SetBasePath(codePath)
-                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);*/
+
+                        builder.WebHost
+                        .UseKestrel()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                        .UseUrls(url);
+
+                        builder.Configuration
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
                         builder.Services.AddSingleton<StatelessServiceContext>(serviceContext);
 
@@ -69,17 +79,16 @@ namespace TravelService
 
                         builder.Services.AddAuthorization();
 
-                        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                        builder.Services.AddDbContext<TravelPlanDbContext>(options =>
+                        options.UseSqlServer(
+                            builder.Configuration.GetConnectionString("DefaultConnection"),
+                            x => x.MigrationsHistoryTable("__EFMigrationsHistory_Travel") 
+                        )
+                        );
 
                         builder.Services.AddScoped<ITravelService, Services.Service.TravelPlanService>();
                         builder.Services.AddScoped<IDestinationService, Services.Service.DestinationService>();
                         builder.Services.AddScoped<IActivityService, Services.Service.ActivityService>();
-
-                        builder.WebHost
-                                    .UseKestrel()
-                                    .UseContentRoot(Directory.GetCurrentDirectory())
-                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
-                                    .UseUrls(url);
 
                         builder.Services.AddControllers();
                         builder.Services.AddEndpointsApiExplorer();
@@ -91,12 +100,6 @@ namespace TravelService
                         {
                             app.UseSwagger();
                             app.UseSwaggerUI();
-                        }
-
-                        using (var scope = app.Services.CreateScope())
-                        {
-                            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                            dbContext.Database.EnsureCreated();
                         }
 
                         app.UseCors("AllowReactApp");

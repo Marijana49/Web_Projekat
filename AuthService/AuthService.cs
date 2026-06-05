@@ -40,6 +40,10 @@ namespace AuthService
                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                     .UseUrls(url);
 
+                builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
                 builder.Services.AddCors(options =>
                 {
                     options.AddPolicy("AllowReactApp", policy =>
@@ -66,7 +70,11 @@ namespace AuthService
                 builder.Services.AddAuthorization();
 
                 builder.Services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ProjectDb;Trusted_Connection=True;TrustServerCertificate=True;"));
+                    options.UseSqlServer(
+                        builder.Configuration.GetConnectionString("DefaultConnection"),
+                        x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth") 
+                    )
+                );
 
                 builder.Services.AddScoped<IAuthService, global:: AuthService.Services.Service.AuthService>();
 

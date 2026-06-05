@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Data.Migrations
+namespace Data.Migrations.Travel
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20260601105441_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(TravelPlanDbContext))]
+    [Migration("20260604185102_InitialTravel")]
+    partial class InitialTravel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,53 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Data.Models.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Budget")
+                        .HasColumnType("float");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DestinationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time");
+
+                    b.Property<int>("TravelPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DestinationId");
+
+                    b.HasIndex("TravelPlanId");
+
+                    b.ToTable("Activitys");
+                });
 
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
@@ -95,37 +142,25 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("TravelPlans");
                 });
 
-            modelBuilder.Entity("Data.Models.User", b =>
+            modelBuilder.Entity("Data.Models.Activity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("Data.Models.Destination", "Destination")
+                        .WithMany("Activitys")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasOne("Data.Models.TravelPlan", "TravelPlan")
+                        .WithMany("Activitys")
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Navigation("Destination");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
+                    b.Navigation("TravelPlan");
                 });
 
             modelBuilder.Entity("Data.Models.Destination", b =>
@@ -139,25 +174,16 @@ namespace Data.Migrations
                     b.Navigation("TravelPlan");
                 });
 
-            modelBuilder.Entity("Data.Models.TravelPlan", b =>
+            modelBuilder.Entity("Data.Models.Destination", b =>
                 {
-                    b.HasOne("Data.Models.User", "User")
-                        .WithMany("TravelPlans")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Activitys");
                 });
 
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
+                    b.Navigation("Activitys");
+
                     b.Navigation("Destinations");
-                });
-
-            modelBuilder.Entity("Data.Models.User", b =>
-                {
-                    b.Navigation("TravelPlans");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Data.Migrations
+namespace Data.Migrations.Travel
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TravelPlanDbContext))]
+    partial class TravelPlanDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -139,37 +139,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("TravelPlans");
-                });
-
-            modelBuilder.Entity("Data.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Data.Models.Activity", b =>
@@ -201,17 +171,6 @@ namespace Data.Migrations
                     b.Navigation("TravelPlan");
                 });
 
-            modelBuilder.Entity("Data.Models.TravelPlan", b =>
-                {
-                    b.HasOne("Data.Models.User", "User")
-                        .WithMany("TravelPlans")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.Navigation("Activitys");
@@ -222,11 +181,6 @@ namespace Data.Migrations
                     b.Navigation("Activitys");
 
                     b.Navigation("Destinations");
-                });
-
-            modelBuilder.Entity("Data.Models.User", b =>
-                {
-                    b.Navigation("TravelPlans");
                 });
 #pragma warning restore 612, 618
         }
