@@ -10,7 +10,10 @@ import { RegisterForm } from './components/auth/Register'
 import { AddDestionation } from './components/destination/AddDestination'
 import { DestinationsList } from './components/destination/DestinationsList'
 import { EditDestinationForm } from './components/destination/EditDestination'
-import { AddActivity } from './components/activity/AddActivity'
+import { ActivityCalendar } from './components/activity/ActivityCalendar'
+import { AddActivityForm } from './components/activity/AddActivityForm'
+import { ActivityList } from './components/activity/ActivityList'
+import { EditActivityForm } from './components/activity/EditActivityForm'
 
 function App() {
 
@@ -32,7 +35,10 @@ function App() {
       <Route path="/destinations/edit/:id" element={<EditDestinationForm/>}/>
 
       {/**Aktivnosti */}
-      <Route path="/calendars" element={<AddActivity/>}/>
+      <Route path="/calendars/:planId" element={<ActivityCalendar/>}/>
+      <Route path="/activities/:planId" element={<AddActivityForm/>}/>
+      <Route path="/activities/:planId/:selectedDate" element={<ActivityList/>}/>
+      <Route path="/activities/:planId/" element={<EditActivityForm/>}/>
     </Routes>
     </AuthProvider>
   )

@@ -82,7 +82,7 @@ namespace TravelService
                         builder.Services.AddDbContext<TravelPlanDbContext>(options =>
                         options.UseSqlServer(
                             builder.Configuration.GetConnectionString("DefaultConnection"),
-                            x => x.MigrationsHistoryTable("__EFMigrationsHistory_Travel") 
+                            x => x.MigrationsHistoryTable("__EFMigrationsHistory_Travel")
                         )
                         );
 

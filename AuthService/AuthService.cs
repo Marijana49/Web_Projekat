@@ -72,7 +72,7 @@ namespace AuthService
                 builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(
                         builder.Configuration.GetConnectionString("DefaultConnection"),
-                        x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth") 
+                        x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth")
                     )
                 );
 
