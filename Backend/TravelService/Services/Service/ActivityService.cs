@@ -73,5 +73,49 @@ namespace TravelService.Services.Service
 
             return actvityList;
         }
+
+        public async Task<ActivityDto> GetActivityByIdAsync(int id)
+        {
+            var activity = await _context.Activitys.FindAsync(id);
+
+            if(activity == null)
+            {
+                throw new KeyNotFoundException("Aktivnost ne postoji!");
+            }
+
+            return new ActivityDto
+            {
+                Id = activity.Id,
+                Name = activity.Name,
+                Date = activity.Date,
+                Time = activity.Time,
+                Location = activity.Location,
+                Description = activity.Description,
+                Budget = activity.Budget,
+                Status = activity.Status,
+                TravelPlanId = activity.TravelPlanId,
+                DestinationId = activity.DestinationId,
+            };
+        }
+
+        public async Task UpdateActivityAsync(int id, UpdateActivityDto updateActivityDto)
+        {
+            var activity = await _context.Activitys.FindAsync(id);
+
+            if (activity == null)
+            {
+                throw new KeyNotFoundException("Aktivnost nije pronađena!");
+            }
+
+            if (!string.IsNullOrEmpty(updateActivityDto.Name)) activity.Name = updateActivityDto.Name;
+            if (updateActivityDto.Date.HasValue) activity.Date = updateActivityDto.Date.Value;
+            if (updateActivityDto.Time.HasValue) activity.Time = updateActivityDto.Time.Value;
+            if (!string.IsNullOrEmpty(updateActivityDto.Location)) activity.Location = updateActivityDto.Location;
+            if (!string.IsNullOrEmpty(updateActivityDto.Description)) activity.Description = updateActivityDto.Description;
+            if (updateActivityDto.Budget.HasValue) activity.Budget = updateActivityDto.Budget.Value;
+            if (updateActivityDto.Status.HasValue) activity.Status = updateActivityDto.Status.Value;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

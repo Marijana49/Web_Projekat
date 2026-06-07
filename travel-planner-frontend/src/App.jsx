@@ -38,7 +38,7 @@ function App() {
       <Route path="/calendars/:planId" element={<ActivityCalendar/>}/>
       <Route path="/activities/:planId" element={<AddActivityForm/>}/>
       <Route path="/activities/:planId/:selectedDate" element={<ActivityList/>}/>
-      <Route path="/activities/:planId/" element={<EditActivityForm/>}/>
+      <Route path="/activities/edit/:planId" element={<EditActivityForm/>}/>
     </Routes>
     </AuthProvider>
   )

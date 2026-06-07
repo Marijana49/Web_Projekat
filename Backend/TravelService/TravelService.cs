@@ -8,6 +8,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using System.Fabric;
 using System.Security.Claims;
 using System.Text;
+using TravelService.Middleware;
 using TravelService.Services.Interface;
 
 namespace TravelService
@@ -35,11 +36,6 @@ namespace TravelService
                         ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
 
                         var builder = WebApplication.CreateBuilder();
-
-                        /*var codePath = serviceContext.CodePackageActivationContext.GetCodePackageObject("Code").Path;
-                        builder.Configuration
-                            .SetBasePath(codePath)
-                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);*/
 
                         builder.WebHost
                         .UseKestrel()
@@ -94,6 +90,9 @@ namespace TravelService
                         builder.Services.AddEndpointsApiExplorer();
                         builder.Services.AddSwaggerGen();
 
+                        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+                        builder.Services.AddProblemDetails();
+
                         var app = builder.Build();
 
                         if (app.Environment.IsDevelopment())
@@ -106,6 +105,7 @@ namespace TravelService
 
                         app.UseAuthentication();
                         app.UseAuthorization();
+                        app.UseExceptionHandler();
                         app.MapControllers();
 
                         return app;

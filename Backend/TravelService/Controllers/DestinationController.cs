@@ -21,25 +21,14 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateDestinationDto dto)
         {
-            if (dto == null)
-            {
-                return BadRequest("Prazni podaci");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            
+            await _destinationService.CreateDestinationAsync(id, dto);
+            return Ok();
 
-            try
-            {
-                await _destinationService.CreateDestinationAsync(id, dto);
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
         }
 
         [HttpGet("travel-plans/destinations/{id}")]
@@ -63,30 +52,17 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetDestinationById(int id)
         {
-            try
-            {
-                var destination = await _destinationService.GetDestinationAsync(id);
-                return Ok(destination);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            var destination = await _destinationService.GetDestinationAsync(id);
+            return Ok(destination);
+
         }
 
         [HttpPatch("destinations/edit/{id}")]
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> EditDestination(int id, [FromBody] UpdateDestinationDto dto)
         {
-            try
-            {
-                await _destinationService.UpdateDestinationAsync(id, dto);
-                return Ok();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            await _destinationService.UpdateDestinationAsync(id, dto);
+            return Ok();
         }
     }
 }

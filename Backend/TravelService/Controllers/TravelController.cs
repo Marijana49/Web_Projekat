@@ -21,26 +21,14 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> CreatePlan([FromBody] CreateTravelPlan dto)
         {
-            if (dto == null)
-            {
-                return BadRequest("Prazni podaci");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                await _travelService.CreateTravelPlanAsync(dto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                var inner = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return BadRequest("GREŠKA JE: " + inner);
-            }
+
+            await _travelService.CreateTravelPlanAsync(dto);
+            return Ok();
         }
 
         [HttpGet("plans")]
@@ -55,21 +43,14 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetUserTravelPlans(int userId)
         {
-            try
-            {
-                var travelPlans = await _travelService.GetUserTravelPlansAsync(userId);
+            var travelPlans = await _travelService.GetUserTravelPlansAsync(userId);
 
-                if (travelPlans == null)
-                {
-                    return NotFound("Planovi nisu pronađeni za ovog korisnika.");
-                }
-
-                return Ok(travelPlans);
-            }
-            catch (Exception ex)
+            if (travelPlans == null)
             {
-                return StatusCode(500, $"Došlo je do greške: {ex.Message}");
+                return NotFound("Planovi nisu pronađeni za ovog korisnika.");
             }
+
+            return Ok(travelPlans);
         }
 
         [HttpDelete("deletePlan/{userId}")]
@@ -84,38 +65,16 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetTravelPlan(int id)
         {
-            try
-            {
-                var plan = await _travelService.GetTravelPlanAsync(id);
-                return Ok(plan);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var plan = await _travelService.GetTravelPlanAsync(id);
+            return Ok(plan);
         }
 
         [HttpPatch("edit/{id}")]
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> EditTravelPlan(int id, [FromBody] UpdateTravelPlanDto dto)
         {
-            try
-            {
-                await _travelService.UpdateTravelPlan(id, dto);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _travelService.UpdateTravelPlan(id, dto);
+            return NoContent();
         }
     }
 }

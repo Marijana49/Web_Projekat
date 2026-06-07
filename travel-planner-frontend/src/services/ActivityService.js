@@ -43,7 +43,17 @@ export async function DeleteActivity(id){
 
 export async function EditActivity(id, activityData){
     try{
-        const res = await axios.patch(`${API_URL}/activities/${id}`, activityData, getAuthHeaders());
+        const res = await axios.patch(`${API_URL}/activities/edit/${id}`, activityData, getAuthHeaders());
+        return res.data;
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+}
+
+export async function GetActivityById(id){
+    try{
+        const res = await axios.get(`${API_URL}/activities/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);

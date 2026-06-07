@@ -1,3 +1,4 @@
+using AuthService.Middleware;
 using AuthService.Services.Interface;
 using Data.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -82,6 +83,9 @@ namespace AuthService
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
 
+                builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+                builder.Services.AddProblemDetails();
+
                 var app = builder.Build();
 
                 if (app.Environment.IsDevelopment())
@@ -94,6 +98,7 @@ namespace AuthService
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+                app.UseExceptionHandler();
                 app.MapControllers();
 
                 return app;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom"; 
+import { useParams, useSearchParams, useNavigate } from "react-router-dom"; 
 import { GetActivitiesByDate, DeleteActivity } from "../../services/ActivityService";
 import { ActivityStatusLabels } from "../../enums/ActivityStatus";
 
@@ -9,6 +9,7 @@ export function ActivityList() {
     
     const { planId, selectedDate } = useParams();
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(planId, selectedDate)
@@ -57,7 +58,7 @@ export function ActivityList() {
                                 {ActivityStatusLabels[act.status]}
                             </span>
                             <button onClick={() => handleDelete(act.id)}>Obrisi</button>
-                            <button>Edit</button>
+                            <button onClick={() => navigate(`/activities/edit/${act.id}`)}>Edit</button>
                         </li>
                     ))}
                 </ul>

@@ -20,25 +20,13 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateActivityDto dto)
         {
-            if (dto == null)
-            {
-                return BadRequest("Prazni podaci");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            try
-            {
-                await _activityService.CreateNewActivityAsync(id, dto);
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+           
+            await _activityService.CreateNewActivityAsync(id, dto);
+            return Ok();
         }
 
         [HttpGet("activities/{id}/{date}")]
@@ -56,6 +44,23 @@ namespace TravelService.Controllers
         {
             await _activityService.DeleteActivityAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("activities/{id}")]
+        [Authorize(Roles = "USER")]
+        public async Task<IActionResult> GetActivityById(int id)
+        {
+             var activity = await _activityService.GetActivityByIdAsync(id);
+             return Ok(activity);
+ 
+        }
+
+        [HttpPatch("activities/edit/{id}")]
+        [Authorize(Roles = "USER")]
+        public async Task<IActionResult> EditActivity(int id, [FromBody] UpdateActivityDto dto)
+        {
+            await _activityService.UpdateActivityAsync(id, dto);
+            return Ok();
         }
     }
 }
