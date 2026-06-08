@@ -12,7 +12,7 @@ namespace Data.Data
         public DbSet<TravelPlan> TravelPlans { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<Activity> Activitys { get; set; }
-
+        public DbSet<Expense> Expenses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,12 @@ namespace Data.Data
                 .WithMany(d => d.Activitys)
                 .HasForeignKey(a => a.DestinationId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Expense>()
+                .HasOne(e => e.TravelPlan)
+                .WithMany(tp => tp.Expenses)
+                .HasForeignKey(e => e.TravelPlanId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -7,7 +7,7 @@ import { GetPlanById } from '../../services/TravelService';
 import { useNavigate } from 'react-router-dom';
 
 export function ActivityCalendar() {
-    const { planId } = useParams();
+    const { id } = useParams();
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function ActivityCalendar() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await GetPlanById(planId);
+                const response = await GetPlanById(id);
                 console.log("Stiglo sa backenda:", response);
                 
                 const start = new Date(response.startDate);
@@ -33,7 +33,7 @@ export function ActivityCalendar() {
             }
         };
         fetchData(); 
-    }, [planId]);
+    }, [id]);
 
     return (
         <Calendar
@@ -45,7 +45,7 @@ export function ActivityCalendar() {
                     const day = String(date.getDate()).padStart(2, '0');
                     
                     const formattedDate = `${year}-${month}-${day}`;
-                    navigate(`/activities/${planId}?date=${formattedDate}`)
+                    navigate(`/travel-plans/${id}/activities/${formattedDate}`);
                 }
                 else {
                     alert("Ne možet dodati aktivnosti za dane koji nisu predviđeni planom!")

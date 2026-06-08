@@ -25,7 +25,7 @@ namespace TravelService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             await _destinationService.CreateDestinationAsync(id, dto);
             return Ok();
 

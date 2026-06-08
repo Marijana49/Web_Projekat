@@ -105,6 +105,41 @@ namespace Data.Migrations.Travel
                     b.ToTable("Destinations");
                 });
 
+            modelBuilder.Entity("Data.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TravelPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TravelPlanId");
+
+                    b.ToTable("Expenses");
+                });
+
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
                     b.Property<int>("Id")
@@ -171,6 +206,17 @@ namespace Data.Migrations.Travel
                     b.Navigation("TravelPlan");
                 });
 
+            modelBuilder.Entity("Data.Models.Expense", b =>
+                {
+                    b.HasOne("Data.Models.TravelPlan", "TravelPlan")
+                        .WithMany("Expenses")
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TravelPlan");
+                });
+
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.Navigation("Activitys");
@@ -181,6 +227,8 @@ namespace Data.Migrations.Travel
                     b.Navigation("Activitys");
 
                     b.Navigation("Destinations");
+
+                    b.Navigation("Expenses");
                 });
 #pragma warning restore 612, 618
         }

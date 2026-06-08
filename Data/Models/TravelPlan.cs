@@ -14,6 +14,7 @@
         public User User { get; set; }
         public ICollection<Destination> Destinations { get; set; } = new List<Destination>();
         public ICollection<Activity> Activitys { get; set; } = new List<Activity>();
+        public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
 
         public TravelPlan() { }
 

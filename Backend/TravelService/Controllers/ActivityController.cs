@@ -24,7 +24,7 @@ namespace TravelService.Controllers
             {
                 return BadRequest(ModelState);
             }
-           
+
             await _activityService.CreateNewActivityAsync(id, dto);
             return Ok();
         }
@@ -50,9 +50,9 @@ namespace TravelService.Controllers
         [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetActivityById(int id)
         {
-             var activity = await _activityService.GetActivityByIdAsync(id);
-             return Ok(activity);
- 
+            var activity = await _activityService.GetActivityByIdAsync(id);
+            return Ok(activity);
+
         }
 
         [HttpPatch("activities/edit/{id}")]

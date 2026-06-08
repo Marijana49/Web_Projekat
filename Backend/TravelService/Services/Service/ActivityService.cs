@@ -44,7 +44,7 @@ namespace TravelService.Services.Service
         {
             var act = await _context.Activitys.FindAsync(id);
 
-            if(act == null)
+            if (act == null)
             {
                 throw new KeyNotFoundException("Aktivnost ne postoji!");
             }
@@ -78,7 +78,7 @@ namespace TravelService.Services.Service
         {
             var activity = await _context.Activitys.FindAsync(id);
 
-            if(activity == null)
+            if (activity == null)
             {
                 throw new KeyNotFoundException("Aktivnost ne postoji!");
             }

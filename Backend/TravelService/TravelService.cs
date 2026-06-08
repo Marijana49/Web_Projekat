@@ -85,6 +85,9 @@ namespace TravelService
                         builder.Services.AddScoped<ITravelService, Services.Service.TravelPlanService>();
                         builder.Services.AddScoped<IDestinationService, Services.Service.DestinationService>();
                         builder.Services.AddScoped<IActivityService, Services.Service.ActivityService>();
+                        builder.Services.AddScoped<IExpenseService, Services.Service.ExpenseService>();
+                        builder.Services.AddScoped<IBudgetService, Services.Service.BudgetService>();
+                        builder.Services.AddScoped<IChecklistService, Services.Service.ChecklistService>();
 
                         builder.Services.AddControllers();
                         builder.Services.AddEndpointsApiExplorer();

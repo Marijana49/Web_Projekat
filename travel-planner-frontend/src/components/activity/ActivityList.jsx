@@ -58,11 +58,12 @@ export function ActivityList() {
                                 {ActivityStatusLabels[act.status]}
                             </span>
                             <button onClick={() => handleDelete(act.id)}>Obrisi</button>
-                            <button onClick={() => navigate(`/activities/edit/${act.id}`)}>Edit</button>
+                            <button onClick={() => navigate(`/travel-plans/${act.id}/activities/edit`)}>Edit</button>
                         </li>
                     ))}
                 </ul>
             )}
+            <button onClick={() => navigate(`/travel-plans/${planId}/activities/new?date=${selectedDate}`)}>Dodaj aktivnost</button>
         </div>
     );
 }

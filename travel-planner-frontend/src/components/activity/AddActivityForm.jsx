@@ -34,10 +34,7 @@ export function AddActivityForm(){
 
     const handleSubmit = async (e) => {
             e.preventDefault();
-    
-            //const d = new Date(formData.date);
-            //const formattedDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-
+ 
            const formattedDate = formData.date;
 
            const activity = new CreateActivityRequest(
@@ -55,6 +52,8 @@ export function AddActivityForm(){
             console.log(activity)
             try{
                 await AddNewActivity(formData.travelPlanId, activity);
+                alert(`Nova aktivnost za dan ${formattedDate} dodana!`);
+                navigate(`/travel-plans/${planId}/activities/${selectedDate}`);
             } catch(error){
                 alert("Greška prilikom kreiranja!");
             }
@@ -108,7 +107,7 @@ export function AddActivityForm(){
                 />
                 <button type="submit">Create Activity</button>
             </form>
-            <button onClick={() => navigate(`/activities/${planId}/${selectedDate}`)}>Preged aktivnosti</button>
+            <button onClick={() => navigate(`/travel-plans/${planId}/activities/${selectedDate}`)}>Preged aktivnosti</button>
         </>
     )
 }

@@ -54,7 +54,7 @@ export function DestinationsList(){
                                 <td>{des.departureDate}</td>
                                 <td>{des.description}</td>
                                 <td>
-                                    <button onClick={() => navigate(`/destinations/edit/${des.id}`)}>Edit</button>
+                                    <button onClick={() => navigate(`/destinations/${des.id}/edit`)}>Edit</button>
                                     <button onClick={() => handleDelete(des.id)} style={{ color: "red" }}>Delete</button>                                </td>
                             </tr>
                         ))}

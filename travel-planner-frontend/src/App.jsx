@@ -14,6 +14,8 @@ import { ActivityCalendar } from './components/activity/ActivityCalendar'
 import { AddActivityForm } from './components/activity/AddActivityForm'
 import { ActivityList } from './components/activity/ActivityList'
 import { EditActivityForm } from './components/activity/EditActivityForm'
+import { PlanDetails } from './components/plan/PlanDetails'; 
+import { AddExpensForm } from './components/expens/AddExpensForm'
 
 function App() {
 
@@ -25,20 +27,24 @@ function App() {
       <Route path="/register" element={<RegisterForm />} />
 
       {/*Planovi */}
-      <Route path="/newPlan" element={<CreatePlan />}/>
-      <Route path="/plans" element={<TravelList/>}/>
-      <Route path="/edit/:id" element={<EditTravelPlanForm/>}/>
+      <Route path="/travel-plans/new" element={<CreatePlan />}/>
+      <Route path="/travel-plans" element={<TravelList/>}/>
+      <Route path="/travel-plans/:id" element={<EditTravelPlanForm/>}/>
+      <Route path="/travel-plans/:id/details" element={<PlanDetails />}/>
 
       {/**Destinacije */}
-      <Route path="/newDestination/:id" element={<AddDestionation/>}/>
-      <Route path="/travel-plans/destinations/:id" element={<DestinationsList/>}/>
-      <Route path="/destinations/edit/:id" element={<EditDestinationForm/>}/>
+      <Route path="/travel-plans/:id/destinations/new" element={<AddDestionation/>}/>
+      <Route path="/travel-plans/:id/destinations" element={<DestinationsList/>}/>
+      <Route path="/destinations/:id/edit" element={<EditDestinationForm/>}/>
 
       {/**Aktivnosti */}
-      <Route path="/calendars/:planId" element={<ActivityCalendar/>}/>
-      <Route path="/activities/:planId" element={<AddActivityForm/>}/>
-      <Route path="/activities/:planId/:selectedDate" element={<ActivityList/>}/>
-      <Route path="/activities/edit/:planId" element={<EditActivityForm/>}/>
+      <Route path="/travel-plans/:id/calendars" element={<ActivityCalendar/>}/>
+      <Route path="/travel-plans/:planId/activities/new" element={<AddActivityForm/>}/>
+      <Route path="/travel-plans/:planId/activities/:selectedDate" element={<ActivityList/>}/>
+      <Route path="/travel-plans/:planId/activities/edit" element={<EditActivityForm/>}/>
+
+      {/**Troskovi */}
+      <Route path="/travel-plans/:id/expenses" element={<AddExpensForm/>}/>
     </Routes>
     </AuthProvider>
   )

@@ -6,8 +6,8 @@ export const ActivityStatus = Object.freeze({
 });
 
 export const ActivityStatusLabels = {
-    0: "PLANNED",
-    1: "RESERVED",
-    2: "ENDED",
-    3: "CANCELLED"
+    0: "PLANIRANO",
+    1: "REZERVISANO",
+    2: "ZAVRŠENO",
+    3: "OTKAZANO"
 };

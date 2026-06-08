@@ -24,10 +24,10 @@ export function Dashboard(){
                     Log Out
                 </button>
             </div>
-            <button onClick={() => navigate("/newPlan")}>
+            <button onClick={() => navigate("/travel-plans/new")}>
                 Kreiraj plan putovanja
             </button>
-            <button onClick={() => navigate("/plans")}>
+            <button onClick={() => navigate("/travel-plans")}>
                 Planovi putovanja
             </button>
         </div>

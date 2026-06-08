@@ -58,11 +58,12 @@ export function TravelList (){
                             <td>{plan.budget}</td>
                             <td>{plan.notes}</td>
                             <td>
-                                <button onClick={() => navigate(`/edit/${plan.id}`)}>Edit</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}/details`)}> Pregled detalja</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}`)}>Edit</button>
                                 <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Delete</button>
-                                <button onClick={() => navigate(`/newDestination/${plan.id}`)}>Dodaj destinaciju</button>
-                                <button onClick={() => navigate(`/travel-plans/destinations/${plan.id}`)}>Pregledaj destinacije</button>
-                                <button onClick={() => navigate(`/calendars/${plan.id}`)}>Otvori kalendar</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations/new`)}>Dodaj destinaciju</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations`)}>Pregledaj destinacije</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}/calendars`)}>Otvori kalendar</button>
                             </td>
                         </tr>
                     ))}

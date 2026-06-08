@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GetActivityById, EditActivity } from "../../services/ActivityService";
 import { EditActivityRequest } from "../../models/dtos/EditActivityRequest";
+import { ActivityStatus } from "../../enums/ActivityStatus";
 
 export function EditActivityForm(){
     const { planId, selectedDate } = useParams();
@@ -46,7 +47,7 @@ export function EditActivityForm(){
             formData.location,
             formData.description,
             formData.budget,
-            formData.status, 
+            Number(formData.status), 
             Number(planId),  
             null             
         );
@@ -106,6 +107,14 @@ export function EditActivityForm(){
                     value={formData.budget}
                     onChange={handleChange}
                 />
+                <label>Status:</label>
+                <select name="status" value={formData.status} onChange={handleChange}>
+                    {Object.entries(ActivityStatus).map(([key, value]) => (
+                        <option key={value} value={value}>
+                            {key} 
+                        </option>
+                    ))}
+                </select>
                 <button type="submit">Edit Activity</button>
             </form>
         </>
