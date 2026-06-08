@@ -13,6 +13,7 @@ namespace Data.Data
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<Activity> Activitys { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Checklist> Checklists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,12 @@ namespace Data.Data
                 .HasOne(e => e.TravelPlan)
                 .WithMany(tp => tp.Expenses)
                 .HasForeignKey(e => e.TravelPlanId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Checklist>()
+                .HasOne(c => c.TravelPlan)
+                .WithMany(tp => tp.Checklists)
+                .HasForeignKey(c => c.TravelPlanId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

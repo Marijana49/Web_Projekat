@@ -15,6 +15,7 @@
         public ICollection<Destination> Destinations { get; set; } = new List<Destination>();
         public ICollection<Activity> Activitys { get; set; } = new List<Activity>();
         public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+        public ICollection<Checklist> Checklists { get; set; } = new List<Checklist>();
 
         public TravelPlan() { }
 

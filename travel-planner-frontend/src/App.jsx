@@ -16,6 +16,8 @@ import { ActivityList } from './components/activity/ActivityList'
 import { EditActivityForm } from './components/activity/EditActivityForm'
 import { PlanDetails } from './components/plan/PlanDetails'; 
 import { AddExpensForm } from './components/expens/AddExpensForm'
+import { Checklist } from './components/checklist/Checklist'
+import { AddChecklistItemForm } from './components/checklist/AddChecklistItemForm'
 
 function App() {
 
@@ -45,6 +47,9 @@ function App() {
 
       {/**Troskovi */}
       <Route path="/travel-plans/:id/expenses" element={<AddExpensForm/>}/>
+
+      {/**Check lista */}
+      <Route path="/travel-plans/:id/checklists" element={<Checklist/>}/>
     </Routes>
     </AuthProvider>
   )

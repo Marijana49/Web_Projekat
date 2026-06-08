@@ -51,6 +51,8 @@ export function PlanDetails() {
                 <ExpenseList planId={id} budgetData={budgetData} />
             </section>
 
+            <button onClick={() => navigate(`/travel-plans/${id}/checklists`)}>Checklist</button>
+
             <div className="dashboard-grid">
                 <section className="card">
                     <h2>Destinacije</h2>

@@ -69,6 +69,31 @@ namespace Data.Migrations.Travel
                     b.ToTable("Activitys");
                 });
 
+            modelBuilder.Entity("Data.Models.Checklist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TravelPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TravelPlanId");
+
+                    b.ToTable("Checklists");
+                });
+
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.Property<int>("Id")
@@ -195,6 +220,17 @@ namespace Data.Migrations.Travel
                     b.Navigation("TravelPlan");
                 });
 
+            modelBuilder.Entity("Data.Models.Checklist", b =>
+                {
+                    b.HasOne("Data.Models.TravelPlan", "TravelPlan")
+                        .WithMany("Checklists")
+                        .HasForeignKey("TravelPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TravelPlan");
+                });
+
             modelBuilder.Entity("Data.Models.Destination", b =>
                 {
                     b.HasOne("Data.Models.TravelPlan", "TravelPlan")
@@ -225,6 +261,8 @@ namespace Data.Migrations.Travel
             modelBuilder.Entity("Data.Models.TravelPlan", b =>
                 {
                     b.Navigation("Activitys");
+
+                    b.Navigation("Checklists");
 
                     b.Navigation("Destinations");
 
