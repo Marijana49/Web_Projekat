@@ -35,9 +35,6 @@ export function Checklist() {
         await UpdateChecklistItem(item.id, updateItem);
         const updatedItem = { ...item, isChecked: !item.isChecked };
         setItems(items.map(i => i.id === item.id ? updatedItem : i));
-        //const updatedItem = { ...item, isChecked: !item.isChecked };
-        //await UpdateChecklistItem(item.id, { isChecked: updatedItem.isChecked });
-        //setItems(items.map(i => i.id === item.id ? updatedItem : i));
     };
 
     return (

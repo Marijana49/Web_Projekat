@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CreateTravelPlan } from "../../services/TravelService";
 import { AuthContext } from "../../context/auth/AuthContext";
 import { TravelPlanRequest } from "../../models/dtos/CreatePlanRequest";
+import { ValidateCreatePlanForm } from "../../validations/TravelPlanValidation";
 
 export function CreatePlan(){
     const [formData, setFormData] = useState({
@@ -16,7 +17,7 @@ export function CreatePlan(){
    
     const today = new Date().toISOString().split("T")[0];
     const navigate = useNavigate();
-
+    const [errors, setErrors] = useState({});
     const { user } = useContext(AuthContext);
 
     const handleChange = (e) => {
@@ -29,6 +30,13 @@ export function CreatePlan(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validationErrors = ValidateCreatePlanForm(formData);
+            if (Object.keys(validationErrors).length > 0) {
+                setErrors(validationErrors);
+                return;
+            }
+            setErrors({});
 
         const plan = new TravelPlanRequest(
             formData.name,
@@ -59,6 +67,8 @@ export function CreatePlan(){
                     value={formData.name}
                     onChange={handleChange}
                 />
+                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+
                 <textarea
                     type="text"
                     name="description"
@@ -66,6 +76,8 @@ export function CreatePlan(){
                     value={formData.description}
                     onChange={handleChange}
                 />
+                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
+
                 <input
                     type="date"
                     name="startDate"
@@ -74,6 +86,8 @@ export function CreatePlan(){
                     value={formData.startDate}
                     onChange={handleChange}
                 />
+                {errors.startDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.startDate}</p>}
+
                 <input
                     type="date"
                     name="endDate"
@@ -82,6 +96,8 @@ export function CreatePlan(){
                     value={formData.endDate}
                     onChange={handleChange}
                 />
+                {errors.endDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.endDate}</p>}
+
                 <input
                     type="number"
                     name="budget"
@@ -89,6 +105,8 @@ export function CreatePlan(){
                     value={formData.budget}
                     onChange={handleChange}
                 />
+                {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
+
                 <textarea
                     type="text"
                     name="notes"
@@ -96,6 +114,8 @@ export function CreatePlan(){
                     value={formData.notes}
                     onChange={handleChange}
                 />
+                {errors.notes && <p style={{ color: "red", fontSize: "12px" }}>{errors.notes}</p>}
+
                 <button type="submit">Create Plan</button>
             </form>
         </>

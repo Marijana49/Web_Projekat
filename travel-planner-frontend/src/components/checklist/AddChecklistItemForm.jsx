@@ -1,11 +1,20 @@
 import { useState } from "react";
+import { ValidateChecklistForm } from "../../validations/ChecklistValidation";
 
 export function AddChecklistItemForm({ onAdd }) {
     const [name, setName] = useState("");
+    const [errors, setErrors] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name.trim()) return;
+
+        const validationErrors = ValidateChecklistForm({name});
+            if (Object.keys(validationErrors).length > 0) {
+                setErrors(validationErrors);
+                return;
+            }
+            setErrors({});
+
         await onAdd(name);
         setName("");
     };
@@ -28,7 +37,6 @@ export function AddChecklistItemForm({ onAdd }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Dodaj stavku (npr. Pasoš)..."
-                required
                 style={{ 
                     flexGrow: 1, 
                     padding: "8px", 
@@ -36,6 +44,8 @@ export function AddChecklistItemForm({ onAdd }) {
                     border: "1px solid #ccc" 
                 }}
             />
+            {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+            
             <button 
                 type="submit"
                 style={{ 

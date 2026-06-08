@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AddNewDestination } from "../../services/DestinationService";
 import { useParams, useNavigate } from "react-router-dom";
 import { DestinationRequest } from "../../models/dtos/CreateDestinationRequest";
+import { ValidateCreateDestinationForm } from "../../validations/DestinationValidation";
+import { GetPlanById } from "../../services/TravelService";
 
 export function AddDestionation(){
     const { id } = useParams();
@@ -17,6 +19,8 @@ export function AddDestionation(){
 
     const today = new Date().toISOString().split("T")[0];
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [travelPlan, setTravelPlan] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,8 +30,33 @@ export function AddDestionation(){
         }));
     }
 
+    useEffect(() => {
+        console.log("useEffect se pokrenuo, ID je:", id);
+        const fetchPlan = async () => {
+            try {
+                const plan = await GetPlanById(id); 
+                console.log("Šta je stiglo sa servera:", plan);
+                setTravelPlan(plan);
+            } catch (err) {
+                console.error("DETALJI GREŠKE:", err); 
+                console.error("Poruka greške:", err.message);
+            }
+        };
+        fetchPlan();
+    }, [id]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validationErrors = ValidateCreateDestinationForm(formData, {
+            planStart: travelPlan.startDate, 
+            planEnd: travelPlan.endDate
+        });
+            if (Object.keys(validationErrors).length > 0) {
+                setErrors(validationErrors);
+                return;
+            }
+            setErrors({});
 
         const destination = new DestinationRequest(
             formData.name,
@@ -59,6 +88,8 @@ export function AddDestionation(){
                     value={formData.name}
                     onChange={handleChange}
                 />
+                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+
                 <textarea
                     type="text"
                     name="location"
@@ -66,6 +97,8 @@ export function AddDestionation(){
                     value={formData.location}
                     onChange={handleChange}
                 />
+                {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
+
                 <input
                     type="date"
                     name="arrivalDate"
@@ -74,6 +107,8 @@ export function AddDestionation(){
                     value={formData.arrivalDate}
                     onChange={handleChange}
                 />
+                {errors.arrivalDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.arrivalDate}</p>}
+
                 <input
                     type="date"
                     name="departureDate"
@@ -82,6 +117,8 @@ export function AddDestionation(){
                     value={formData.departureDate}
                     onChange={handleChange}
                 />
+                {errors.departureDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.departureDate}</p>}
+
                 <textarea
                     type="text"
                     name="description"
@@ -89,6 +126,8 @@ export function AddDestionation(){
                     value={formData.description}
                     onChange={handleChange}
                 />
+                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
+
                 <button type="submit">Create Destination</button>
             </form>
         </>

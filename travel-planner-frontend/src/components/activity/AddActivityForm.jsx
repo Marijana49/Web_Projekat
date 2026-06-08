@@ -4,12 +4,16 @@ import { ActivityStatus } from "../../enums/ActivityStatus";
 import { AddNewActivity } from "../../services/ActivityService";
 import { CreateActivityRequest } from "../../models/dtos/CreateActivityRequest";
 import { useNavigate } from "react-router-dom";
+import { ValidateCreateActivityForm } from "../../validations/ActivityValidation";
+import { GetPlanById } from "../../services/TravelService";
 
 export function AddActivityForm(){
     const { planId } = useParams();
     const [searchParams] = useSearchParams();
     const selectedDate = searchParams.get("date");
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [travelPlan, setTravelPlan] = useState(null);
 
     console.log("Datum iz URL-a:", selectedDate);
 
@@ -32,9 +36,34 @@ export function AddActivityForm(){
         }));
     }
 
+    useEffect(() => {
+        console.log("useEffect se pokrenuo, ID je:", planId);
+        const fetchPlan = async () => {
+            try {
+                const plan = await GetPlanById(planId); 
+                console.log("Šta je stiglo sa servera:", plan);
+                setTravelPlan(plan);
+            } catch (err) {
+                console.error("DETALJI GREŠKE:", err); 
+                console.error("Poruka greške:", err.message);
+            }
+        };
+        fetchPlan();
+    }, [planId]);
+
     const handleSubmit = async (e) => {
-            e.preventDefault();
- 
+        e.preventDefault();
+
+        const validationErrors = ValidateCreateActivityForm(formData, {
+            planStart: travelPlan.startDate, 
+            planEnd: travelPlan.endDate
+        });
+            if (Object.keys(validationErrors).length > 0) {
+                setErrors(validationErrors);
+                return;
+            }
+            setErrors({});
+
            const formattedDate = formData.date;
 
            const activity = new CreateActivityRequest(
@@ -70,6 +99,8 @@ export function AddActivityForm(){
                     value={formData.name}
                     onChange={handleChange}
                 />
+                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+
                 <input
                     type="date"
                     name="date"
@@ -77,6 +108,8 @@ export function AddActivityForm(){
                     value={formData.date}
                     readOnly={!!selectedDate}
                 />
+                {errors.date && <p style={{ color: "red", fontSize: "12px" }}>{errors.date}</p>}
+
                 <input
                     type="time"
                     name="time"
@@ -84,6 +117,8 @@ export function AddActivityForm(){
                     value={formData.time}
                     onChange={handleChange}
                 />
+                {errors.time && <p style={{ color: "red", fontSize: "12px" }}>{errors.time}</p>}
+
                 <input
                     type="text"
                     name="location"
@@ -91,6 +126,8 @@ export function AddActivityForm(){
                     value={formData.location}
                     onChange={handleChange}
                 />
+                {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
+
                 <textarea
                     type="text"
                     name="description"
@@ -98,6 +135,8 @@ export function AddActivityForm(){
                     value={formData.description}
                     onChange={handleChange}
                 />
+                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
+
                 <input
                     type="number"
                     name="budget"
@@ -105,6 +144,8 @@ export function AddActivityForm(){
                     value={formData.budget}
                     onChange={handleChange}
                 />
+                {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
+
                 <button type="submit">Create Activity</button>
             </form>
             <button onClick={() => navigate(`/travel-plans/${planId}/activities/${selectedDate}`)}>Preged aktivnosti</button>
