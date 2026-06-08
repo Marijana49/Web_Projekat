@@ -5,6 +5,12 @@ export function AddChecklistItemForm({ onAdd }) {
     const [name, setName] = useState("");
     const [errors, setErrors] = useState({});
 
+    const handleBlur = () => {
+        const validationErrors = ValidateChecklistForm({ name });
+        
+        setErrors(validationErrors);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -36,6 +42,7 @@ export function AddChecklistItemForm({ onAdd }) {
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onBlur={handleBlur}
                 placeholder="Dodaj stavku (npr. Pasoš)..."
                 style={{ 
                     flexGrow: 1, 

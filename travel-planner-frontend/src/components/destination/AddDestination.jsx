@@ -45,6 +45,19 @@ export function AddDestionation(){
         fetchPlan();
     }, [id]);
 
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        const validationErrors = ValidateCreateDestinationForm(formData, {
+            planStart: travelPlan?.startDate, 
+            planEnd: travelPlan?.endDate
+        });
+        
+        setErrors(prev => ({
+            ...prev,
+            [name]: validationErrors[name]
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -87,6 +100,7 @@ export function AddDestionation(){
                     placeholder="Destination Name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
 
@@ -96,6 +110,7 @@ export function AddDestionation(){
                     placeholder="Location"
                     value={formData.location}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
 
@@ -106,6 +121,7 @@ export function AddDestionation(){
                     placeholder="Arrival Date"
                     value={formData.arrivalDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.arrivalDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.arrivalDate}</p>}
 
@@ -116,6 +132,7 @@ export function AddDestionation(){
                     placeholder="Deparature Date"
                     value={formData.departureDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.departureDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.departureDate}</p>}
 
@@ -125,6 +142,7 @@ export function AddDestionation(){
                     placeholder="Description"
                     value={formData.description}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
 

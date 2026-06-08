@@ -44,6 +44,19 @@ export function AddExpensForm(){
         fetchPlan();
         }, [id]);
 
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        const validationErrors = ValidateCreateExpenseForm(formData, {
+            planStart: travelPlan?.startDate, 
+            planEnd: travelPlan?.endDate
+        });
+                
+        setErrors(prev => ({
+            ...prev,
+            [name]: validationErrors[name]
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -83,19 +96,31 @@ export function AddExpensForm(){
 
         <div>
         <label>Naziv troška:</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange}/>
+        <input 
+            type="text" 
+            name="name" 
+            value={formData.name} 
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
         </div>
         {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
 
         <div>
         <label>Iznos:</label>
-        <input type="number" name="amount" value={formData.amount} onChange={handleChange} required />
+        <input 
+            type="number" 
+            name="amount" 
+            value={formData.amount} 
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
         </div>
         {errors.amount && <p style={{ color: "red", fontSize: "12px" }}>{errors.amount}</p>}
 
         <div>
         <label>Kategorija:</label>
-        <select name="category" value={formData.category} onChange={handleChange}>
+        <select name="category" value={formData.category} onChange={handleChange} onBlur={handleBlur}>
             {Object.entries(ExpenseCategory).map(([key, value]) => (
             <option key={value} value={value}>
                 {ExpenseCategoryLabels[value]}
@@ -107,13 +132,24 @@ export function AddExpensForm(){
 
         <div>
         <label>Datum:</label>
-        <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+        <input 
+            type="date" 
+            name="date" 
+            value={formData.date} 
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
         </div>
         {errors.date && <p style={{ color: "red", fontSize: "12px" }}>{errors.date}</p>}
 
         <div>
         <label>Opis:</label>
-        <textarea name="description" value={formData.description} onChange={handleChange} />
+        <textarea 
+            name="description" 
+            value={formData.description} 
+            onChange={handleChange}
+            onBlur={handleBlur} 
+        />
         </div>
         {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
 

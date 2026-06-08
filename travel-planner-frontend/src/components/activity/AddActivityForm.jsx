@@ -51,6 +51,19 @@ export function AddActivityForm(){
         fetchPlan();
     }, [planId]);
 
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        const validationErrors = ValidateCreateActivityForm(formData, {
+            planStart: travelPlan?.startDate, 
+            planEnd: travelPlan?.endDate
+        });
+            
+        setErrors(prev => ({
+            ...prev,
+            [name]: validationErrors[name]
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -98,6 +111,7 @@ export function AddActivityForm(){
                     placeholder="Activity Name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
 
@@ -107,6 +121,7 @@ export function AddActivityForm(){
                     placeholder="Date"
                     value={formData.date}
                     readOnly={!!selectedDate}
+                    onBlur={handleBlur}
                 />
                 {errors.date && <p style={{ color: "red", fontSize: "12px" }}>{errors.date}</p>}
 
@@ -116,6 +131,7 @@ export function AddActivityForm(){
                     placeholder="Time"
                     value={formData.time}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.time && <p style={{ color: "red", fontSize: "12px" }}>{errors.time}</p>}
 
@@ -125,6 +141,7 @@ export function AddActivityForm(){
                     placeholder="Location"
                     value={formData.location}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
 
@@ -134,6 +151,7 @@ export function AddActivityForm(){
                     placeholder="Description"
                     value={formData.description}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
 
@@ -143,6 +161,7 @@ export function AddActivityForm(){
                     placeholder="Planed budget"
                     value={formData.budget}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
 

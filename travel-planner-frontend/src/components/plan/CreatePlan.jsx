@@ -26,7 +26,21 @@ export function CreatePlan(){
             ...prev,
             [name]: name === "budget" ? Number(value) : value
         }));
+
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: null }));
+        }
     }
+
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        const validationErrors = ValidateCreatePlanForm(formData);
+        
+        setErrors(prev => ({
+            ...prev,
+            [name]: validationErrors[name]
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -66,6 +80,7 @@ export function CreatePlan(){
                     placeholder="Plan Name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
 
@@ -75,6 +90,7 @@ export function CreatePlan(){
                     placeholder="Plan Description"
                     value={formData.description}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
 
@@ -85,6 +101,7 @@ export function CreatePlan(){
                     placeholder="Start Date"
                     value={formData.startDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.startDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.startDate}</p>}
 
@@ -95,6 +112,7 @@ export function CreatePlan(){
                     placeholder="End Date"
                     value={formData.endDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.endDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.endDate}</p>}
 
@@ -104,6 +122,7 @@ export function CreatePlan(){
                     placeholder="Planed budget"
                     value={formData.budget}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
 
@@ -113,6 +132,7 @@ export function CreatePlan(){
                     placeholder="Notes"
                     value={formData.notes}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
                 {errors.notes && <p style={{ color: "red", fontSize: "12px" }}>{errors.notes}</p>}
 
