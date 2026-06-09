@@ -24,6 +24,8 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan nije pronađen!");
             }
 
+            ValidateDestinationDto(createDestinationDto, plan);
+
             var destination = new Destination
             {
                 Name = createDestinationDto.Name,
@@ -102,6 +104,11 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan nije pronađen!");
             }
 
+            var arrival = updateDestinationDto.ArrivalDate ?? destination.ArrivalDate;
+            var departure = updateDestinationDto.DepartureDate ?? destination.DepartureDate;
+
+            ValidateEditDestinationDto(arrival, departure, destination.TravelPlan);
+
             if (!string.IsNullOrEmpty(updateDestinationDto.Name)) destination.Name = updateDestinationDto.Name;
             if (!string.IsNullOrEmpty(updateDestinationDto.Location)) destination.Location = updateDestinationDto.Location;
             if (updateDestinationDto.ArrivalDate.HasValue) destination.ArrivalDate = updateDestinationDto.ArrivalDate.Value;
@@ -109,6 +116,23 @@ namespace TravelService.Services.Service
             if (!string.IsNullOrEmpty(updateDestinationDto.Description)) destination.Description = updateDestinationDto.Description;
 
             await _context.SaveChangesAsync();
+        }
+
+        private void ValidateDestinationDto(CreateDestinationDto dto, TravelPlan plan)
+        {
+            if (dto.DepartureDate < dto.ArrivalDate)
+                throw new ArgumentException("Datum završetka ne može biti prije datuma početka!");
+            if (dto.ArrivalDate < plan.StartDate || dto.DepartureDate > plan.EndDate)
+                throw new ArgumentException($"Destinacija mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
+        }
+
+        private void ValidateEditDestinationDto(DateOnly arrival, DateOnly departure, TravelPlan plan)
+        {
+            if (departure < arrival)
+                throw new ArgumentException("Datum završetka ne može biti prije datuma početka!");
+
+            if (arrival < plan.StartDate || departure > plan.EndDate)
+                throw new ArgumentException($"Destinacija mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
         }
     }
 }

@@ -24,6 +24,11 @@ namespace TravelService.Services.Service
                 throw new InvalidOperationException("Plan sa ovim imenom postoji!");
             }
 
+            if (travelPlan.EndDate < travelPlan.StartDate)
+            {
+                throw new ArgumentException("Datum završetka ne može biti prije datuma početka!");
+            }
+
             var newPlan = new TravelPlan
             {
                 Name = travelPlan.Name,
@@ -66,6 +71,11 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan ne postoji!");
             }
 
+            if (plan.StartDate < DateOnly.FromDateTime(DateTime.UtcNow))
+            {
+                throw new ArgumentException("Početni datum ne može biti u prošlosti!");
+            }
+
             return new TravelPlanDto
             {
                 Id = plan.Id,
@@ -92,7 +102,24 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan nije pronađen!");
             }
 
-            if (!string.IsNullOrEmpty(dto.Name)) plan.Name = dto.Name;
+            if (!string.IsNullOrEmpty(dto.Name) && dto.Name != plan.Name)
+            {
+                var nameExists = await _context.TravelPlans.AnyAsync(tp => tp.Name.ToLower() == dto.Name.ToLower() && tp.Id != planId);
+                if (nameExists)
+                {
+                    throw new InvalidOperationException("Plan sa ovim imenom već postoji!");
+                }
+                plan.Name = dto.Name;
+            }
+
+            var newStart = dto.StartDate ?? plan.StartDate;
+            var newEnd = dto.EndDate ?? plan.EndDate;
+
+            if (newEnd < newStart)
+            {
+                throw new ArgumentException("Datum završetka ne može biti prije datuma početka!");
+            }
+
             if (!string.IsNullOrEmpty(dto.Description)) plan.Description = dto.Description;
             if (dto.StartDate.HasValue) plan.StartDate = dto.StartDate.Value;
             if (dto.EndDate.HasValue) plan.EndDate = dto.EndDate.Value;

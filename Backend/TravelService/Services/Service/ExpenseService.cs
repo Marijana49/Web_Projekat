@@ -17,11 +17,22 @@ namespace TravelService.Services.Service
 
         public async Task AddExpenseAsync(CreateExpenseDto expense)
         {
-            var existingExpense = await _context.Expenses.AnyAsync(tp => tp.Name.ToLower() == expense.Name.ToLower());
+            var existingExpense = await _context.Expenses.AnyAsync(tp => tp.Name.ToLower() == expense.Name.ToLower() && tp.TravelPlanId == expense.TravelPlanId);
+            var plan = await _context.TravelPlans.FindAsync(expense.TravelPlanId);
 
             if (existingExpense)
             {
                 throw new InvalidOperationException("Trošak sa ovim imenom postoji!");
+            }
+
+            if (plan == null)
+            {
+                throw new InvalidOperationException("Plan ne postoji!");
+            }
+
+            if (expense.Date < plan.StartDate || expense.Date > plan.EndDate)
+            {
+                throw new ArgumentException($"Trošak mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
             }
 
             var newExpense = new Expense

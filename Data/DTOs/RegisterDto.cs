@@ -1,9 +1,18 @@
-﻿namespace Data.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.DTOs
 {
     public class RegisterDto
     {
+        [Required(ErrorMessage = "Unseite ime!")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email je obavezan!")]
+        [EmailAddress(ErrorMessage = "Format email-a nije ispravan!")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Lozinka je obavezna!")]
+        [MinLength(6, ErrorMessage = "Lozinka mora imati barem 6 karaktera!")]
         public string Password { get; set; }
     }
 }

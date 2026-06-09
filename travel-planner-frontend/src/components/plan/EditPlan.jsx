@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GetPlanById, EditTravelPlan } from "../../services/TravelService";
 import { EditPlanRequest } from "../../models/dtos/EditPlanRequest";
-import { formToJSON } from "axios";
+import { ValidateEditPlanForm } from "../../validations/TravelPlanValidation";
 
 export function EditTravelPlanForm(){
     const { id } = useParams();
     const navigate = useNavigate();
     const today = new Date().toISOString().split("T")[0];
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         name: "",
@@ -28,6 +29,12 @@ export function EditTravelPlanForm(){
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        const validationErrors = ValidateEditPlanForm({ ...formData, [name]: value });
+        setErrors({ ...errors, [name]: validationErrors[name] });
     };
 
     const handleSubmit = async (e) => {
@@ -63,14 +70,20 @@ export function EditTravelPlanForm(){
                     placeholder="Plan Name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.name && <span style={{color: 'red'}}>{errors.name}</span>}
+
                 <textarea
                     type="text"
                     name="description"
                     placeholder="Plan Description"
                     value={formData.description}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.description && <span style={{color: 'red'}}>{errors.description}</span>}
+                
                 <input
                     type="date"
                     name="startDate"
@@ -78,7 +91,10 @@ export function EditTravelPlanForm(){
                     placeholder="Start Date"
                     value={formData.startDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.startDate && <span style={{color: 'red'}}>{errors.startDate}</span>}
+
                 <input
                     type="date"
                     name="endDate"
@@ -86,21 +102,30 @@ export function EditTravelPlanForm(){
                     placeholder="End Date"
                     value={formData.endDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.endDate && <span style={{color: 'red'}}>{errors.endDate}</span>}
+
                 <input
                     type="number"
                     name="budget"
                     placeholder="Planed budget"
                     value={formData.budget}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.budget && <span style={{color: 'red'}}>{errors.budget}</span>}
+
                 <textarea
                     type="text"
                     name="notes"
                     placeholder="Notes"
                     value={formData.notes}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
+                {errors.notes && <span style={{color: 'red'}}>{errors.notes}</span>}
+                
                 <button type="submit">Edit Plan</button>
             </form>
         </>

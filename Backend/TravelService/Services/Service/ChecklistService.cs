@@ -60,7 +60,7 @@ namespace TravelService.Services.Service
             var item = await _context.Checklists.FindAsync(id);
             if (item == null) return false;
 
-            item.IsChecked = dto.IsChecked; 
+            item.IsChecked = dto.IsChecked;
 
             await _context.SaveChangesAsync();
             return true;

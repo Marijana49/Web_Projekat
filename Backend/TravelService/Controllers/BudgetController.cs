@@ -1,8 +1,6 @@
 ﻿using Data.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
-using TravelService.Services.Service;
 
 namespace TravelService.Controllers
 {

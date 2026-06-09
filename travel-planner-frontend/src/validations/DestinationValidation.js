@@ -32,3 +32,36 @@ export const ValidateCreateDestinationForm = (values, planDates) => {
     
     return errors;
 };
+
+export const ValidateEditDestinationForm = (values, planDates) => {
+    let errors = {};
+
+    if (values.name !== undefined && !values.name.trim()) {
+        errors.name = "Unesite naziv plana putovanja!";
+    }
+
+   if (planDates && values.arrivalDate && values.departureDate) {
+        const start = new Date(planDates.start);
+        const end = new Date(planDates.end);
+        const arrival = new Date(values.arrivalDate);
+        const departure = new Date(values.departureDate);
+
+        if (arrival < start || departure > end) {
+            errors.arrivalDate = `Datum mora biti između ${planDates.start} i ${planDates.end}`;
+        }
+        
+        if (departure < arrival) {
+            errors.departureDate = "Datum odlaska ne može biti pre dolaska!";
+        }
+    }
+
+    if(values.location !== undefined && values.location.trim() === ""){
+        errors.location = "Unesite opis plana!";
+    }
+
+    if(values.description !== undefined && values.description.trim() === ""){
+        errors.description = "Unesite opis plana!";
+    }
+
+    return errors;
+};

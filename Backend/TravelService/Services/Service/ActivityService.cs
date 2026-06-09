@@ -23,6 +23,11 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan nije pronađen!");
             }
 
+            if (dto.Date < plan.StartDate || dto.Date > plan.EndDate)
+            {
+                throw new ArgumentException($"Aktivnost mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
+            }
+
             var activity = new Activity
             {
                 Name = dto.Name,
@@ -105,6 +110,19 @@ namespace TravelService.Services.Service
             if (activity == null)
             {
                 throw new KeyNotFoundException("Aktivnost nije pronađena!");
+            }
+
+            if (updateActivityDto.Date.HasValue)
+            {
+                var newDate = updateActivityDto.Date.Value;
+                var plan = activity.TravelPlan;
+
+                if (newDate < plan.StartDate || newDate > plan.EndDate)
+                {
+                    throw new ArgumentException($"Aktivnost mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
+                }
+
+                activity.Date = newDate;
             }
 
             if (!string.IsNullOrEmpty(updateActivityDto.Name)) activity.Name = updateActivityDto.Name;
