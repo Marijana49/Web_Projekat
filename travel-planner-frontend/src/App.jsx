@@ -18,6 +18,7 @@ import { PlanDetails } from './components/plan/PlanDetails';
 import { AddExpensForm } from './components/expens/AddExpensForm'
 import { Checklist } from './components/checklist/Checklist'
 import { AddChecklistItemForm } from './components/checklist/AddChecklistItemForm'
+import { UserList } from './components/user/UserList'
 
 function App() {
 
@@ -50,6 +51,9 @@ function App() {
 
       {/**Check lista */}
       <Route path="/travel-plans/:id/checklists" element={<Checklist/>}/>
+
+      {/**Korisnici */}
+      <Route path="/travel-plans/users" element={<UserList/>}/>
     </Routes>
     </AuthProvider>
   )

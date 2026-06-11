@@ -44,6 +44,19 @@ namespace TravelService.Services.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAllUserPlansAsync(int id)
+        {
+            var userPlans = await _context.TravelPlans
+            .Where(tp => tp.UserId == id)
+            .ToListAsync();
+
+            if (!userPlans.Any()) return;
+
+            _context.TravelPlans.RemoveRange(userPlans);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeteletTravelPlanAsync(int planId)
         {
             var plan = await _context.TravelPlans.FindAsync(planId);

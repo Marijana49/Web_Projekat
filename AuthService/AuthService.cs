@@ -1,5 +1,6 @@
 using AuthService.Middleware;
 using AuthService.Services.Interface;
+using AuthService.Services.Service;
 using Data.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -58,13 +59,16 @@ namespace AuthService
                 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    options.MapInboundClaims = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                         ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidateAudience = false,
-                        RoleClaimType = ClaimTypes.Role
+                        RoleClaimType = "role",
+                        NameClaimType = "id"
                     };
                 });
 
@@ -78,6 +82,10 @@ namespace AuthService
                 );
 
                 builder.Services.AddScoped<IAuthService, global:: AuthService.Services.Service.AuthService>();
+                builder.Services.AddScoped<IUserService, global:: AuthService.Services.Service.UserService>();
+
+                builder.Services.AddHttpClient();
+                builder.Services.AddHttpContextAccessor();
 
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();

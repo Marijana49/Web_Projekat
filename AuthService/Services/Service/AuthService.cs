@@ -48,9 +48,9 @@ namespace AuthService.Services.Service
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim("role", user.Role.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -78,7 +78,7 @@ namespace AuthService.Services.Service
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                Role = Data.Enums.Role.USER
+                Role = Data.Enums.Role.ADMIN
             };
 
             _context.Users.Add(newUser);

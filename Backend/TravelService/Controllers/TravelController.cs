@@ -76,5 +76,13 @@ namespace TravelService.Controllers
             await _travelService.UpdateTravelPlan(id, dto);
             return NoContent();
         }
+
+        [HttpDelete("user-plans/{id}")]
+        [Authorize(Roles = "ADMIN")] 
+        public async Task<IActionResult> DeleteAllPlansForUser(int id)
+        {
+            await _travelService.DeleteAllUserPlansAsync(id);
+            return NoContent();
+        }
     }
 }

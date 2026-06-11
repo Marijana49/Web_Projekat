@@ -8,9 +8,9 @@ const decodeJWT = (token) => {
     try{
         const decoded = jwtDecode(token);
 
-        if(decoded.nameid && decoded.email && decoded.role){
+        if(decoded.id && decoded.email && decoded.role){
             return{
-                id: decoded.nameid,
+                id: decoded.id,
                 email: decoded.email,
                 role: decoded.role
             };
