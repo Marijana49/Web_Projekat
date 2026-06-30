@@ -30,7 +30,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("activities/{id}/{date}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> GetActivitiesByDate(int id, DateOnly date)
         {
             var res = await _activityService.GetActivitiesByDateAsync(id, date);

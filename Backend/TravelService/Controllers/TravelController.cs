@@ -32,7 +32,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("plans")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetAllTravelPlans()
         {
             var travelPlans = await _travelService.GetAllTravelPlansAsync();
@@ -62,7 +62,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> GetTravelPlan(int id)
         {
             var plan = await _travelService.GetTravelPlanAsync(id);

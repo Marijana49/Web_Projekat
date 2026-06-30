@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetUserTravelPlans, DeleteTravelPlan } from "../../services/TravelService";
+import { GetUserTravelPlans, DeleteTravelPlan, GetAllTravelPlans } from "../../services/TravelService";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { useNavigate } from "react-router-dom";
 import App from "../../App";
@@ -12,7 +12,12 @@ export function TravelList (){
     useEffect(() => {
         if (!user || !user.id) return;
         async function loadData(){
-            const data = await GetUserTravelPlans(user.id);
+            let data;
+            if(user.role === "ADMIN"){
+                data = await GetAllTravelPlans();
+            } else{
+                data = await GetUserTravelPlans(user.id);
+            }
             setTravelPlans(data);
         }
         loadData();
@@ -41,6 +46,7 @@ export function TravelList (){
                 <thead>
                     <tr>
                         <th>Name</th>
+                        {user.role === "ADMIN" && <th>Owner ID</th>}
                         <th>Description</th>
                         <th>Start Date</th>
                         <th>End Date</th>
@@ -52,6 +58,7 @@ export function TravelList (){
                     {travelPlans.map((plan) => (
                         <tr key={plan.id}>
                             <td>{plan.name}</td>
+                            {user.role === "ADMIN" && <td>{plan.userId}</td>}
                             <td>{plan.description}</td>
                             <td>{plan.startDate}</td>
                             <td>{plan.endDate}</td>

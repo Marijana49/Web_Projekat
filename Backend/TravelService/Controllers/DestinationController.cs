@@ -32,7 +32,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("travel-plans/destinations/{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> GetTravelPlanDestinations(int id)
         {
             var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);

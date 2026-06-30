@@ -5,6 +5,7 @@ using Data.DTOs;
 using Data.Enums;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AuthService.Services.Service
 {
@@ -41,16 +42,21 @@ namespace AuthService.Services.Service
                 throw new Exception("Greška pri brisanju planova korisnika u TravelService-u!");
             }
 
+            var currentUserIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (int.TryParse(currentUserIdClaim, out int currentUserId))
+            {
+                if (currentUserId == id)
+                {
+                    throw new InvalidOperationException("Ne možete obrisati sami sebe!");
+                }
+            }
+
             var user = await _appDbContext.Users.FindAsync(id);
 
             if(user == null)
             {
                 throw new KeyNotFoundException("Korisnik ne postoji!");
-            }
-
-            if(id == user.Id)
-            {
-                throw new InvalidOperationException("Ne možete obrisati sami sebe!");
             }
 
             _appDbContext.Users.Remove(user);

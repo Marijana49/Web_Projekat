@@ -35,7 +35,7 @@ export async function GetAllUsers(){
 
 export async function ChangeUserRole(id, role){
     try{
-        const res = await axios.patch(`${API_URL}/users/${id}`, role, getAuthHeaders());
+        const res = await axios.patch(`${API_URL}/users/${id}`, { newRole: role }, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
