@@ -19,6 +19,7 @@ import { AddExpensForm } from './components/expens/AddExpensForm'
 import { Checklist } from './components/checklist/Checklist'
 import { AddChecklistItemForm } from './components/checklist/AddChecklistItemForm'
 import { UserList } from './components/user/UserList'
+import { SharedPlanView } from './components/shareLink/SharedPlanView '
 
 function App() {
 
@@ -54,6 +55,9 @@ function App() {
 
       {/**Korisnici */}
       <Route path="/travel-plans/users" element={<UserList/>}/>
+
+      {/**QR kod*/}
+      <Route path="/shared/:token" element={<SharedPlanView />} />
     </Routes>
     </AuthProvider>
   )

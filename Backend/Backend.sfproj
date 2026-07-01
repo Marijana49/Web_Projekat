@@ -39,6 +39,7 @@
     <ProjectReference Include="..\AuthService\AuthService.csproj">
       <ServiceLaunchUrl>http://localhost:{ServicePort}/swagger</ServiceLaunchUrl>
     </ProjectReference>
+    <ProjectReference Include="SharingService\SharingService.csproj" />
     <ProjectReference Include="TravelService\TravelService.csproj">
       <ServiceLaunchUrl>http://localhost:{ServicePort}/swagger</ServiceLaunchUrl>
     </ProjectReference>
