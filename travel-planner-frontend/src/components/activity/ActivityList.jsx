@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom"; 
 import { GetActivitiesByDate, DeleteActivity } from "../../services/ActivityService";
 import { ActivityStatusLabels } from "../../enums/ActivityStatus";
 
-export function ActivityList() {
+export function ActivityList({ planId: externalPlanId, readOnly, selectedDate }) {
+    console.log("ActivityList props:", { externalPlanId, readOnly, selectedDate });
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { planId, selectedDate } = useParams();
-    const [searchParams] = useSearchParams();
+    
+    const { planId: urlPlanId } = useParams();
     const navigate = useNavigate();
-    const isReadOnly = searchParams.has('token');
+
+    const activePlanId = externalPlanId || urlPlanId;
 
     useEffect(() => {
-        console.log(planId, selectedDate)
-        if (!selectedDate) return; 
+        if (!selectedDate || !activePlanId) return; 
 
         const fetchActivities = async () => {
             setLoading(true);
             try {
-                const data = await GetActivitiesByDate(planId, selectedDate);
-                console.log(data)
+                const data = await GetActivitiesByDate(activePlanId, selectedDate);
                 setActivities(data); 
             } catch (error) {
                 console.error("Greška pri učitavanju aktivnosti:", error);
@@ -29,20 +29,20 @@ export function ActivityList() {
         };
 
         fetchActivities();
-    }, [planId, selectedDate]); 
+    }, [activePlanId, selectedDate]); 
 
     if (loading) return <p>Učitavanje aktivnosti...</p>;
 
     const handleDelete = async (id) => {
-    if (window.confirm("Da li ste sigurni da želite da obrišete ovu aktivnost?")) {
-        try {
-            await DeleteActivity(id);
-            setActivities(activities.filter(act => act.id !== id));
-        } catch (error) {
-            alert("Greška pri brisanju!");
+        if (window.confirm("Da li ste sigurni da želite da obrišete ovu aktivnost?")) {
+            try {
+                await DeleteActivity(id);
+                setActivities(activities.filter(act => act.id !== id));
+            } catch (error) {
+                alert("Greška pri brisanju!");
+            }
         }
-    }
-};
+    };
 
     return (
         <div className="activity-list">
@@ -54,21 +54,23 @@ export function ActivityList() {
                     {activities.map((act) => (
                         <li key={act.id}>
                             <strong>{act.time}</strong> - {act.name} ({act.location})
-                            <span>
-                                {ActivityStatusLabels[act.status]}
-                            </span>
-                            {isReadOnly && (
-                            <>
-                                <button onClick={() => handleDelete(act.id)}>Obrisi</button>
-                                <button onClick={() => navigate(`/travel-plans/${act.id}/activities/edit`)}>Edit</button>
-                            </>
-                        )}
-                    </li>
+                            <span>{ActivityStatusLabels[act.status]}</span>
+                            
+                            {!readOnly && (
+                                <>
+                                    <button onClick={() => handleDelete(act.id)}>Obrisi</button>
+                                    <button onClick={() => navigate(`/travel-plans/${activePlanId}/activities/edit`)}>Edit</button>
+                                </>
+                            )}
+                        </li>
                     ))}
                 </ul>
             )}
-            {isReadOnly && (
-                <button onClick={() => navigate(`/travel-plans/${planId}/activities/new?date=${selectedDate}`)}>Dodaj aktivnost</button>
+
+            {!readOnly && (
+                <button onClick={() => navigate(`/travel-plans/${activePlanId}/activities/new?date=${selectedDate}`)}>
+                    Dodaj aktivnost
+                </button>
             )}
         </div>
     );
