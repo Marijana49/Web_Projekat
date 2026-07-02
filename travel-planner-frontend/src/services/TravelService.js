@@ -73,3 +73,18 @@ export async function EditTravelPlan(id, planData){
         throw error;
     }
 };
+
+export const GetSharedPlanPublic = async (planId, shareToken) => {
+    try {
+        const response = await axios.get(`${API_URL}/${planId}`, {
+            headers: {
+                'X-Share-Token': shareToken,
+                'Authorization': undefined 
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Direktni zahtev nije uspeo:", error);
+        throw error;
+    }
+};

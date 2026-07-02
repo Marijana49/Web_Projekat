@@ -21,9 +21,12 @@ export async function AddNewActivity(id, data){
     }
 }
 
-export async function GetActivitiesByDate(id, date){
+export async function GetActivitiesByDate(id, date, shareToken = null){
     try{
-        const res = await axios.get(`${API_URL}/activities/${id}/${date}`, getAuthHeaders());
+        const headers = shareToken 
+            ? { headers: { "X-Share-Token": shareToken } }
+            : getAuthHeaders();
+        const res = await axios.get(`${API_URL}/activities/${id}/${date}`, headers);
         return res.data;
     } catch(error){
         console.error(error);

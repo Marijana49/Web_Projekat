@@ -67,18 +67,18 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
             )}
 
             <section className="card" style={{ marginTop: "20px" }}>
-                <ExpenseList planId={id} budgetData={budgetData} readOnly={readOnly} />
+                <ExpenseList planId={id} budgetData={budgetData} readOnly={readOnly} shareToken={shareToken}/>
             </section>
 
             <div className="dashboard-grid">
                 <section className="card">
                     <h2>Destinacije</h2>
-                    <DestinationsList planId={id} readOnly={readOnly} />
+                    <DestinationsList planId={id} readOnly={readOnly} shareToken={shareToken}/>
                 </section>
 
                 <section className="card">
                     <h2>Raspored aktivnosti</h2>
-                    <ActivityCalendar planId={id} readOnly={readOnly} />
+                    <ActivityCalendar planId={id} readOnly={readOnly} shareToken={shareToken}/>
                 </section>
             </div>
 

@@ -5,8 +5,13 @@ const API_URL = import.meta.env.VITE_SHARING_API_URL;
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
+    
+    if (!token || token === "null" || token === "undefined") {
+        return {};
+    }
+    
     return {
-        headers : { Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}` }
     };
 };
 

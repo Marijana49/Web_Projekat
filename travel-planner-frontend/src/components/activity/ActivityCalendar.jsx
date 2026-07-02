@@ -33,7 +33,6 @@ export function ActivityCalendar({ planId: externalPlanId, readOnly, shareToken 
     }, [id, shareToken]); 
 
     return (
-        // OBAVEZAN RODITELJSKI DIV
         <div className="calendar-wrapper">
             <Calendar
                 onClickDay={(date) => {
@@ -63,6 +62,7 @@ export function ActivityCalendar({ planId: externalPlanId, readOnly, shareToken 
                     planId={id} 
                     readOnly={readOnly} 
                     selectedDate={selectedDate} 
+                    shareToken={shareToken}
                 />
             )}
         </div>

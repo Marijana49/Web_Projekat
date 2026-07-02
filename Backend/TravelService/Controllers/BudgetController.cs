@@ -5,7 +5,7 @@ using TravelService.Services.Interface;
 namespace TravelService.Controllers
 {
     [Route("api/travel")]
-    [ApiController]
+    //[ApiController]
     public class BudgetController : ControllerBase
     {
         private readonly IBudgetService budgetService;

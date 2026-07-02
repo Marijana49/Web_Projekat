@@ -7,7 +7,7 @@ namespace TravelService.Controllers
 {
     [Route("api/travel")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;

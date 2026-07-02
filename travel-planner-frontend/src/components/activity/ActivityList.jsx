@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { GetActivitiesByDate, DeleteActivity } from "../../services/ActivityService";
 import { ActivityStatusLabels } from "../../enums/ActivityStatus";
 
-export function ActivityList({ planId: externalPlanId, readOnly, selectedDate }) {
-    console.log("ActivityList props:", { externalPlanId, readOnly, selectedDate });
+export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, shareToken }) {
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(false);
     
@@ -19,7 +18,7 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate })
         const fetchActivities = async () => {
             setLoading(true);
             try {
-                const data = await GetActivitiesByDate(activePlanId, selectedDate);
+                const data = await GetActivitiesByDate(activePlanId, selectedDate, shareToken);
                 setActivities(data); 
             } catch (error) {
                 console.error("Greška pri učitavanju aktivnosti:", error);
@@ -29,7 +28,7 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate })
         };
 
         fetchActivities();
-    }, [activePlanId, selectedDate]); 
+    }, [activePlanId, selectedDate, shareToken]); 
 
     if (loading) return <p>Učitavanje aktivnosti...</p>;
 

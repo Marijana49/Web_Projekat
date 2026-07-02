@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
+using TravelService.Services.Service;
 
 namespace TravelService.Controllers
 {
@@ -10,10 +11,11 @@ namespace TravelService.Controllers
     public class ActivityController : ControllerBase
     {
         private readonly IActivityService _activityService;
-
-        public ActivityController(IActivityService activityService)
+        private readonly IShareTokenValidator _shareTokenValidator;
+        public ActivityController(IActivityService activityService, IShareTokenValidator shareTokenValidator)
         {
             _activityService = activityService;
+            _shareTokenValidator = shareTokenValidator;
         }
 
         [HttpPost("activities/{id}")]
@@ -30,12 +32,24 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("activities/{id}/{date}")]
-        [Authorize(Roles = "USER, ADMIN")]
-        public async Task<IActionResult> GetActivitiesByDate(int id, DateOnly date)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetActivitiesByDate(int id, DateOnly date, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
-            var res = await _activityService.GetActivitiesByDateAsync(id, date);
+            if (User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken))
+            {
+                var res = await _activityService.GetActivitiesByDateAsync(id, date);
+                return Ok(res);
+            }
 
-            return Ok(res);
+            if (!string.IsNullOrEmpty(shareToken))
+            {
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, id);
+                if (accessType == null) return Unauthorized();
+                var res = await _activityService.GetActivitiesByDateAsync(id, date);
+                return Ok(res);
+            }
+
+            return Unauthorized();
         }
 
         [HttpDelete("activities/{id}")]
