@@ -6,12 +6,13 @@ export const SharePlanModal = ({ planId, onClose }) => {
     const [accessType, setAccessType] = useState(0);
     const [shareLink, setShareLink] = useState(null);
     const [loading, setLoading] = useState(false);
+    const baseUrl = import.meta.env.VITE_FRONTEND_BASE_URL;
 
     const handleCreate = async () => {
         setLoading(true);
         try{
             const res = await CreateShareLink(planId, accessType);
-            const fullUrl = `${window.location.origin}/shared/${res.token}`;
+            const fullUrl = `${baseUrl}/shared/${res.token}`;
             setShareLink({...res, fullUrl});
         } catch (error){
             console.error(error);

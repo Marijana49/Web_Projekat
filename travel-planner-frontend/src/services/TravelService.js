@@ -51,9 +51,12 @@ export async function DeleteTravelPlan(id){
     }
 }
 
-export async function GetPlanById(id){
+export async function GetPlanById(id, shareToken = null){
     try{
-        const res = await axios.get(`${API_URL}/${id}`, getAuthHeaders());
+        const headers = shareToken 
+            ? { headers: { "X-Share-Token": shareToken } }
+            : getAuthHeaders();
+        const res = await axios.get(`${API_URL}/${id}`, headers);
         return res.data;
     } catch(error){
         console.error(error);

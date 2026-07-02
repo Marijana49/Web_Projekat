@@ -20,9 +20,12 @@ export async function AddNewDestination(id, destData){
     }
 }
 
-export async function GetTravelPlanDestinations(id){
+export async function GetTravelPlanDestinations(id, shareToken = null){
     try{
-        const res = await axios.get(`${API_URL}/travel-plans/destinations/${id}`, getAuthHeaders());
+        const headers = shareToken 
+            ? { headers: { "X-Share-Token": shareToken } }
+            : getAuthHeaders();
+        const res = await axios.get(`${API_URL}/travel-plans/destinations/${id}`, headers);
         return res.data;
     } catch(error){
         console.error(error);

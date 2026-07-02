@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
-
 namespace TravelService.Controllers
 {
     [Route("api/travel")]
@@ -11,10 +10,11 @@ namespace TravelService.Controllers
     public class DestinationController : ControllerBase
     {
         private readonly IDestinationService _destinationService;
-
-        public DestinationController(IDestinationService destinationService)
+        private readonly IShareTokenValidator _shareTokenValidator;
+        public DestinationController(IDestinationService destinationService, IShareTokenValidator shareTokenValidator)
         {
             _destinationService = destinationService;
+            _shareTokenValidator = shareTokenValidator;
         }
 
         [HttpPost("newDestination/{id}")]
@@ -25,19 +25,29 @@ namespace TravelService.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             await _destinationService.CreateDestinationAsync(id, dto);
             return Ok();
-
         }
 
         [HttpGet("travel-plans/destinations/{id}")]
-        [Authorize(Roles = "USER, ADMIN")]
-        public async Task<IActionResult> GetTravelPlanDestinations(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetTravelPlanDestinations(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
-            var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);
+            if (User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken))
+            {
+                var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);
+                return Ok(destinations);
+            }
 
-            return Ok(destinations);
+            if (!string.IsNullOrEmpty(shareToken))
+            {
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, id);
+                if (accessType == null) return Unauthorized();
+                var destinations = await _destinationService.GetTravelPlanDestinationsAsync(id);
+                return Ok(destinations);
+            }
+
+            return Unauthorized();
         }
 
         [HttpDelete("destinations/delete/{id}")]
@@ -54,7 +64,6 @@ namespace TravelService.Controllers
         {
             var destination = await _destinationService.GetDestinationAsync(id);
             return Ok(destination);
-
         }
 
         [HttpPatch("destinations/edit/{id}")]

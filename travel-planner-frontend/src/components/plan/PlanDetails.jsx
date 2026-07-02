@@ -8,17 +8,17 @@ import { ExpenseList } from "../expens/ExpenseList";
 import { GetBudgetSummary } from "../../services/ExpenseService";
 import { SharePlanModal } from "../shareLink/SharePlanModal";
 
-export function PlanDetails({ readOnly = false, planId: externalPlanId }) { 
+export function PlanDetails({ readOnly = false, planId: externalPlanId, shareToken}) { 
     const { id: paramId } = useParams();
     const id = externalPlanId || paramId;
     const [plan, setPlan] = useState(null);
     const [budgetData, setBudgetData] = useState(null);
     const [showShareModal, setShowShareModal] = useState(false); 
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         const fetchData = async () => {
-            const data = await GetPlanById(id);
+            const data = await GetPlanById(id, shareToken);
             setPlan(data);
             const summary = await GetBudgetSummary(id); 
             setBudgetData(summary);

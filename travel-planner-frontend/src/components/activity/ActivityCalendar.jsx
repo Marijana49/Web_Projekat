@@ -6,8 +6,9 @@ import axios from 'axios';
 import { GetPlanById } from '../../services/TravelService';
 import { useNavigate } from 'react-router-dom';
 
-export function ActivityCalendar() {
-    const { id } = useParams();
+export function ActivityCalendar({ planId: externalPlanId, readOnly, shareToken }) {
+    const { id: paramId } = useParams();
+    const id = externalPlanId || paramId;
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export function ActivityCalendar() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await GetPlanById(id);
+                const response = await GetPlanById(id, shareToken);
                 console.log("Stiglo sa backenda:", response);
                 
                 const start = new Date(response.startDate);
@@ -39,7 +40,6 @@ export function ActivityCalendar() {
         <Calendar
             onClickDay={(date) => {
                 if(date >= startDate && date <= endDate) {
-                    alert("moze se dodati")
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
@@ -48,7 +48,7 @@ export function ActivityCalendar() {
                     navigate(`/travel-plans/${id}/activities/${formattedDate}`);
                 }
                 else {
-                    alert("Ne možet dodati aktivnosti za dane koji nisu predviđeni planom!")
+                    alert("Ne možete dodati/gledati aktivnosti za dane koji nisu predviđeni planom putovanja!")
                 }
             }}
             tileClassName={({ date, view }) => {

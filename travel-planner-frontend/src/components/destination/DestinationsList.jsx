@@ -2,18 +2,19 @@ import { useState, useEffect } from "react"
 import { GetTravelPlanDestinations, DeleteDestination } from "../../services/DestinationService";
 import { useParams, useNavigate } from "react-router-dom";
 
-export function DestinationsList(){
+export function DestinationsList({ planId: externalPlanId, readOnly, shareToken }){
     const [destinations, setDestinations] = useState([]);
-    const { id } = useParams();
+    const { id: paramId } = useParams();
+    const id = externalPlanId || paramId;
     const navigate = useNavigate();
 
     useEffect(() => {
             async function loadData(){
-                const data = await GetTravelPlanDestinations(id);
+                const data = await GetTravelPlanDestinations(id, shareToken);
                 setDestinations(data);
             }
             loadData();
-        }, []);
+        }, [id]);
 
     const handleDelete = async (id) => {
         if(!window.confirm("Da li želite da obrišete ovu destinaciju?")) return;
@@ -29,9 +30,7 @@ export function DestinationsList(){
 
    return(
         <>
-            <h2>Destinations for Travel Plans</h2>
-            <button type="button" onClick={() => navigate("/")}>Nazad</button>
-            
+            <h2>Destinations for Travel Plans</h2>            
             {destinations.length === 0 ? (
                 <p>No destinations created yet</p>
             ) : (
@@ -54,8 +53,20 @@ export function DestinationsList(){
                                 <td>{des.departureDate}</td>
                                 <td>{des.description}</td>
                                 <td>
-                                    <button onClick={() => navigate(`/destinations/${des.id}/edit`)}>Edit</button>
-                                    <button onClick={() => handleDelete(des.id)} style={{ color: "red" }}>Delete</button>                                </td>
+                                {!readOnly && (
+                                    <>
+                                        <button onClick={() => navigate(`/destinations/${des.id}/edit`)}>
+                                            Edit
+                                        </button>
+                                        <button 
+                                            onClick={() => handleDelete(des.id)} 
+                                            style={{ color: "red" }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
+                            </td>
                             </tr>
                         ))}
                     </tbody>

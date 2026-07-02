@@ -11,10 +11,11 @@ namespace TravelService.Controllers
     public class TravelController : ControllerBase
     {
         private readonly ITravelService _travelService;
-
-        public TravelController(ITravelService travelService)
+        private readonly IShareTokenValidator _shareTokenValidator;
+        public TravelController(ITravelService travelService, IShareTokenValidator shareTokenValidator)
         {
             _travelService = travelService;
+            _shareTokenValidator = shareTokenValidator;
         }
 
         [HttpPost("newPlan")]
@@ -62,11 +63,25 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "USER, ADMIN")]
-        public async Task<IActionResult> GetTravelPlan(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetTravelPlan(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
-            var plan = await _travelService.GetTravelPlanAsync(id);
-            return Ok(plan);
+            //throw new Exception($"STIGAO SAM! shareToken={shareToken}, isAuth={User.Identity?.IsAuthenticated}");
+            if (User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken))
+            {
+                var plan = await _travelService.GetTravelPlanAsync(id);
+                return Ok(plan);
+            }
+
+            if (!string.IsNullOrEmpty(shareToken))
+            {
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, id);
+                if (accessType == null) return Unauthorized();
+                var plan = await _travelService.GetTravelPlanAsync(id);
+                return Ok(plan);
+            }
+
+            return Unauthorized();
         }
 
         [HttpPatch("edit/{id}")]

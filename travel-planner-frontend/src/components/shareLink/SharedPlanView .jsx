@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ValidateShareToken } from "../../services/sharingService";
-import { GetPlanById } from "../../services/travelService";
 import { PlanDetails } from "../plan/PlanDetails" 
 
 export const SharedPlanView = () => {
     const { token } = useParams();
-    const [planData, setPlanData] = useState(null);
+    const [planId, setPlanId] = useState(null);
     const [accessType, setAccessType] = useState(null);
     const [error, setError] = useState(null);
 
@@ -20,10 +19,8 @@ export const SharedPlanView = () => {
                     return;
                 }
 
-                const plan = await GetPlanById(validation.planId);
-                setPlanData(plan);
+                setPlanId(validation.planId);
                 setAccessType(validation.accessType);
-
             } catch (err) {
                 setError("Greška pri učitavanju plana.");
             }
@@ -32,12 +29,13 @@ export const SharedPlanView = () => {
     }, [token]);
 
     if (error) return <p>{error}</p>;
-    if (!planData) return <p>Učitavanje...</p>;
+    if (!planId) return <p>Učitavanje...</p>;
 
     return (
         <PlanDetails
-            plan={validation.planId}
-            readOnly={accessType === 0}  
+            planId={planId}
+            shareToken={token}
+            readOnly={accessType === 0}
         />
     );
 };

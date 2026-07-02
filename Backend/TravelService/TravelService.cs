@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using TravelService.Middleware;
 using TravelService.Services.Interface;
+using TravelService.Services.Service;
 
 namespace TravelService
 {
@@ -54,8 +55,10 @@ namespace TravelService
                             options.AddPolicy("AllowReactApp", policy =>
                             {
                                 policy.WithOrigins("http://localhost:5173")
+                                .AllowAnyOrigin()
                                 .AllowAnyHeader()
-                                .AllowAnyMethod();
+                                .AllowAnyMethod()
+                                .WithHeaders("Content-Type", "Authorization", "X-Share-Token");;
                             });
                         });
 
@@ -88,6 +91,11 @@ namespace TravelService
                         builder.Services.AddScoped<IExpenseService, Services.Service.ExpenseService>();
                         builder.Services.AddScoped<IBudgetService, Services.Service.BudgetService>();
                         builder.Services.AddScoped<IChecklistService, Services.Service.ChecklistService>();
+
+                        builder.Services.AddHttpClient<IShareTokenValidator, ShareTokenValidator>(client =>
+                        {
+                            client.BaseAddress = new Uri("http://localhost:19081/Backend/SharingService/");
+                        });
 
                         builder.Services.AddControllers();
                         builder.Services.AddEndpointsApiExplorer();

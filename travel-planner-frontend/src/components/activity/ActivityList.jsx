@@ -6,10 +6,10 @@ import { ActivityStatusLabels } from "../../enums/ActivityStatus";
 export function ActivityList() {
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(false);
-    
     const { planId, selectedDate } = useParams();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const isReadOnly = searchParams.has('token');
 
     useEffect(() => {
         console.log(planId, selectedDate)
@@ -57,13 +57,19 @@ export function ActivityList() {
                             <span>
                                 {ActivityStatusLabels[act.status]}
                             </span>
-                            <button onClick={() => handleDelete(act.id)}>Obrisi</button>
-                            <button onClick={() => navigate(`/travel-plans/${act.id}/activities/edit`)}>Edit</button>
-                        </li>
+                            {isReadOnly && (
+                            <>
+                                <button onClick={() => handleDelete(act.id)}>Obrisi</button>
+                                <button onClick={() => navigate(`/travel-plans/${act.id}/activities/edit`)}>Edit</button>
+                            </>
+                        )}
+                    </li>
                     ))}
                 </ul>
             )}
-            <button onClick={() => navigate(`/travel-plans/${planId}/activities/new?date=${selectedDate}`)}>Dodaj aktivnost</button>
+            {isReadOnly && (
+                <button onClick={() => navigate(`/travel-plans/${planId}/activities/new?date=${selectedDate}`)}>Dodaj aktivnost</button>
+            )}
         </div>
     );
 }

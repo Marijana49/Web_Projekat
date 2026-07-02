@@ -25,7 +25,7 @@ export async function CreateShareLink(planId, accessType, expiresInDays = 7) {
 
 export async function ValidateShareToken(token){
     try{
-        const res = await axios.get(`${API_URL}/share-links/${token}/validate`);
+        const res = await axios.get(`${API_URL}/${token}/validate`);
         return res.data;
     } catch (error){
         console.error(error);
@@ -35,7 +35,7 @@ export async function ValidateShareToken(token){
 
 export async function RevokeShareLink(token){
     try{
-        const res = await axios.delete(`${API_URL}/share-links/${token}`, getAuthHeaders());
+        const res = await axios.delete(`${API_URL}/${token}`, getAuthHeaders());
         return res.data;
     } catch (error){
         console.error(error);
