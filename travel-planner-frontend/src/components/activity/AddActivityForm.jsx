@@ -103,7 +103,7 @@ export function AddActivityForm(){
 
     return(
     <>
-     <h1>Add new activity</h1>
+     <h1>Dodaj novu aktivnost</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
@@ -165,7 +165,7 @@ export function AddActivityForm(){
                 />
                 {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
 
-                <button type="submit">Create Activity</button>
+                <button type="submit">Dodaj</button>
             </form>
             <button onClick={() => navigate(`/travel-plans/${planId}/activities/${selectedDate}`)}>Preged aktivnosti</button>
         </>

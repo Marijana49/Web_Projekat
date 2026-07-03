@@ -92,12 +92,12 @@ export function AddDestionation(){
 
     return(
         <>
-            <h1>Add new destination</h1>
+            <h1>Dodavanje nove destinacije</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
                     type="text"
-                    placeholder="Destination Name"
+                    placeholder="Naziv destinacije"
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -107,7 +107,7 @@ export function AddDestionation(){
                 <textarea
                     type="text"
                     name="location"
-                    placeholder="Location"
+                    placeholder="Lokacija"
                     value={formData.location}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -118,7 +118,7 @@ export function AddDestionation(){
                     type="date"
                     name="arrivalDate"
                     min={today}
-                    placeholder="Arrival Date"
+                    placeholder="Datum dolaska"
                     value={formData.arrivalDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -129,7 +129,7 @@ export function AddDestionation(){
                     type="date"
                     name="departureDate"
                     min={formData.startDate || today}
-                    placeholder="Deparature Date"
+                    placeholder="Datum polaska"
                     value={formData.departureDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -139,14 +139,14 @@ export function AddDestionation(){
                 <textarea
                     type="text"
                     name="description"
-                    placeholder="Description"
+                    placeholder="Opis"
                     value={formData.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
                 {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
 
-                <button type="submit">Create Destination</button>
+                <button type="submit">Dodaj</button>
             </form>
         </>
     )

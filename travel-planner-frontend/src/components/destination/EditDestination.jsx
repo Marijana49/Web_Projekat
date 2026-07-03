@@ -96,12 +96,12 @@ export function EditDestinationForm(){
 
     return(
         <>
-            <h1>Edit destination</h1>
+            <h1>Ažurirajte destinaciju</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
                     type="text"
-                    placeholder="Destination Name"
+                    placeholder="Naziv destinacije"
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -111,7 +111,7 @@ export function EditDestinationForm(){
                 <textarea
                     type="text"
                     name="location"
-                    placeholder="Location"
+                    placeholder="Lokacija"
                     value={formData.location}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -124,7 +124,7 @@ export function EditDestinationForm(){
                     //min={today}
                     min={planDates.start} 
                     max={planDates.end}
-                    placeholder="Arrival Date"
+                    placeholder="Datum dolaska"
                     value={formData.arrivalDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -137,7 +137,7 @@ export function EditDestinationForm(){
                     //min={formData.arrivalDate || today}
                     min={formData.arrivalDate || planDates.start} 
                     max={planDates.end}
-                    placeholder="Deparature Date"
+                    placeholder="Datum odlaska"
                     value={formData.departureDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -147,14 +147,14 @@ export function EditDestinationForm(){
                 <textarea
                     type="text"
                     name="description"
-                    placeholder="Description"
+                    placeholder="Opis"
                     value={formData.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
                 {errors.description && <span style={{color: 'red'}}>{errors.description}</span>}
 
-                <button type="submit">Edit Destination</button>
+                <button type="submit">Ažuriraj</button>
             </form>
         </>
     )

@@ -61,13 +61,13 @@ export function EditTravelPlanForm(){
 
     return(
         <>
-            <h1>Edit travel plan</h1>
+            <h1>Ažuriraj plan putovanja</h1>
             <button type="button" onClick={() => navigate(`/travel-plans`)}>Nazad</button>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
                     type="text"
-                    placeholder="Plan Name"
+                    placeholder="Naziv plana"
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -77,7 +77,7 @@ export function EditTravelPlanForm(){
                 <textarea
                     type="text"
                     name="description"
-                    placeholder="Plan Description"
+                    placeholder="Opis plana"
                     value={formData.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -88,7 +88,7 @@ export function EditTravelPlanForm(){
                     type="date"
                     name="startDate"
                     min={today}
-                    placeholder="Start Date"
+                    placeholder="Početni datum"
                     value={formData.startDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -99,7 +99,7 @@ export function EditTravelPlanForm(){
                     type="date"
                     name="endDate"
                     min={formData.startDate || today}
-                    placeholder="End Date"
+                    placeholder="Krajji datum"
                     value={formData.endDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -109,7 +109,7 @@ export function EditTravelPlanForm(){
                 <input
                     type="number"
                     name="budget"
-                    placeholder="Planed budget"
+                    placeholder="Planirani budžet"
                     value={formData.budget}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -119,14 +119,14 @@ export function EditTravelPlanForm(){
                 <textarea
                     type="text"
                     name="notes"
-                    placeholder="Notes"
+                    placeholder="Bilješke"
                     value={formData.notes}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
                 {errors.notes && <span style={{color: 'red'}}>{errors.notes}</span>}
                 
-                <button type="submit">Edit Plan</button>
+                <button type="submit">Ažuriraj</button>
             </form>
         </>
     )

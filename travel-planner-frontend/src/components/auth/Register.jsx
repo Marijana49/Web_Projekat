@@ -58,11 +58,11 @@ export function RegisterForm(){
 
     return(
         <>
-        <h1>Register</h1>
+        <h1>Registracija</h1>
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                placeholder="Name"
+                placeholder="Ime"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             />
@@ -78,13 +78,13 @@ export function RegisterForm(){
 
             <input
                 type="password"
-                placeholder="Password"
+                placeholder="Lozinka"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
             {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
 
-            <button type="submit">Register</button>
+            <button type="submit">Registruj se</button>
         </form>
         </>
     )

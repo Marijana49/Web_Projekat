@@ -39,8 +39,6 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
                 )}
             </div>
 
-            <p>Budžet: {plan.budget} €</p>
-
             <div className="budget-summary">
                 <p>Planirani budžet: {budgetData.budget} €</p>
                 <p>Potrošeno: {budgetData.totalExpenses} €</p>
@@ -61,7 +59,7 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
                         Dodaj trošak
                     </button>
                     <button onClick={() => navigate(`/travel-plans/${id}/checklists`)}>
-                        Checklist
+                        Checklist za put
                     </button>
                 </>
             )}

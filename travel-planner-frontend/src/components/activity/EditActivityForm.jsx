@@ -93,12 +93,12 @@ export function EditActivityForm(){
 
     return(
         <>
-            <h1>Edit activity</h1>
+            <h1>Ažuriraj aktivnost</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
                     type="text"
-                    placeholder="Activity Name"
+                    placeholder="Naziv aktinosti"
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -108,7 +108,7 @@ export function EditActivityForm(){
                 <input
                     type="date"
                     name="date"
-                    placeholder="Date"
+                    placeholder="Datum"
                     value={formData.date}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -118,7 +118,7 @@ export function EditActivityForm(){
                 <input
                     type="time"
                     name="time"
-                    placeholder="Time"
+                    placeholder="Vrijeme"
                     value={formData.time}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -128,7 +128,7 @@ export function EditActivityForm(){
                 <input
                     type="text"
                     name="location"
-                    placeholder="Location"
+                    placeholder="Lokacija"
                     value={formData.location}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -138,7 +138,7 @@ export function EditActivityForm(){
                 <textarea
                     type="text"
                     name="description"
-                    placeholder="Description"
+                    placeholder="Opis"
                     value={formData.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -148,7 +148,7 @@ export function EditActivityForm(){
                 <input
                     type="number"
                     name="budget"
-                    placeholder="Planed budget"
+                    placeholder="Planirani budžett"
                     value={formData.budget}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -163,7 +163,7 @@ export function EditActivityForm(){
                         </option>
                     ))}
                 </select>
-                <button type="submit">Edit Activity</button>
+                <button type="submit">Ažuriraj</button>
             </form>
         </>
     )

@@ -72,12 +72,12 @@ export function CreatePlan(){
 
     return(
         <>
-            <h1>Create new travel plan</h1>
+            <h1>Dodaj novi plan putovanja</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
                     type="text"
-                    placeholder="Plan Name"
+                    placeholder="Naziv plana"
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -87,7 +87,7 @@ export function CreatePlan(){
                 <textarea
                     type="text"
                     name="description"
-                    placeholder="Plan Description"
+                    placeholder="Opis plana"
                     value={formData.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -98,7 +98,7 @@ export function CreatePlan(){
                     type="date"
                     name="startDate"
                     min={today}
-                    placeholder="Start Date"
+                    placeholder="Početni datum"
                     value={formData.startDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -109,7 +109,7 @@ export function CreatePlan(){
                     type="date"
                     name="endDate"
                     min={formData.startDate || today}
-                    placeholder="End Date"
+                    placeholder="Krajnji datum"
                     value={formData.endDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -119,7 +119,7 @@ export function CreatePlan(){
                 <input
                     type="number"
                     name="budget"
-                    placeholder="Planed budget"
+                    placeholder="Planirani budžett"
                     value={formData.budget}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -129,14 +129,14 @@ export function CreatePlan(){
                 <textarea
                     type="text"
                     name="notes"
-                    placeholder="Notes"
+                    placeholder="Bilješke"
                     value={formData.notes}
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
                 {errors.notes && <p style={{ color: "red", fontSize: "12px" }}>{errors.notes}</p>}
 
-                <button type="submit">Create Plan</button>
+                <button type="submit">Dodaj</button>
             </form>
         </>
     )

@@ -55,7 +55,7 @@ export function LogInForm({onSuccess}){
 
 return (
     <div>
-        <h1>Log in</h1>
+        <h1>Prijava</h1>
         <form onSubmit={handleSubmit}>
             <input
                 type="email"
@@ -67,15 +67,15 @@ return (
 
             <input
                 type="password"
-                placeholder="Password"
+                placeholder="Lozinka"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
             {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
 
-            <button type="submit">Log in</button>
+            <button type="submit">Prijavi se</button>
             <p style={{ marginTop: "15px" }}>
-                No account? <Link to="/register">Regiser</Link>
+                Nemate nalog? <Link to="/register">Registruj se</Link>
             </p>
         </form>
     </div>

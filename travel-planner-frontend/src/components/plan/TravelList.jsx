@@ -37,21 +37,21 @@ export function TravelList (){
 
     return(
         <>
-        <h2>List of Travel Plans</h2>
+        <h2>Lista planova putovanja</h2>
         <button type="button" onClick={() => navigate(`/`)}>Nazad</button>
         {travelPlans.length === 0 ? (
-            <p>No plans created yet</p>
+            <p>Nemate kreiranih planova putovanja</p>
         ) : (
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Naziv</th>
                         {user.role === "ADMIN" && <th>Owner ID</th>}
-                        <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Budget</th>
-                        <th>Notes</th>
+                        <th>Opis plana</th>
+                        <th>Početni datum</th>
+                        <th>Krajnji datum</th>
+                        <th>Planirani budžet</th>
+                        <th>Bilješke</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,8 +66,8 @@ export function TravelList (){
                             <td>{plan.notes}</td>
                             <td>
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}/details`)}> Pregled detalja</button>
-                                <button onClick={() => navigate(`/travel-plans/${plan.id}`)}>Edit</button>
-                                <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Delete</button>
+                                <button onClick={() => navigate(`/travel-plans/${plan.id}`)}>Ažuriraj</button>
+                                <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Obriši</button>
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations/new`)}>Dodaj destinaciju</button>
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations`)}>Pregledaj destinacije</button>
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}/calendars`)}>Otvori kalendar</button>

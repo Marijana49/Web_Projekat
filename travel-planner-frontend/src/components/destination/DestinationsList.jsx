@@ -30,18 +30,18 @@ export function DestinationsList({ planId: externalPlanId, readOnly, shareToken 
 
    return(
         <>
-            <h2>Destinations for Travel Plans</h2>            
+            <h2>Destinacije plana putovanja</h2>            
             {destinations.length === 0 ? (
-                <p>No destinations created yet</p>
+                <p>Trenutno nemate destinacije za ovaj plan</p>
             ) : (
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Arrival Date</th>
-                            <th>Departure Date</th>
-                            <th>Description</th>
+                            <th>Naziv</th>
+                            <th>Lokacija</th>
+                            <th>Datum dolaska</th>
+                            <th>Datum odlaska</th>
+                            <th>Opis</th>
                         </tr>
                     </thead>
                     <tbody>
