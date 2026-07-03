@@ -21,7 +21,7 @@ export const ValidateCreateDestinationForm = (values, planDates) => {
     }
     
     if (!values.description) {
-        errors.description = "Unesite opis plana!";
+        errors.description = "Unesite opis!";
     }
 
     if (arrivalDate && departureDate && planStart && planEnd) {
@@ -37,7 +37,7 @@ export const ValidateEditDestinationForm = (values, planDates) => {
     let errors = {};
 
     if (values.name !== undefined && !values.name.trim()) {
-        errors.name = "Unesite naziv plana putovanja!";
+        errors.name = "Unesite naziv!";
     }
 
    if (planDates && values.arrivalDate && values.departureDate) {
@@ -51,16 +51,16 @@ export const ValidateEditDestinationForm = (values, planDates) => {
         }
         
         if (departure < arrival) {
-            errors.departureDate = "Datum odlaska ne može biti pre dolaska!";
+            errors.departureDate = "Datum odlaska ne može biti prije dolaska!";
         }
     }
 
     if(values.location !== undefined && values.location.trim() === ""){
-        errors.location = "Unesite opis plana!";
+        errors.location = "Unesite lokaciju!";
     }
 
     if(values.description !== undefined && values.description.trim() === ""){
-        errors.description = "Unesite opis plana!";
+        errors.description = "Unesite opis!";
     }
 
     return errors;

@@ -54,11 +54,11 @@ namespace TravelService
                         {
                             options.AddPolicy("AllowReactApp", policy =>
                             {
-                                policy.WithOrigins("http://localhost:5173")
-                                .AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .WithHeaders("Content-Type", "Authorization", "X-Share-Token");;
+                                policy.SetIsOriginAllowed(origin =>
+                                        origin.StartsWith("http://localhost:5173") ||
+                                        origin.StartsWith("http://192.168."))
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
                             });
                         });
 

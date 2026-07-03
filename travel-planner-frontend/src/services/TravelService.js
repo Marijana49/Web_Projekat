@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetValueByKey } from "../helpers/LocalStorage";
-
-const API_URL = import.meta.env.VITE_TRAVEL_API_URL;
+import { TRAVEL_API_URL } from "../helpers/ApiConfig";
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
@@ -13,7 +12,7 @@ const getAuthHeaders = () => {
 
 export async function CreateTravelPlan(planData){
     try{
-        const res = await axios.post(`${API_URL}/newPlan`, planData, getAuthHeaders());
+        const res = await axios.post(`${TRAVEL_API_URL}/newPlan`, planData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -23,7 +22,7 @@ export async function CreateTravelPlan(planData){
 
 export async function GetAllTravelPlans(){
     try{
-        const res = await axios.get(`${API_URL}/plans`, getAuthHeaders());
+        const res = await axios.get(`${TRAVEL_API_URL}/plans`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -33,7 +32,7 @@ export async function GetAllTravelPlans(){
 
 export async function GetUserTravelPlans(id){
     try{
-        const res = await axios.get(`${API_URL}/${id}/plans`, getAuthHeaders());
+        const res = await axios.get(`${TRAVEL_API_URL}/${id}/plans`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -43,7 +42,7 @@ export async function GetUserTravelPlans(id){
 
 export async function DeleteTravelPlan(id){
     try{
-        const res = await axios.delete(`${API_URL}/deletePlan/${id}`, getAuthHeaders());
+        const res = await axios.delete(`${TRAVEL_API_URL}/deletePlan/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -56,7 +55,7 @@ export async function GetPlanById(id, shareToken = null){
         const headers = shareToken 
             ? { headers: { "X-Share-Token": shareToken } }
             : getAuthHeaders();
-        const res = await axios.get(`${API_URL}/${id}`, headers);
+        const res = await axios.get(`${TRAVEL_API_URL}/${id}`, headers);
         return res.data;
     } catch(error){
         console.error(error);
@@ -66,25 +65,10 @@ export async function GetPlanById(id, shareToken = null){
 
 export async function EditTravelPlan(id, planData){
     try{
-        const res = await axios.patch(`${API_URL}/edit/${id}`, planData, getAuthHeaders());
+        const res = await axios.patch(`${TRAVEL_API_URL}/edit/${id}`, planData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
-        throw error;
-    }
-};
-
-export const GetSharedPlanPublic = async (planId, shareToken) => {
-    try {
-        const response = await axios.get(`${API_URL}/${planId}`, {
-            headers: {
-                'X-Share-Token': shareToken,
-                'Authorization': undefined 
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Direktni zahtev nije uspeo:", error);
         throw error;
     }
 };

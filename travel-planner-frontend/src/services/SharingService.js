@@ -1,7 +1,6 @@
 import axios from "axios"
 import { GetValueByKey } from "../helpers/LocalStorage"
-
-const API_URL = import.meta.env.VITE_SHARING_API_URL;
+import { SHARING_API_URL } from "../helpers/ApiConfig";
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
@@ -17,7 +16,7 @@ const getAuthHeaders = () => {
 
 export async function CreateShareLink(planId, accessType, expiresInDays = 7) {
   try {
-    const res = await axios.post(`${API_URL}`, {
+    const res = await axios.post(`${SHARING_API_URL}`, {
       planId,
       accessType,
       expiresInDays
@@ -30,7 +29,7 @@ export async function CreateShareLink(planId, accessType, expiresInDays = 7) {
 
 export async function ValidateShareToken(token){
     try{
-        const res = await axios.get(`${API_URL}/${token}/validate`);
+        const res = await axios.get(`${SHARING_API_URL}/${token}/validate`);
         return res.data;
     } catch (error){
         console.error(error);
@@ -40,7 +39,7 @@ export async function ValidateShareToken(token){
 
 export async function RevokeShareLink(token){
     try{
-        const res = await axios.delete(`${API_URL}/${token}`, getAuthHeaders());
+        const res = await axios.delete(`${SHARING_API_URL}/${token}`, getAuthHeaders());
         return res.data;
     } catch (error){
         console.error(error);

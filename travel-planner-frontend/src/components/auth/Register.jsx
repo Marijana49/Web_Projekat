@@ -57,7 +57,7 @@ export function RegisterForm(){
     }
 
     return(
-        <>
+        <div className="login-container">
         <h1>Registracija</h1>
         <form onSubmit={handleSubmit}>
             <input
@@ -66,7 +66,7 @@ export function RegisterForm(){
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             />
-            {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+            {errors.name && <p className="error-text">{errors.name}</p>}
 
             <input
                 type="email"
@@ -74,7 +74,7 @@ export function RegisterForm(){
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            {errors.email && <p style={{ color: "red", fontSize: "12px" }}>{errors.email}</p>}
+            {errors.email && <p className="error-text">{errors.email}</p>}
 
             <input
                 type="password"
@@ -82,10 +82,16 @@ export function RegisterForm(){
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
+            {errors.password && <p className="error-text">{errors.password}</p>}
+                
+                {errors.form && <p className="error-text" style={{textAlign: 'center'}}>{errors.form}</p>}
 
             <button type="submit">Registruj se</button>
+
+            <p>
+                Već imate nalog? <Link to="/login">Prijavi se</Link>
+            </p>
         </form>
-        </>
+        </div>
     )
 };

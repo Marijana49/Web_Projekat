@@ -111,7 +111,7 @@ namespace TravelService.Services.Service
 
         public async Task UpdateActivityAsync(int id, UpdateActivityDto updateActivityDto)
         {
-            var activity = await _context.Activitys.FindAsync(id);
+            var activity = await _context.Activitys.Include(a => a.TravelPlan).FirstOrDefaultAsync(a => a.Id == id);
 
             if (activity == null)
             {

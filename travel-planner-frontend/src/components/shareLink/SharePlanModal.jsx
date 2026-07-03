@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { CreateShareLink, RevokeShareLink } from "../../services/SharingService";
 import QRCode from "react-qr-code";
+import { FRONTEND_BASE_URL } from "../../helpers/ApiConfig";
 
 export const SharePlanModal = ({ planId, onClose }) => {
     const [accessType, setAccessType] = useState(0);
     const [shareLink, setShareLink] = useState(null);
     const [loading, setLoading] = useState(false);
-    const baseUrl = import.meta.env.VITE_FRONTEND_BASE_URL;
 
     const handleCreate = async () => {
         setLoading(true);
         try{
             const res = await CreateShareLink(planId, accessType);
-            const fullUrl = `${baseUrl}/shared/${res.token}`;
+            const fullUrl = `${FRONTEND_BASE_URL}/shared/${res.token}`;
             setShareLink({...res, fullUrl});
         } catch (error){
             console.error(error);

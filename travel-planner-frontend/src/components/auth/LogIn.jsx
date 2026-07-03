@@ -50,11 +50,12 @@ export function LogInForm({onSuccess}){
             }
         } catch(error){
             console.log(error);
+            setErrors({ form: "Neuspješna prijava. Provjerite podatke." });
         }
     };
 
 return (
-    <div>
+    <div className="login-container">
         <h1>Prijava</h1>
         <form onSubmit={handleSubmit}>
             <input
@@ -63,7 +64,7 @@ return (
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            {errors.email && <p style={{ color: "red", fontSize: "12px" }}>{errors.email}</p>}
+            {errors.email && <p className="error-text">{errors.email}</p>}
 
             <input
                 type="password"
@@ -71,7 +72,8 @@ return (
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
+            {errors.password && <p className="error-text">{errors.password}</p>}
+            {errors.form && <p className="error-text" style={{textAlign: 'center'}}>{errors.form}</p>}
 
             <button type="submit">Prijavi se</button>
             <p style={{ marginTop: "15px" }}>

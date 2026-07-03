@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetValueByKey } from "../helpers/LocalStorage";
-
-const API_URL = import.meta.env.VITE_TRAVEL_API_URL;
+import { TRAVEL_API_URL } from "../helpers/ApiConfig";
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
@@ -12,7 +11,7 @@ const getAuthHeaders = () => {
 
 export async function AddNewDestination(id, destData){
     try{
-        const res = await axios.post(`${API_URL}/newDestination/${id}`, destData, getAuthHeaders());
+        const res = await axios.post(`${TRAVEL_API_URL}/newDestination/${id}`, destData, getAuthHeaders());
         return res;
     } catch(error){
         console.error(error);
@@ -25,7 +24,7 @@ export async function GetTravelPlanDestinations(id, shareToken = null){
         const headers = shareToken 
             ? { headers: { "X-Share-Token": shareToken } }
             : getAuthHeaders();
-        const res = await axios.get(`${API_URL}/travel-plans/destinations/${id}`, headers);
+        const res = await axios.get(`${TRAVEL_API_URL}/travel-plans/destinations/${id}`, headers);
         return res.data;
     } catch(error){
         console.error(error);
@@ -35,7 +34,7 @@ export async function GetTravelPlanDestinations(id, shareToken = null){
 
 export async function DeleteDestination(id){
     try{
-        const res = await axios.delete(`${API_URL}/destinations/delete/${id}`, getAuthHeaders());
+        const res = await axios.delete(`${TRAVEL_API_URL}/destinations/delete/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -45,7 +44,7 @@ export async function DeleteDestination(id){
 
 export async function GetDestinationById(id){
     try{
-        const res = await axios.get(`${API_URL}/destinations/${id}`, getAuthHeaders());
+        const res = await axios.get(`${TRAVEL_API_URL}/destinations/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -55,7 +54,7 @@ export async function GetDestinationById(id){
 
 export async function EditDestination(id, destinationData) {
     try{
-        const res = await axios.patch(`${API_URL}/destinations/edit/${id}`, destinationData, getAuthHeaders());
+        const res = await axios.patch(`${TRAVEL_API_URL}/destinations/edit/${id}`, destinationData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetValueByKey } from "../helpers/LocalStorage";
-
-const API_URL = import.meta.env.VITE_TRAVEL_API_URL;
+import { TRAVEL_API_URL } from "../helpers/ApiConfig";
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
@@ -13,7 +12,7 @@ const getAuthHeaders = () => {
 
 export async function AddNewExpens(data){
     try{
-        const res = await axios.post(`${API_URL}/expenses`, data, getAuthHeaders());
+        const res = await axios.post(`${TRAVEL_API_URL}/expenses`, data, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -23,7 +22,7 @@ export async function AddNewExpens(data){
 
 export async function GetAllExpensesByPlanId(id){
     try{
-        const res = await axios.get(`${API_URL}/expenses/${id}`, getAuthHeaders());
+        const res = await axios.get(`${TRAVEL_API_URL}/expenses/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -33,7 +32,7 @@ export async function GetAllExpensesByPlanId(id){
 
 export async function GetBudgetSummary(planId) {
     try {
-        const response = await axios.get(`${API_URL}/summary/${planId}`);
+        const response = await axios.get(`${TRAVEL_API_URL}/summary/${planId}`);
         return response.data;
     } catch (error) {
         console.error("Greška pri učitavanju budžeta:", error);

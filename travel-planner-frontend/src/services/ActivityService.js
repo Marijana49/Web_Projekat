@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetValueByKey } from "../helpers/LocalStorage";
-
-const API_URL = import.meta.env.VITE_TRAVEL_API_URL;
+import { TRAVEL_API_URL } from "../helpers/ApiConfig";
 
 const getAuthHeaders = () => {
     const token = GetValueByKey("authToken");
@@ -13,7 +12,7 @@ const getAuthHeaders = () => {
 
 export async function AddNewActivity(id, data){
     try{
-        const res = await axios.post(`${API_URL}/activities/${id}`, data, getAuthHeaders());
+        const res = await axios.post(`${TRAVEL_API_URL}/activities/${id}`, data, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -26,7 +25,7 @@ export async function GetActivitiesByDate(id, date, shareToken = null){
         const headers = shareToken 
             ? { headers: { "X-Share-Token": shareToken } }
             : getAuthHeaders();
-        const res = await axios.get(`${API_URL}/activities/${id}/${date}`, headers);
+        const res = await axios.get(`${TRAVEL_API_URL}/activities/${id}/${date}`, headers);
         return res.data;
     } catch(error){
         console.error(error);
@@ -36,7 +35,7 @@ export async function GetActivitiesByDate(id, date, shareToken = null){
 
 export async function DeleteActivity(id){
     try{
-        const res = await axios.delete(`${API_URL}/activities/${id}`, getAuthHeaders());
+        const res = await axios.delete(`${TRAVEL_API_URL}/activities/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -46,7 +45,7 @@ export async function DeleteActivity(id){
 
 export async function EditActivity(id, activityData){
     try{
-        const res = await axios.patch(`${API_URL}/activities/edit/${id}`, activityData, getAuthHeaders());
+        const res = await axios.patch(`${TRAVEL_API_URL}/activities/edit/${id}`, activityData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -56,7 +55,7 @@ export async function EditActivity(id, activityData){
 
 export async function GetActivityById(id){
     try{
-        const res = await axios.get(`${API_URL}/activities/${id}`, getAuthHeaders());
+        const res = await axios.get(`${TRAVEL_API_URL}/activities/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
