@@ -84,11 +84,6 @@ namespace TravelService.Services.Service
                 throw new KeyNotFoundException("Plan ne postoji!");
             }
 
-            if (plan.StartDate < DateOnly.FromDateTime(DateTime.UtcNow))
-            {
-                throw new ArgumentException("Početni datum ne može biti u prošlosti!");
-            }
-
             return new TravelPlanDto
             {
                 Id = plan.Id,

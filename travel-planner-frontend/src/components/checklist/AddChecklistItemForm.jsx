@@ -26,46 +26,21 @@ export function AddChecklistItemForm({ onAdd }) {
     };
 
     return (
-        <form 
-            onSubmit={handleSubmit} 
-            style={{ 
-                display: "flex", 
-                gap: "10px", 
-                marginBottom: "20px",
-                padding: "10px",
-                background: "#f9f9f9",
-                borderRadius: "8px",
-                border: "1px solid #ddd"
-            }}
-        >
-            <input 
-                type="text" 
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="Dodaj stavku (npr. Pasoš)..."
-                style={{ 
-                    flexGrow: 1, 
-                    padding: "8px", 
-                    borderRadius: "4px", 
-                    border: "1px solid #ccc" 
-                }}
-            />
-            {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
-            
-            <button 
-                type="submit"
-                style={{ 
-                    padding: "8px 16px", 
-                    backgroundColor: "#007bff", 
-                    color: "white", 
-                    border: "none", 
-                    borderRadius: "4px", 
-                    cursor: "pointer" 
-                }}
-            >
-                Dodaj
-            </button>
+        <form onSubmit={handleSubmit} className="checklist-add-form">
+            <div className="input-row">
+                <input 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onBlur={handleBlur}
+                    placeholder="Dodaj stavku (npr. Pasoš)..."
+                    className="checklist-input"
+                />
+                <button type="submit" className="add-btn">
+                    Dodaj
+                </button>
+            </div>
+            {errors.name && <p className="error-text" style={{ margin: 0 }}>{errors.name}</p>}
         </form>
     );
 }

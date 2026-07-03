@@ -91,69 +91,83 @@ export function AddExpensForm(){
         }
         
     return (
-    <form onSubmit={handleSubmit}>
-        <h3>Dodaj novi trošak</h3>
+        <div className="login-container">
+            <h2 style={{ textAlign: 'center' }}>Dodaj novi trošak</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Naziv troška:</label>
+                    <input 
+                        type="text" 
+                        name="name" 
+                        placeholder="Npr. Ručak"
+                        value={formData.name} 
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    {errors.name && <p className="error-text">{errors.name}</p>}
+                </div>
 
-        <div>
-        <label>Naziv troška:</label>
-        <input 
-            type="text" 
-            name="name" 
-            value={formData.name} 
-            onChange={handleChange}
-            onBlur={handleBlur}
-        />
+                <div className="form-group">
+                    <label>Iznos:</label>
+                    <input 
+                        type="number" 
+                        name="amount" 
+                        placeholder="0.00"
+                        value={formData.amount} 
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    {errors.amount && <p className="error-text">{errors.amount}</p>}
+                </div>
+
+                <div className="form-group">
+                <label>Kategorija:</label>
+                <div className="category-grid">
+                    {Object.entries(ExpenseCategory).map(([key, value]) => (
+                        <label key={value} className="category-card">
+                            <input 
+                                type="radio" 
+                                name="category" 
+                                value={value} 
+                                checked={Number(formData.category) === Number(value)}
+                                onChange={handleChange} 
+                            />
+                            {ExpenseCategoryLabels[value]}
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+                <div className="form-group">
+                    <label>Datum:</label>
+                    <input 
+                        type="date" 
+                        name="date" 
+                        min={travelPlan?.startDate}
+                        max={travelPlan?.endDate}
+                        value={formData.date} 
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    {errors.date && <p className="error-text">{errors.date}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label>Opis:</label>
+                    <textarea 
+                        name="description" 
+                        placeholder="Dodatni detalji..."
+                        value={formData.description} 
+                        onChange={handleChange}
+                        onBlur={handleBlur} 
+                    />
+                    {errors.description && <p className="error-text">{errors.description}</p>}
+                </div>
+
+                <button type="submit" className="primary-btn" style={{ width: '100%' }}>
+                    Sačuvaj trošak
+                </button>
+            </form>
         </div>
-        {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
-
-        <div>
-        <label>Iznos:</label>
-        <input 
-            type="number" 
-            name="amount" 
-            value={formData.amount} 
-            onChange={handleChange}
-            onBlur={handleBlur}
-        />
-        </div>
-        {errors.amount && <p style={{ color: "red", fontSize: "12px" }}>{errors.amount}</p>}
-
-        <div>
-        <label>Kategorija:</label>
-        <select name="category" value={formData.category} onChange={handleChange} onBlur={handleBlur}>
-            {Object.entries(ExpenseCategory).map(([key, value]) => (
-            <option key={value} value={value}>
-                {ExpenseCategoryLabels[value]}
-            </option>
-            ))}
-        </select>
-        </div>
-        {errors.category && <p style={{ color: "red", fontSize: "12px" }}>{errors.category}</p>}
-
-        <div>
-        <label>Datum:</label>
-        <input 
-            type="date" 
-            name="date" 
-            value={formData.date} 
-            onChange={handleChange}
-            onBlur={handleBlur}
-        />
-        </div>
-        {errors.date && <p style={{ color: "red", fontSize: "12px" }}>{errors.date}</p>}
-
-        <div>
-        <label>Opis:</label>
-        <textarea 
-            name="description" 
-            value={formData.description} 
-            onChange={handleChange}
-            onBlur={handleBlur} 
-        />
-        </div>
-        {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
-
-        <button type="submit">Sačuvaj trošak</button>
-    </form>
     );
 }

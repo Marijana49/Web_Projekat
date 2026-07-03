@@ -85,86 +85,73 @@ export function EditActivityForm(){
         try {
             await EditActivity(planId, activityData);
             alert("Aktivnost ažurirana!");
-           // navigate(`/travel-plans/destinations/${formData.travelPlanId}`);
+            navigate(`/travel-plans/${planId}/details`);
         } catch (error) {
             console.error(error);
         }
     }
 
-    return(
-        <>
-            <h1>Ažuriraj aktivnost</h1>
+    return (
+        <div className="login-container">
+            <h1 style={{ textAlign: 'center' }}>Ažuriraj aktivnost</h1>
             <form onSubmit={handleSubmit}>
-                <input
-                    name="name"
-                    type="text"
-                    placeholder="Naziv aktinosti"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.name && <span style={{color: 'red'}}>{errors.name}</span>}
+                <div className="form-group">
+                    <label>Naziv aktivnosti:</label>
+                    <input name="name" type="text" value={formData.name} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.name && <p className="error-text">{errors.name}</p>}
+                </div>
 
-                <input
-                    type="date"
-                    name="date"
-                    placeholder="Datum"
-                    value={formData.date}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.date && <span style={{color: 'red'}}>{errors.date}</span>}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Datum:</label>
+                        <input type="date" name="date" min={planDates.start} max={planDates.end} value={formData.date} onChange={handleChange} onBlur={handleBlur} />
+                    </div>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Vrijeme:</label>
+                        <input type="time" name="time" value={formData.time} onChange={handleChange} onBlur={handleBlur} />
+                    </div>
+                </div>
+                {errors.date && <p className="error-text">{errors.date}</p>}
+                {errors.time && <p className="error-text">{errors.time}</p>}
 
-                <input
-                    type="time"
-                    name="time"
-                    placeholder="Vrijeme"
-                    value={formData.time}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.time && <span style={{color: 'red'}}>{errors.time}</span>}
+                <div className="form-group">
+                    <label>Lokacija:</label>
+                    <input type="text" name="location" value={formData.location} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.location && <p className="error-text">{errors.location}</p>}
+                </div>
 
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Lokacija"
-                    value={formData.location}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.location && <span style={{color: 'red'}}>{errors.location}</span>}
+                <div className="form-group">
+                    <label>Opis:</label>
+                    <textarea name="description" value={formData.description} onChange={handleChange} onBlur={handleBlur} />
+                </div>
 
-                <textarea
-                    type="text"
-                    name="description"
-                    placeholder="Opis"
-                    value={formData.description}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.description && <span style={{color: 'red'}}>{errors.description}</span>}
+                <div className="form-group">
+                    <label>Budžet:</label>
+                    <input type="number" name="budget" value={formData.budget} onChange={handleChange} onBlur={handleBlur} />
+                </div>
 
-                <input
-                    type="number"
-                    name="budget"
-                    placeholder="Planirani budžett"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.budget && <span style={{color: 'red'}}>{errors.budget}</span>}
-
-                <label>Status:</label>
-                <select name="status" value={formData.status} onChange={handleChange}>
+                <div className="form-group">
+                <label>Status aktivnosti:</label>
+                <div className="status-grid">
                     {Object.entries(ActivityStatus).map(([key, value]) => (
-                        <option key={value} value={value}>
-                            {key} 
-                        </option>
-                    ))}
-                </select>
-                <button type="submit">Ažuriraj</button>
+                        <label key={value} className="status-card">
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value={value} 
+                                    checked={Number(formData.status) === Number(value)}
+                                    onChange={handleChange} 
+                                />
+                                {key}
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                <button type="submit" className="primary-btn" style={{ width: '100%', marginTop: '10px' }}>
+                    Ažuriraj
+                </button>
             </form>
-        </>
+        </div>
     )
 }

@@ -90,64 +90,45 @@ export function AddDestionation(){
         }
     }
 
-    return(
-        <>
-            <h1>Dodavanje nove destinacije</h1>
+    return (
+        <div className="login-container">
+            <h2 style={{ textAlign: 'center' }}>Dodavanje nove destinacije</h2>
             <form onSubmit={handleSubmit}>
-                <input
-                    name="name"
-                    type="text"
-                    placeholder="Naziv destinacije"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+                <div className="form-group">
+                    <label>Naziv destinacije:</label>
+                    <input name="name" type="text" placeholder="Npr. Pariz" value={formData.name} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.name && <p className="error-text">{errors.name}</p>}
+                </div>
 
-                <textarea
-                    type="text"
-                    name="location"
-                    placeholder="Lokacija"
-                    value={formData.location}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
+                <div className="form-group">
+                    <label>Lokacija:</label>
+                    <input type="text" name="location" placeholder="Adresa ili regija" value={formData.location} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.location && <p className="error-text">{errors.location}</p>}
+                </div>
 
-                <input
-                    type="date"
-                    name="arrivalDate"
-                    min={today}
-                    placeholder="Datum dolaska"
-                    value={formData.arrivalDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.arrivalDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.arrivalDate}</p>}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Datum dolaska:</label>
+                        <input type="date" name="arrivalDate" min={travelPlan?.startDate.split("T")[0]} max={travelPlan?.endDate.split("T")[0]} value={formData.arrivalDate} onChange={handleChange} onBlur={handleBlur} />
+                    </div>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Datum polaska:</label>
+                        <input type="date" name="departureDate" min={formData.arrivalDate || travelPlan?.startDate.split("T")[0]} max={travelPlan?.endDate.split("T")[0]} value={formData.departureDate} onChange={handleChange} onBlur={handleBlur} />
+                    </div>
+                </div>
+                {errors.arrivalDate && <p className="error-text">{errors.arrivalDate}</p>}
+                {errors.departureDate && <p className="error-text">{errors.departureDate}</p>}
 
-                <input
-                    type="date"
-                    name="departureDate"
-                    min={formData.startDate || today}
-                    placeholder="Datum polaska"
-                    value={formData.departureDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.departureDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.departureDate}</p>}
+                <div className="form-group">
+                    <label>Opis:</label>
+                    <textarea name="description" placeholder="Unesite opis..." value={formData.description} onChange={handleChange} />
+                    {errors.description && <p className="error-text">{errors.description}</p>}
+                </div>
 
-                <textarea
-                    type="text"
-                    name="description"
-                    placeholder="Opis"
-                    value={formData.description}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
-
-                <button type="submit">Dodaj</button>
+                <button type="submit" className="primary-btn" style={{ width: '100%' }}>
+                    Dodaj destinaciju
+                </button>
             </form>
-        </>
-    )
+        </div>
+    );
 }

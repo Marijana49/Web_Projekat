@@ -38,7 +38,6 @@ export function TravelList (){
     return(
         <>
         <h2>Lista planova putovanja</h2>
-        <button type="button" onClick={() => navigate(`/`)}>Nazad</button>
         {travelPlans.length === 0 ? (
             <p>Nemate kreiranih planova putovanja</p>
         ) : (

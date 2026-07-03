@@ -7,14 +7,15 @@ namespace TravelService.Controllers
 {
     [Route("api/travel")]
     [ApiController]
-    //[Authorize]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
+        private readonly IShareTokenValidator shareTokenValidator;
 
-        public ExpenseController(IExpenseService expenseService)
+        public ExpenseController(IExpenseService expenseService, IShareTokenValidator shareTokenValidator)
         {
             _expenseService = expenseService;
+            this.shareTokenValidator = shareTokenValidator;
         }
 
         [HttpPost("expenses")]

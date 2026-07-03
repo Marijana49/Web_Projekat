@@ -47,12 +47,6 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
                 </p>
             </div>
 
-            <p style={{ color: budgetData.remainingBudget < 0 ? "red" : "green" }}>
-                {budgetData.remainingBudget < 0 
-                    ? `Prekoračenje budžeta: ${Math.abs(budgetData.remainingBudget)} €` 
-                    : `Preostalo: ${budgetData.remainingBudget} €`}
-            </p>
-
             {!readOnly && (
                 <>
                     <button onClick={() => navigate(`/travel-plans/${id}/expenses`)}>
@@ -70,7 +64,6 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
 
             <div className="dashboard-grid">
                 <section className="card">
-                    <h2>Destinacije</h2>
                     <DestinationsList planId={id} readOnly={readOnly} shareToken={shareToken}/>
                 </section>
 

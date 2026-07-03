@@ -101,73 +101,60 @@ export function AddActivityForm(){
             }
         }
 
-    return(
-    <>
-     <h1>Dodaj novu aktivnost</h1>
+    return (
+        <div className="login-container">
+            <h1 style={{ textAlign: 'center' }}>Dodaj novu aktivnost</h1>
             <form onSubmit={handleSubmit}>
-                <input
-                    name="name"
-                    type="text"
-                    placeholder="Activity Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+                <div className="form-group">
+                    <label>Naziv aktivnosti:</label>
+                    <input name="name" type="text" placeholder="Npr. Obilazak muzeja" value={formData.name} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.name && <p className="error-text">{errors.name}</p>}
+                </div>
 
-                <input
-                    type="date"
-                    name="date"
-                    placeholder="Date"
-                    value={formData.date}
-                    readOnly={!!selectedDate}
-                    onBlur={handleBlur}
-                />
-                {errors.date && <p style={{ color: "red", fontSize: "12px" }}>{errors.date}</p>}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Datum:</label>
+                        <input type="date" name="date" value={formData.date} readOnly={!!selectedDate} onChange={handleChange} />
+                    </div>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Vrijeme:</label>
+                        <input type="time" name="time" value={formData.time} onChange={handleChange} onBlur={handleBlur} />
+                    </div>
+                </div>
 
-                <input
-                    type="time"
-                    name="time"
-                    placeholder="Time"
-                    value={formData.time}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.time && <p style={{ color: "red", fontSize: "12px" }}>{errors.time}</p>}
+                <div className="form-group">
+                    <label>Lokacija:</label>
+                    <input type="text" name="location" placeholder="Adresa ili naziv mjesta" value={formData.location} onChange={handleChange} onBlur={handleBlur} />
+                    {errors.location && <p className="error-text">{errors.location}</p>}
+                </div>
 
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.location && <p style={{ color: "red", fontSize: "12px" }}>{errors.location}</p>}
+                <div className="form-group">
+                    <label>Opis:</label>
+                    <textarea name="description" placeholder="Dodatne napomene..." value={formData.description} onChange={handleChange} />
+                </div>
 
-                <textarea
-                    type="text"
-                    name="description"
-                    placeholder="Description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
+                <div className="form-group">
+                    <label>Budžet:</label>
+                    <input type="number" name="budget" value={formData.budget} onChange={handleChange} />
+                </div>
 
-                <input
-                    type="number"
-                    name="budget"
-                    placeholder="Planed budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
-                {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
+                {/* Kartični stil za status */}
+                <div className="form-group">
+                    <label>Status:</label>
+                    <div className="status-grid">
+                        {Object.entries(ActivityStatus).map(([key, value]) => (
+                            <label key={value} className="status-card">
+                                <input type="radio" name="status" value={value} checked={Number(formData.status) === Number(value)} onChange={handleChange} />
+                                {key}
+                            </label>
+                        ))}
+                    </div>
+                </div>
 
-                <button type="submit">Dodaj</button>
+                <button type="submit" className="primary-btn" style={{ width: '100%', marginBottom: '10px' }}>
+                    Dodaj aktivnost
+                </button>
             </form>
-            <button onClick={() => navigate(`/travel-plans/${planId}/activities/${selectedDate}`)}>Preged aktivnosti</button>
-        </>
-    )
+        </div>
+    );
 }

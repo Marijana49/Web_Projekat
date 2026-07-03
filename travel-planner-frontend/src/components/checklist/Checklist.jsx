@@ -38,14 +38,22 @@ export function Checklist() {
     };
 
     return (
-        <div>
-            <h3>Checklista</h3>
+        <div className="checklist-container"> 
+            <h3 className="checklist-title">Checklista</h3>
+            
             <AddChecklistItemForm onAdd={handleAdd} />
-            <ul>
+            
+            <ul className="checklist-ul">
                 {items.map((item) => (
-                    <li key={item.id}>
-                        <input type="checkbox" checked={item.isChecked} onChange={() => toggleCheck(item)} />
-                        {item.name}
+                    <li key={item.id} className="checklist-item">
+                        <input 
+                            type="checkbox" 
+                            checked={item.isChecked} 
+                            onChange={() => toggleCheck(item)} 
+                        />
+                        <span className={item.isChecked ? "checked-text" : ""}>
+                            {item.name}
+                        </span>
                     </li>
                 ))}
             </ul>

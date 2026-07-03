@@ -66,7 +66,7 @@ export function UserList() {
     if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     return (
-        <div>
+        <div className="user-list-container">
             <h2>Lista korisnika</h2>
             <table>
                 <thead>

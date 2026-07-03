@@ -20,11 +20,13 @@ import { Checklist } from './components/checklist/Checklist'
 import { AddChecklistItemForm } from './components/checklist/AddChecklistItemForm'
 import { UserList } from './components/user/UserList'
 import { SharedPlanView } from './components/shareLink/SharedPlanView '
+import { Navbar } from './components/layout/Navbar'
 
 function App() {
 
   return (
     <AuthProvider>
+    <Navbar/>
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/login" element={<LogInForm />} />

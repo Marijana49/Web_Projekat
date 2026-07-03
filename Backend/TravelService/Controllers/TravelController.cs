@@ -8,7 +8,6 @@ namespace TravelService.Controllers
 {
     [Route("api/travel")]
     [ApiController]
-    //[Authorize]
     public class TravelController : ControllerBase
     {
         private readonly ITravelService _travelService;

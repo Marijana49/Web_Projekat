@@ -71,8 +71,8 @@ export function CreatePlan(){
     }
 
     return(
-        <>
-            <h1>Dodaj novi plan putovanja</h1>
+        <div className="login-container">
+            <h1 className="create-plan-h1">Dodaj novi plan putovanja</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
@@ -82,7 +82,7 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.name && <p style={{ color: "red", fontSize: "12px" }}>{errors.name}</p>}
+                {errors.name && <p className="error-text">{errors.name}</p>}
 
                 <textarea
                     type="text"
@@ -92,7 +92,7 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.description && <p style={{ color: "red", fontSize: "12px" }}>{errors.description}</p>}
+                {errors.description && <p className="error-text">{errors.description}</p>}
 
                 <input
                     type="date"
@@ -103,8 +103,7 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.startDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.startDate}</p>}
-
+                {errors.startDate && <p className="error-text">{errors.startDate}</p>}
                 <input
                     type="date"
                     name="endDate"
@@ -114,7 +113,7 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.endDate && <p style={{ color: "red", fontSize: "12px" }}>{errors.endDate}</p>}
+                {errors.endDate && <p className="error-text">{errors.endDate}</p>}
 
                 <input
                     type="number"
@@ -124,7 +123,7 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.budget && <p style={{ color: "red", fontSize: "12px" }}>{errors.budget}</p>}
+                {errors.budget && <p className="error-text">{errors.budget}</p>}
 
                 <textarea
                     type="text"
@@ -134,10 +133,10 @@ export function CreatePlan(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.notes && <p style={{ color: "red", fontSize: "12px" }}>{errors.notes}</p>}
+                {errors.notes && <p className="error-text">{errors.notes}</p>}
 
-                <button type="submit">Dodaj</button>
+                <button type="submit" style={{ marginTop: '20px' }}>Dodaj</button>
             </form>
-        </>
+        </div>
     )
 }

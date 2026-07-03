@@ -56,13 +56,13 @@ export function DestinationsList({ planId: externalPlanId, readOnly, shareToken 
                                 {!readOnly && (
                                     <>
                                         <button onClick={() => navigate(`/destinations/${des.id}/edit`)}>
-                                            Edit
+                                            Ažuriraj
                                         </button>
                                         <button 
                                             onClick={() => handleDelete(des.id)} 
                                             style={{ color: "red" }}
                                         >
-                                            Delete
+                                            Obriši
                                         </button>
                                     </>
                                 )}

@@ -16,23 +16,28 @@ export function Dashboard(){
         logout();
     };
 
-    return(
-        <div>
-            <div>
+    return (
+        <div className="dashboard-container">
+            <div className="dashboard-header">
                 <h1>Dobrodošli, {user?.email}!</h1>
-                <button onClick={handleLogout}>
+                <button className="logout-btn" onClick={logout}>
                     Log Out
                 </button>
             </div>
-            <button onClick={() => navigate("/travel-plans/new")}>
-                Kreiraj plan putovanja
-            </button>
-            <button onClick={() => navigate("/travel-plans")}>
-                Planovi putovanja
-            </button>
-            <button onClick={() => navigate("/travel-plans/users")}>
-                Korisnici
-            </button>
+
+            <div className="dashboard-grid">
+                <div className="action-card" onClick={() => navigate("/travel-plans/new")}>
+                    <h3>+ Kreiraj novi plan</h3>
+                </div>
+                <div className="action-card" onClick={() => navigate("/travel-plans")}>
+                    <h3>Moji planovi</h3>
+                </div>
+                {user?.role === "ADMIN" && (
+                    <div className="action-card" onClick={() => navigate("/travel-plans/users")}>
+                        <h3>Upravljanje korisnicima</h3>
+                    </div>
+                )}
+            </div>
         </div>
-    )
+    );
 };

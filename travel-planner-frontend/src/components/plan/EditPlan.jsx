@@ -60,9 +60,8 @@ export function EditTravelPlanForm(){
     };
 
     return(
-        <>
+        <div className="login-container">
             <h1>Ažuriraj plan putovanja</h1>
-            <button type="button" onClick={() => navigate(`/travel-plans`)}>Nazad</button>
             <form onSubmit={handleSubmit}>
                 <input
                     name="name"
@@ -72,7 +71,7 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.name && <span style={{color: 'red'}}>{errors.name}</span>}
+                {errors.name && <p className="error-text">{errors.name}</p>}
 
                 <textarea
                     type="text"
@@ -82,7 +81,7 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.description && <span style={{color: 'red'}}>{errors.description}</span>}
+                {errors.description && <p className="error-text">{errors.description}</p>}
                 
                 <input
                     type="date"
@@ -93,7 +92,7 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.startDate && <span style={{color: 'red'}}>{errors.startDate}</span>}
+                {errors.startDate && <p className="error-text">{errors.startDate}</p>}
 
                 <input
                     type="date"
@@ -104,7 +103,7 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.endDate && <span style={{color: 'red'}}>{errors.endDate}</span>}
+                {errors.endDate && <p className="error-text">{errors.endDate}</p>}
 
                 <input
                     type="number"
@@ -114,7 +113,7 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.budget && <span style={{color: 'red'}}>{errors.budget}</span>}
+                {errors.budget && <p className="error-text">{errors.budget}</p>}
 
                 <textarea
                     type="text"
@@ -124,10 +123,10 @@ export function EditTravelPlanForm(){
                     onChange={handleChange}
                     onBlur={handleBlur}
                 />
-                {errors.notes && <span style={{color: 'red'}}>{errors.notes}</span>}
+                {errors.notes && <p className="error-text">{errors.notes}</p>}
                 
-                <button type="submit">Ažuriraj</button>
+                <button type="submit" className="primary-btn">Ažuriraj</button>
             </form>
-        </>
+        </div>
     )
 };

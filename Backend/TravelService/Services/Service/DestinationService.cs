@@ -104,6 +104,7 @@ namespace TravelService.Services.Service
         public async Task UpdateDestinationAsync(int id, UpdateDestinationDto updateDestinationDto)
         {
             var destination = await _context.Destinations.FindAsync(id);
+            var plan = await _context.TravelPlans.FindAsync(destination.TravelPlanId);
 
             if (destination == null)
             {
@@ -113,7 +114,7 @@ namespace TravelService.Services.Service
             var arrival = updateDestinationDto.ArrivalDate ?? destination.ArrivalDate;
             var departure = updateDestinationDto.DepartureDate ?? destination.DepartureDate;
 
-            ValidateEditDestinationDto(arrival, departure, destination.TravelPlan);
+            ValidateEditDestinationDto(arrival, departure, plan);
 
             if (!string.IsNullOrEmpty(updateDestinationDto.Name)) destination.Name = updateDestinationDto.Name;
             if (!string.IsNullOrEmpty(updateDestinationDto.Location)) destination.Location = updateDestinationDto.Location;
