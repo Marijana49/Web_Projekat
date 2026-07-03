@@ -1,4 +1,5 @@
 ﻿using Data.DTOs;
+using Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
@@ -40,7 +41,6 @@ namespace TravelService.Controllers
                 var res = await _activityService.GetActivitiesByDateAsync(id, date);
                 return Ok(res);
             }
-
             if (!string.IsNullOrEmpty(shareToken))
             {
                 var accessType = await _shareTokenValidator.ValidateAsync(shareToken, id);
@@ -48,14 +48,27 @@ namespace TravelService.Controllers
                 var res = await _activityService.GetActivitiesByDateAsync(id, date);
                 return Ok(res);
             }
-
             return Unauthorized();
         }
 
         [HttpDelete("activities/{id}")]
-        [Authorize(Roles = "USER")]
-        public async Task<IActionResult> DeteleActivity(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> DeteleActivity(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
+            bool isOwnerFlow = User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken);
+
+            if (!isOwnerFlow)
+            {
+                if (User.Identity?.IsAuthenticated != true) return Unauthorized("Morate biti prijavljeni.");
+                if (string.IsNullOrEmpty(shareToken)) return Forbid();
+
+                var planId = await _activityService.GetPlanIdForActivityAsync(id);
+                if (planId == null) return NotFound();
+
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, planId.Value);
+                if (accessType != AccessType.Edit) return Forbid();
+            }
+
             await _activityService.DeleteActivityAsync(id);
             return NoContent();
         }
@@ -70,9 +83,23 @@ namespace TravelService.Controllers
         }
 
         [HttpPatch("activities/edit/{id}")]
-        [Authorize(Roles = "USER")]
-        public async Task<IActionResult> EditActivity(int id, [FromBody] UpdateActivityDto dto)
+        [AllowAnonymous]
+        public async Task<IActionResult> EditActivity(int id, [FromBody] UpdateActivityDto dto, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
+            bool isOwnerFlow = User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken);
+
+            if (!isOwnerFlow)
+            {
+                if (User.Identity?.IsAuthenticated != true) return Unauthorized("Morate biti prijavljeni.");
+                if (string.IsNullOrEmpty(shareToken)) return Forbid();
+
+                var planId = await _activityService.GetPlanIdForActivityAsync(id);
+                if (planId == null) return NotFound();
+
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, planId.Value);
+                if (accessType != AccessType.Edit) return Forbid();
+            }
+
             await _activityService.UpdateActivityAsync(id, dto);
             return Ok();
         }

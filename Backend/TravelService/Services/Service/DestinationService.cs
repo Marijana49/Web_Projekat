@@ -74,6 +74,12 @@ namespace TravelService.Services.Service
             };
         }
 
+        public async Task<int?> GetPlanIdForDestinationAsync(int destinationId)
+        {
+            var destination = await _context.Destinations.FindAsync(destinationId);
+            return destination?.TravelPlanId; 
+        }
+
         public async Task<IEnumerable<DestinationDto>> GetTravelPlanDestinationsAsync(int id)
         {
             var plan = await _context.TravelPlans.FindAsync(id);

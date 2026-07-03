@@ -7,7 +7,7 @@ import { ValidateLoginForm } from "../../validations/AuthValidation";
 
 const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
-export function LogInForm(){
+export function LogInForm({onSuccess}){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -42,7 +42,11 @@ export function LogInForm(){
                 setEmail("");
                 setPassword("");
 
-                navigate("/");
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    navigate("/");
+                }
             }
         } catch(error){
             console.log(error);

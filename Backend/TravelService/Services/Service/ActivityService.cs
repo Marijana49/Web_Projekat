@@ -103,6 +103,12 @@ namespace TravelService.Services.Service
             };
         }
 
+        public async Task<int?> GetPlanIdForActivityAsync(int activityId)
+        {
+            var activity = await _context.Activitys.FindAsync(activityId);
+            return activity?.TravelPlanId;
+        }
+
         public async Task UpdateActivityAsync(int id, UpdateActivityDto updateActivityDto)
         {
             var activity = await _context.Activitys.FindAsync(id);

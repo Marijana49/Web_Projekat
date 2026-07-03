@@ -1,4 +1,5 @@
 ﻿using Data.DTOs;
+using Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelService.Services.Interface;
@@ -51,9 +52,23 @@ namespace TravelService.Controllers
         }
 
         [HttpDelete("destinations/delete/{id}")]
-        [Authorize(Roles = "USER")]
-        public async Task<IActionResult> DeleteDestination(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteDestination(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
+            bool isOwnerFlow = User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken);
+
+            if (!isOwnerFlow)
+            {
+                if (User.Identity?.IsAuthenticated != true) return Unauthorized("Morate biti prijavljeni.");
+                if (string.IsNullOrEmpty(shareToken)) return Forbid();
+
+                var planId = await _destinationService.GetPlanIdForDestinationAsync(id);
+                if (planId == null) return NotFound();
+
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, planId.Value);
+                if (accessType != AccessType.Edit) return Forbid();
+            }
+
             await _destinationService.DeleteDestinationAsync(id);
             return NoContent();
         }
@@ -67,9 +82,23 @@ namespace TravelService.Controllers
         }
 
         [HttpPatch("destinations/edit/{id}")]
-        [Authorize(Roles = "USER")]
-        public async Task<IActionResult> EditDestination(int id, [FromBody] UpdateDestinationDto dto)
+        [AllowAnonymous]
+        public async Task<IActionResult> EditDestination(int id, [FromBody] UpdateDestinationDto dto, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
+            bool isOwnerFlow = User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken);
+
+            if (!isOwnerFlow)
+            {
+                if (User.Identity?.IsAuthenticated != true) return Unauthorized("Morate biti prijavljeni.");
+                if (string.IsNullOrEmpty(shareToken)) return Forbid();
+
+                var planId = await _destinationService.GetPlanIdForDestinationAsync(id);
+                if (planId == null) return NotFound();
+
+                var accessType = await _shareTokenValidator.ValidateAsync(shareToken, planId.Value);
+                if (accessType != AccessType.Edit) return Forbid();
+            }
+
             await _destinationService.UpdateDestinationAsync(id, dto);
             return Ok();
         }

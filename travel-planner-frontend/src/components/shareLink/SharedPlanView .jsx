@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ValidateShareToken } from "../../services/sharingService";
 import { PlanDetails } from "../plan/PlanDetails";
-import { GetSharedPlanPublic } from "../../services/TravelService";
+import { useAuth } from "../../hooks/auth/UseAuthHook";
+import { LogInForm } from "../auth/LogIn";
 
 export const SharedPlanView = () => {
     const { token } = useParams();
     const [planId, setPlanId] = useState(null);
     const [accessType, setAccessType] = useState(null);
-    const [planData, setPlanData] = useState(null);
     const [error, setError] = useState(null);
+    const { isAuthenticated, isLoading } = useAuth();
 
     useEffect(() => {
         const validate = async () => {
@@ -28,30 +29,27 @@ export const SharedPlanView = () => {
         validate();
     }, [token]);
 
-    useEffect(() => {
-        const fetchPlan = async () => {
-            if (!planId) return; 
-            
-            try {
-                const data = await GetSharedPlanPublic(planId, token);
-                setPlanData(data); 
-            } catch (err) {
-                console.error("Greška pri učitavanju:", err);
-                setError("Greška pri učitavanju plana.");
-            }
-        };
-        fetchPlan();
-    }, [planId, token]); 
-
     if (error) return <p>{error}</p>;
-    if (!planId || !planData) return <p>Učitavanje podataka...</p>;
+    if (!planId || isLoading) return <p>Učitavanje...</p>;
+
+    const isEditToken = accessType === 1;
+
+    if (isEditToken && !isAuthenticated) {
+        return (
+            <div>
+                <p>Ovaj link omogućava uređivanje plana. Morate se prijaviti da biste nastavili.</p>
+                <LogInForm onSuccess={() => {}} />
+            </div>
+        );
+    }
+
+    const readOnly = !isEditToken || !isAuthenticated;
 
     return (
         <PlanDetails
             planId={planId}
             shareToken={token}
-            readOnly={accessType === 0}
-            initialData={planData} 
+            readOnly={readOnly}
         />
     );
 };

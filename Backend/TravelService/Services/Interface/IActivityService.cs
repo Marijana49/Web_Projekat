@@ -9,5 +9,6 @@ namespace TravelService.Services.Interface
         Task DeleteActivityAsync(int id);
         Task<ActivityDto> GetActivityByIdAsync(int id);
         Task UpdateActivityAsync(int id, UpdateActivityDto updateActivityDto);
+        Task<int?> GetPlanIdForActivityAsync(int activityId);
     }
 }
