@@ -280,14 +280,70 @@
   margin: 0 auto;
 }
 
-table {
+.card {
+  overflow-x: auto;
+}
+
+.card table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 15px;
   background: white;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  min-width: 700px;
+}
+
+.card table th,
+.card table td {
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.card table th {
+  background-color: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid #eee;
+}
+
+.card table td {
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 14px;
+}
+
+.card table tr:last-child td {
+  border-bottom: none;
+}
+
+.card table tr:hover td {
+  background-color: #fafafa;
+}
+
+.destinations-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.destinations-actions button {
+  padding: 8px 14px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.destinations-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.destinations-actions button {
+  padding: 8px 14px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 th {
@@ -319,11 +375,11 @@ button {
   transition: all 0.2s;
 }
 
-button:first-child { background: #e74c3c; color: white; } 
-button:first-child:hover { background: #c0392b; }
+.user-list-container button:first-child { background: #e74c3c; color: white; } 
+.user-list-container button:first-child:hover { background: #c0392b; }
 
-button:nth-child(2) { background: #3498db; color: white; } 
-button:nth-child(2):hover { background: #2980b9; }
+.user-list-container button:nth-child(2) { background: #3498db; color: white; } 
+.user-list-container button:nth-child(2):hover { background: #2980b9; }
 
 select {
   padding: 6px;
@@ -571,4 +627,85 @@ textarea:focus {
     background: #e8f8f0;
     color: #27ae60;
     font-weight: bold;
+}
+
+.plan-details-container {
+  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.plan-details-container h1 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.plan-details-container h2 {
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.budget-summary {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
+}
+
+.budget-summary p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #2980b9; }
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-danger:hover { background: #c0392b; }
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-secondary:hover { background: #e0e0e0; }
+
+.destinations-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

@@ -54,17 +54,17 @@ export function DestinationsList({ planId: externalPlanId, readOnly, shareToken 
                                 <td>{des.description}</td>
                                 <td>
                                 {!readOnly && (
-                                    <>
-                                        <button onClick={() => navigate(`/destinations/${des.id}/edit`)}>
+                                    <div className="destinations-actions">
+                                        <button className="btn-secondary"  onClick={() => navigate(`/destinations/${des.id}/edit`)}>
                                             Ažuriraj
                                         </button>
                                         <button 
                                             onClick={() => handleDelete(des.id)} 
-                                            style={{ color: "red" }}
+                                            className="btn-danger"
                                         >
                                             Obriši
                                         </button>
-                                    </>
+                                    </div>
                                 )}
                             </td>
                             </tr>

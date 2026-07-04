@@ -9,7 +9,7 @@ namespace AuthService.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -20,7 +20,6 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("users")]
-        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
@@ -28,7 +27,6 @@ namespace AuthService.Controllers
         }
 
         [HttpDelete("users/{id}")]
-        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userService.DeleteUserAsync(id);
@@ -36,7 +34,6 @@ namespace AuthService.Controllers
         }
 
         [HttpPatch("users/{id}")]
-        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> UpdateUserRole(int id, [FromBody] UpdateUserDto updateUserDto)
         {
             await _userService.UpdateUserRoleAsync(id, updateUserDto.newRole);

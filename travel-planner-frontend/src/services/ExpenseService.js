@@ -30,9 +30,12 @@ export async function GetAllExpensesByPlanId(id){
     }
 }
 
-export async function GetBudgetSummary(planId) {
+export async function GetBudgetSummary(planId, shareToken = null) {
     try {
-        const response = await axios.get(`${TRAVEL_API_URL}/summary/${planId}`);
+        const headers = shareToken 
+            ? { headers: { "X-Share-Token": shareToken } }
+            : getAuthHeaders();
+        const response = await axios.get(`${TRAVEL_API_URL}/summary/${planId}`, headers);
         return response.data;
     } catch (error) {
         console.error("Greška pri učitavanju budžeta:", error);

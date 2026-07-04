@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ExpenseList } from "../expens/ExpenseList";
 import { GetBudgetSummary } from "../../services/ExpenseService";
 import { SharePlanModal } from "../shareLink/SharePlanModal";
+import { GeneratePlanPdf } from "../../helpers/GeneratePlanPdf";
 
 export function PlanDetails({ readOnly = false, planId: externalPlanId, shareToken}) { 
     const { id: paramId } = useParams();
@@ -20,11 +21,20 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
         const fetchData = async () => {
             const data = await GetPlanById(id, shareToken);
             setPlan(data);
-            const summary = await GetBudgetSummary(id); 
+            const summary = await GetBudgetSummary(id, shareToken); 
             setBudgetData(summary);
         };
         fetchData();
-    }, [id]);
+    }, [id, shareToken]);
+
+    const handleExportPdf  =  async () => {
+        try{
+            await GeneratePlanPdf(id, shareToken);
+        } catch (error){
+            console.error("Greška pri generisanju PDF-a:", error);
+            alert("Generisanje PDF-a nije uspjelo.");
+        }
+    }
 
     if (!plan || !budgetData) return <p>Učitavanje detalja plana...</p>;
 
@@ -33,9 +43,15 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <h1>{plan.name}</h1>
                 {!readOnly && (
-                    <button onClick={() => setShowShareModal(true)}>
+                    <button className="btn-primary" onClick={() => setShowShareModal(true)}>
                         Podijeli plan
                     </button>
+                )}
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                {!readOnly && (
+                    <button className="btn-danger" onClick={handleExportPdf}>PDF izvještaj</button>
                 )}
             </div>
 
