@@ -83,7 +83,7 @@ export function EditActivityForm(){
         );
 
         try {
-            await EditActivity(planId, activityData);
+            await EditActivity(planId, activityData, shateToken);
             alert("Aktivnost ažurirana!");
             navigate(`/travel-plans/${planId}/details`);
         } catch (error) {

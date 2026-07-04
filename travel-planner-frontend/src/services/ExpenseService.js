@@ -20,9 +20,12 @@ export async function AddNewExpens(data){
     }
 }
 
-export async function GetAllExpensesByPlanId(id){
+export async function GetAllExpensesByPlanId(id, shareToken = null){
     try{
-        const res = await axios.get(`${TRAVEL_API_URL}/expenses/${id}`, getAuthHeaders());
+        const headers = shareToken 
+            ? { headers: { "X-Share-Token": shareToken } }
+            : getAuthHeaders();
+        const res = await axios.get(`${TRAVEL_API_URL}/expenses/${id}`, headers);
         return res.data;
     } catch(error){
         console.error(error);

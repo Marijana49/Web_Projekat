@@ -30,7 +30,7 @@ export function Dashboard(){
                     <h3>+ Kreiraj novi plan</h3>
                 </div>
                 <div className="action-card" onClick={() => navigate("/travel-plans")}>
-                    <h3>Moji planovi</h3>
+                    <h3>Planovi putovanja</h3>
                 </div>
                 {user?.role === "ADMIN" && (
                     <div className="action-card" onClick={() => navigate("/travel-plans/users")}>

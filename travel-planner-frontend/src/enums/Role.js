@@ -1,6 +1,6 @@
 export const Role = Object.freeze({
-    USER: 'USER',
-    ADMIN: 'ADMIN'
+    USER: 0,
+    ADMIN: 1
 });
 
 export const RoleLabels = {

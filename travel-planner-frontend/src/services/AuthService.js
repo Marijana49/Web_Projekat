@@ -17,6 +17,9 @@ export async function Register(data){
         return res;
     } catch (error){
         console.log(error);
+        if (error.response && error.response.status === 409) {
+            throw new Error("Email je već zauzet!"); 
+        }
         throw error;
     }
 }

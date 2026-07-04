@@ -57,8 +57,8 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, s
                             
                             {!readOnly && (
                                 <>
-                                    <button onClick={() => handleDelete(act.id)}>Obriši</button>
-                                    <button onClick={() => navigate(`/travel-plans/${activePlanId}/activities/edit`)}>Ažuriraj</button>
+                                    <button className="btn-danger" onClick={() => handleDelete(act.id)}>Obriši</button>
+                                    <button className="btn-secondary" onClick={() => navigate(`/travel-plans/${activePlanId}/activities/edit`)}>Ažuriraj</button>
                                 </>
                             )}
                         </li>

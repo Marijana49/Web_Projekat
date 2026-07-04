@@ -18,7 +18,7 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("newDestination/{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateDestinationDto dto)
         {
             if (!ModelState.IsValid)
@@ -73,7 +73,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("destinations/{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> GetDestinationById(int id)
         {
             var destination = await _destinationService.GetDestinationAsync(id);

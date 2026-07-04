@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { GetAllExpensesByPlanId } from "../../services/ExpenseService";
 import { ExpenseCategoryLabels } from "../../enums/ExpenseCategory";
 
-export function ExpenseList({ planId, totalBudget }) {
+export function ExpenseList({ planId, totalBudget, readOnly, shareToken }) {
     const [expenses, setExpenses] = useState([]);
 
     useEffect(() => {
         const fetchExpenses = async () => {
-            const data = await GetAllExpensesByPlanId(planId);
+            const data = await GetAllExpensesByPlanId(planId, shareToken);
             setExpenses(data);
         };
         fetchExpenses();
-    }, [planId]);
+    }, [planId, shareToken]);
 
     return (
         <div>

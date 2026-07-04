@@ -19,6 +19,7 @@ export function RegisterForm(){
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrors("");
 
         const validationErrors = ValidateRegisterForm({name, email, password});
             if (Object.keys(validationErrors).length > 0) {
@@ -52,7 +53,11 @@ export function RegisterForm(){
                 }
             }
         } catch(error){
-            console.log(error);
+            if (error.status == 400) {
+                setErrors({ email: "Email je već zauzet!" });
+            } else {
+                setErrors({ form: "Došlo je do greške, pokušajte ponovo." });
+            }
         }
     }
 

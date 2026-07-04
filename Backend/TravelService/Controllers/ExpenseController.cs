@@ -20,7 +20,7 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("expenses")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> AddNewExpense(CreateExpenseDto expense)
         {
             if (!ModelState.IsValid)

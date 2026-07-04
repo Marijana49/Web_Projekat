@@ -19,7 +19,7 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("newPlan")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> CreatePlan([FromBody] CreateTravelPlan dto)
         {
             if (!ModelState.IsValid)
@@ -55,7 +55,7 @@ namespace TravelService.Controllers
         }
 
         [HttpDelete("deletePlan/{userId}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> DeleteTravelPlan(int userId)
         {
             await _travelService.DeteletTravelPlanAsync(userId);
@@ -66,7 +66,6 @@ namespace TravelService.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetTravelPlan(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
-            //throw new Exception($"STIGAO SAM! shareToken={shareToken}, isAuth={User.Identity?.IsAuthenticated}");
             if (User.Identity?.IsAuthenticated == true && string.IsNullOrEmpty(shareToken))
             {
                 var plan = await _travelService.GetTravelPlanAsync(id);
@@ -100,6 +99,14 @@ namespace TravelService.Controllers
             }
 
             await _travelService.UpdateTravelPlan(id, dto);
+            return NoContent();
+        }
+
+        [HttpDelete("user-plans/{userId}")]
+        [Authorize(Roles = "ADMIN")] 
+        public async Task<IActionResult> DeleteAllUserPlans(int userId)
+        {
+            await _travelService.DeleteAllUserPlansAsync(userId);
             return NoContent();
         }
     }

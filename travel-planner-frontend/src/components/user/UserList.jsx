@@ -97,7 +97,7 @@ export function UserList() {
                                             onBlur={() => setEditingId(null)}
                                         >
                                             {Object.values(Role).map((r) => (
-                                                <option key={r} value={r}>{r}</option>
+                                                <option key={r} value={r}>{RoleLabels[r]}</option>
                                             ))}
                                         </select>
                                     ) : (

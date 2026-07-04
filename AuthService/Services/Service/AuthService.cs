@@ -70,7 +70,7 @@ namespace AuthService.Services.Service
         {
             if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
             {
-                return false;
+                throw new InvalidOperationException("Email je već zauzet!");
             }
 
             var newUser = new User
@@ -78,7 +78,7 @@ namespace AuthService.Services.Service
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                Role = Data.Enums.Role.USER
+                Role = Data.Enums.Role.ADMIN
             };
 
             _context.Users.Add(newUser);

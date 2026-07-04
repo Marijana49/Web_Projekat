@@ -21,7 +21,7 @@ namespace TravelService.Controllers
 
         [HttpPost("activities/{id}")]
         [Authorize(Roles = "USER")]
-        public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateActivityDto dto)
+        public async Task<IActionResult> AddNewActivity(int id, [FromBody] CreateActivityDto dto)
         {
             if (!ModelState.IsValid)
             {
