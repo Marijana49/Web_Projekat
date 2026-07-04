@@ -84,7 +84,7 @@ export function AddDestionation(){
             await AddNewDestination(id, destination);
             console.log(formData);
             alert("Destinacija dodana!");
-            navigate(`/travel-plans/${id}/destinations`);
+            navigate(`/travel-plans/${id}/details`);
         } catch (error) {
             console.error(error);
         }

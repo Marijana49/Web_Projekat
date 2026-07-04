@@ -88,7 +88,7 @@ export function EditDestinationForm(){
         try {
             await EditDestination(id, destination);
             alert("Destinacija ažurirana!");
-            navigate(`/travel-plans/${formData.travelPlanId}/destinations`);
+            navigate(`/travel-plans/${formData.travelPlanId}/details`);
         } catch (error) {
             console.error(error);
         }

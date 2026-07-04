@@ -72,6 +72,15 @@ export function DestinationsList({ planId: externalPlanId, readOnly, shareToken 
                     </tbody>
                 </table>
             )}
+            {!readOnly && (
+                <button 
+                    className="btn-primary" 
+                    style={{ marginTop: "15px" }}
+                    onClick={() => navigate(`/travel-plans/${id}/destinations/new`)}
+                >
+                    Dodaj destinaciju
+                </button>
+            )}
         </>
     )
 }

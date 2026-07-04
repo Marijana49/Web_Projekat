@@ -67,9 +67,6 @@ export function TravelList (){
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}/details`)}> Pregled detalja</button>
                                 <button onClick={() => navigate(`/travel-plans/${plan.id}`)}>Ažuriraj</button>
                                 <button onClick={() => handleDelete(plan.id)} style={{ color: "red" }}>Obriši</button>
-                                <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations/new`)}>Dodaj destinaciju</button>
-                                <button onClick={() => navigate(`/travel-plans/${plan.id}/destinations`)}>Pregledaj destinacije</button>
-                                <button onClick={() => navigate(`/travel-plans/${plan.id}/calendars`)}>Otvori kalendar</button>
                             </td>
                         </tr>
                     ))}
