@@ -47,7 +47,7 @@ function App() {
       <Route path="/travel-plans/:id/calendars" element={<ActivityCalendar/>}/>
       <Route path="/travel-plans/:planId/activities/new" element={<AddActivityForm/>}/>
       <Route path="/travel-plans/:planId/activities/:selectedDate" element={<ActivityList/>}/>
-      <Route path="/travel-plans/:planId/activities/edit" element={<EditActivityForm/>}/>
+      <Route path="/travel-plans/:planId/activities/edit/:id" element={<EditActivityForm />}/>
 
       {/**Troskovi */}
       <Route path="/travel-plans/:id/expenses" element={<AddExpensForm/>}/>

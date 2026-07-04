@@ -8,5 +8,6 @@ namespace TravelService.Services.Interface
         Task<IEnumerable<ChecklistDto>> GetChecklistByPlanIdAsync(int travelPlanId);
         Task<bool> UpdateChecklistItemAsync(int id, UpdateChecklistDto dto);
         Task<bool> DeleteChecklistItemAsync(int id);
+        Task<int?> GetPlanOwnerIdAsync(int planId);
     }
 }

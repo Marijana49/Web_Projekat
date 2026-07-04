@@ -718,3 +718,41 @@ textarea:focus {
     border-radius: 50%; 
     cursor: pointer;
 }
+
+.activity-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.activity-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.activity-list li strong {
+  color: #2c3e50;
+}
+
+.activity-status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: #f0f0f0;
+  color: #666;
+}
+
+.activity-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}

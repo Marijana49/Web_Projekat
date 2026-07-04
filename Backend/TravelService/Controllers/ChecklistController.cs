@@ -17,9 +17,27 @@ namespace TravelService.Controllers
             _checklistService = checklistService;
         }
 
+        private async Task<IActionResult?> CheckOwnership(int planId)
+        {
+            var currentUserId = User.FindFirst("id")?.Value;
+            var ownerId = await _checklistService.GetPlanOwnerIdAsync(planId);
+
+            if (ownerId == null) return NotFound("Plan ne postoji!");
+
+            bool isOwner = currentUserId == ownerId.ToString();
+            bool isAdmin = User.FindFirst("role")?.Value == "ADMIN";
+
+            if (!isOwner && !isAdmin) return Forbid();
+
+            return null; 
+        }
+
         [HttpGet("checklists/{id}")]
         public async Task<IActionResult> GetChecklistByPlanId(int id)
         {
+            var check = await CheckOwnership(id);
+            if (check != null) return check;
+
             var items = await _checklistService.GetChecklistByPlanIdAsync(id);
             return Ok(items);
         }
@@ -32,8 +50,11 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("checklists/{id}")]
-        public async Task<IActionResult> AddNewChecklistItem(CreateChecklistItemDto createChecklistItemDto)
+        public async Task<IActionResult> AddNewChecklistItem(int id,CreateChecklistItemDto createChecklistItemDto)
         {
+            var check = await CheckOwnership(id);
+            if (check != null) return check;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -3,14 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { GetActivitiesByDate, DeleteActivity } from "../../services/ActivityService";
 import { ActivityStatusLabels } from "../../enums/ActivityStatus";
 
-export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, shareToken }) {
+export function ActivityList({ planId: externalPlanId, readOnly, selectedDate: externalSelectedDate, shareToken }) {
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(false);
     
-    const { planId: urlPlanId } = useParams();
+    const { planId: urlPlanId, selectedDate: urlSelectedDate } = useParams();
     const navigate = useNavigate();
 
     const activePlanId = externalPlanId || urlPlanId;
+    const selectedDate = externalSelectedDate || urlSelectedDate;
 
     useEffect(() => {
         if (!selectedDate || !activePlanId) return; 
@@ -28,6 +29,9 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, s
         };
 
         fetchActivities();
+
+        window.addEventListener("focus", fetchActivities);
+        return () => window.removeEventListener("focus", fetchActivities);
     }, [activePlanId, selectedDate, shareToken]); 
 
     if (loading) return <p>Učitavanje aktivnosti...</p>;
@@ -35,12 +39,17 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, s
     const handleDelete = async (id) => {
         if (window.confirm("Da li ste sigurni da želite da obrišete ovu aktivnost?")) {
             try {
-                await DeleteActivity(id);
+                await DeleteActivity(id, shareToken);
                 setActivities(activities.filter(act => act.id !== id));
             } catch (error) {
                 alert("Greška pri brisanju!");
             }
         }
+    };
+
+    const buildEditUrl = (activityId) => {
+        const base = `/travel-plans/${activePlanId}/activities/edit/${activityId}`;
+        return shareToken ? `${base}?shareToken=${shareToken}` : base;
     };
 
     return (
@@ -53,13 +62,13 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, s
                     {activities.map((act) => (
                         <li key={act.id}>
                             <strong>{act.time}</strong> - {act.name} ({act.location})
-                            <span>{ActivityStatusLabels[act.status]}</span>
+                            <span className="activity-status">{ActivityStatusLabels[act.status]}</span>
                             
                             {!readOnly && (
-                                <>
+                                <div className="activity-actions">
+                                    <button className="btn-secondary" onClick={() => navigate(buildEditUrl(act.id))}>Ažuriraj</button>
                                     <button className="btn-danger" onClick={() => handleDelete(act.id)}>Obriši</button>
-                                    <button className="btn-secondary" onClick={() => navigate(`/travel-plans/${activePlanId}/activities/edit`)}>Ažuriraj</button>
-                                </>
+                                </div>
                             )}
                         </li>
                     ))}
@@ -67,7 +76,7 @@ export function ActivityList({ planId: externalPlanId, readOnly, selectedDate, s
             )}
 
             {!readOnly && (
-                <button onClick={() => navigate(`/travel-plans/${activePlanId}/activities/new?date=${selectedDate}`)}>
+                <button className="btn-primary" onClick={() => navigate(`/travel-plans/${activePlanId}/activities/new?date=${selectedDate}`)}>
                     Dodaj aktivnost
                 </button>
             )}

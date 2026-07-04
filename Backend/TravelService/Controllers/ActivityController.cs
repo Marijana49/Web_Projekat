@@ -20,7 +20,7 @@ namespace TravelService.Controllers
         }
 
         [HttpPost("activities/{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> AddNewActivity(int id, [FromBody] CreateActivityDto dto)
         {
             if (!ModelState.IsValid)
@@ -74,7 +74,7 @@ namespace TravelService.Controllers
         }
 
         [HttpGet("activities/{id}")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> GetActivityById(int id)
         {
             var activity = await _activityService.GetActivityByIdAsync(id);

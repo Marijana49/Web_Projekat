@@ -55,6 +55,11 @@ namespace TravelService.Services.Service
             .ToListAsync();
         }
 
+        public async Task<int?> GetPlanOwnerIdAsync(int planId)
+        {
+            var plan = await _context.TravelPlans.FindAsync(planId);
+            return plan?.UserId;
+        }
         public async Task<bool> UpdateChecklistItemAsync(int id, UpdateChecklistDto dto)
         {
             var item = await _context.Checklists.FindAsync(id);

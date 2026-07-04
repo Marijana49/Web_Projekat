@@ -13,9 +13,29 @@ export function ExpenseList({ planId, totalBudget, readOnly, shareToken }) {
         fetchExpenses();
     }, [planId, shareToken]);
 
+    const groupByCategory = expenses.reduce((acc, exp) => {
+        const category = exp.category;
+        if(!acc[category]){
+            acc[category] = 0;
+        }
+        acc[category] += exp.amount;
+        return acc;
+    }, {});
+
     return (
         <div>
             <h3>Pregled troškova</h3>
+
+            {expenses.length > 0 && (
+                <div className="category-summary">
+                    {Object.entries(groupByCategory).map(([category, total]) => (
+                        <div key={category} className="category-summary-item">
+                            <span>{ExpenseCategoryLabels[category]}: </span>
+                            <strong>{total.toFixed(2)} €</strong>
+                        </div>
+                    ))}
+                </div>
+            )}
            
             <table border="1" style={{ width: "100%", marginTop: "10px" }}>
                 <thead>

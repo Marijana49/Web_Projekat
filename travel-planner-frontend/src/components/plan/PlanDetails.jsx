@@ -8,6 +8,7 @@ import { ExpenseList } from "../expens/ExpenseList";
 import { GetBudgetSummary } from "../../services/ExpenseService";
 import { SharePlanModal } from "../shareLink/SharePlanModal";
 import { GeneratePlanPdf } from "../../helpers/GeneratePlanPdf";
+import { useAuth } from "../../hooks/auth/UseAuthHook";
 
 export function PlanDetails({ readOnly = false, planId: externalPlanId, shareToken}) { 
     const { id: paramId } = useParams();
@@ -16,6 +17,7 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
     const [budgetData, setBudgetData] = useState(null);
     const [showShareModal, setShowShareModal] = useState(false); 
     const navigate = useNavigate();
+    const { user } = useAuth();
     
     useEffect(() => {
         const fetchData = async () => {
@@ -37,12 +39,17 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
     }
 
     if (!plan || !budgetData) return <p>Učitavanje detalja plana...</p>;
+    console.log("plan:", plan);
+    console.log("user:", user);
 
+    const isOwner = user && Number(user.id) === Number(plan.userId);
+    console.log("isOwner:", isOwner);
+    
     return (
         <div className="plan-details-container">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <h1>{plan.name}</h1>
-                {!readOnly && (
+                {isOwner && (
                     <button className="btn-primary" onClick={() => setShowShareModal(true)}>
                         Podijeli plan
                     </button>
@@ -63,7 +70,7 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
                 </p>
             </div>
 
-            {!readOnly && (
+            {isOwner && (
                 <>
                     <button onClick={() => navigate(`/travel-plans/${id}/expenses`)}>
                         Dodaj trošak

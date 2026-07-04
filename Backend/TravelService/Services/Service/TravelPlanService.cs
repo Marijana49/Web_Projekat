@@ -92,7 +92,8 @@ namespace TravelService.Services.Service
                 StartDate = plan.StartDate,
                 EndDate = plan.EndDate,
                 Budget = plan.Budget,
-                Notes = plan.Notes
+                Notes = plan.Notes,
+                UserId = plan.UserId,
             };
         }
 

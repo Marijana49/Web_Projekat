@@ -95,7 +95,7 @@ export function AddActivityForm(){
             try{
                 await AddNewActivity(formData.travelPlanId, activity);
                 alert(`Nova aktivnost za dan ${formattedDate} dodana!`);
-                navigate(`/travel-plans/${planId}/activities/${selectedDate}`);
+                navigate(`/travel-plans/${planId}/details`);
             } catch(error){
                 alert("Greška prilikom kreiranja!");
             }

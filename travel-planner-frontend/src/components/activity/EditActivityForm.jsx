@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { GetActivityById, EditActivity } from "../../services/ActivityService";
 import { EditActivityRequest } from "../../models/dtos/EditActivityRequest";
 import { ActivityStatus } from "../../enums/ActivityStatus";
@@ -7,7 +7,10 @@ import { GetPlanById } from "../../services/TravelService";
 import { ValidateEditActivityForm } from "../../validations/ActivityValidation";
 
 export function EditActivityForm(){
-    const { planId, selectedDate } = useParams();
+    const { planId, id } = useParams();
+    const [searchParams] = useSearchParams();
+    const shareToken = searchParams.get("shareToken");
+
     const [activity, setActivity] = useState(null);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -25,17 +28,17 @@ export function EditActivityForm(){
 
     useEffect(() => {
         async function fetchData(){
-            const data = await GetActivityById(planId);
+            const data = await GetActivityById(id);
             console.log("Podaci sa backenda:", data);
 
-            const plan = await GetPlanById(data.travelPlanId);
+            const plan = await GetPlanById(data.travelPlanId, shareToken);
 
             setPlanDates({ start: plan.startDate, end: plan.endDate });
             setFormData(data);
             setActivity(data);
         }
         fetchData();
-    }, [planId]);
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -83,9 +86,12 @@ export function EditActivityForm(){
         );
 
         try {
-            await EditActivity(planId, activityData, shateToken);
+            await EditActivity(id, activityData, shareToken);
             alert("Aktivnost ažurirana!");
-            navigate(`/travel-plans/${planId}/details`);
+            const redirectUrl = shareToken 
+                ? `/shared/${shareToken}` 
+                : `/travel-plans/${planId}/details`;
+            navigate(redirectUrl);
         } catch (error) {
             console.error(error);
         }
