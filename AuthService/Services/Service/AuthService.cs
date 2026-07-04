@@ -78,7 +78,7 @@ namespace AuthService.Services.Service
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                Role = Data.Enums.Role.ADMIN
+                Role = Data.Enums.Role.USER
             };
 
             _context.Users.Add(newUser);
