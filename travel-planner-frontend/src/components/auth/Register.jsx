@@ -2,11 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../../hooks/auth/UseAuthHook";
 import { Link, useNavigate } from "react-router-dom";
-import { Register } from "../../services/AuthService";
+import { Register, LogIn } from "../../services/AuthService";
 import { ReqisterRequest } from "../../models/dtos/RegisterRequest"
 import { ValidateRegisterForm } from "../../validations/AuthValidation";
-
-const API_URL = import.meta.env.VITE_AUTH_API_URL;
+import { LoginRequest } from "../../models/dtos/LoginRequest";
 
 export function RegisterForm(){
     const [name, setName] = useState("");
@@ -40,10 +39,8 @@ export function RegisterForm(){
             if(res.status == 200 || res.status == 201){
                 console.log(res.data);
 
-                const loginRes = await axios.post(`${API_URL}/login`, {
-                    email: email,
-                    password: password
-                });
+                const loginData = new LoginRequest(email, password);
+                 const loginRes = await LogIn(loginData);
 
                 if(loginRes.status == 200){
                     const tokenString = loginRes.data.token;

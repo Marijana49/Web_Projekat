@@ -56,11 +56,13 @@ export function PlanDetails({ readOnly = false, planId: externalPlanId, shareTok
                 )}
             </div>
 
+            {isOwner && (
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 {!readOnly && (
                     <button className="btn-danger" onClick={handleExportPdf}>PDF izvještaj</button>
                 )}
             </div>
+            )}
 
             <div className="budget-summary">
                 <p>Planirani budžet: {budgetData.budget} €</p>
