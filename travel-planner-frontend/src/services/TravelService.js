@@ -12,7 +12,7 @@ const getAuthHeaders = () => {
 
 export async function CreateTravelPlan(planData){
     try{
-        const res = await axios.post(`${TRAVEL_API_URL}/newPlan`, planData, getAuthHeaders());
+        const res = await axios.post(`${TRAVEL_API_URL}`, planData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -42,7 +42,7 @@ export async function GetUserTravelPlans(id){
 
 export async function DeleteTravelPlan(id){
     try{
-        const res = await axios.delete(`${TRAVEL_API_URL}/deletePlan/${id}`, getAuthHeaders());
+        const res = await axios.delete(`${TRAVEL_API_URL}/${id}`, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);
@@ -65,7 +65,7 @@ export async function GetPlanById(id, shareToken = null){
 
 export async function EditTravelPlan(id, planData){
     try{
-        const res = await axios.patch(`${TRAVEL_API_URL}/edit/${id}`, planData, getAuthHeaders());
+        const res = await axios.patch(`${TRAVEL_API_URL}/${id}`, planData, getAuthHeaders());
         return res.data;
     } catch(error){
         console.error(error);

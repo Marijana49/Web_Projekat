@@ -33,14 +33,17 @@ export const ValidateCreateDestinationForm = (values, planDates) => {
     return errors;
 };
 
-export const ValidateEditDestinationForm = (values, planDates) => {
+export const ValidateEditDestinationForm = (values, planDates, initialValues) => {
     let errors = {};
 
     if (values.name !== undefined && !values.name.trim()) {
         errors.name = "Unesite naziv!";
     }
 
-   if (planDates && values.arrivalDate && values.departureDate) {
+    const arrivalChanged = values.arrivalDate !== initialValues.arrivalDate;
+    const departureChanged = values.departureDate !== initialValues.departureDate;
+
+   if (planDates && (arrivalChanged || departureChanged)) {
         const start = new Date(planDates.start);
         const end = new Date(planDates.end);
         const arrival = new Date(values.arrivalDate);

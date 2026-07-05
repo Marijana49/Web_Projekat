@@ -67,7 +67,7 @@ export function EditDestinationForm(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const validationErrors = ValidateEditDestinationForm(formData, planDates);
+        const validationErrors = ValidateEditDestinationForm(formData, planDates, destination);
     
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -76,7 +76,7 @@ export function EditDestinationForm(){
 
         setErrors({});
 
-        const destination = new EditDestinationRequest(
+        const destinationRequest = new EditDestinationRequest(
             formData.name,
             formData.location,
             formData.arrivalDate,
@@ -86,7 +86,7 @@ export function EditDestinationForm(){
         );
 
         try {
-            await EditDestination(id, destination);
+            await EditDestination(id, destinationRequest);
             alert("Destinacija ažurirana!");
             navigate(`/travel-plans/${formData.travelPlanId}/details`);
         } catch (error) {

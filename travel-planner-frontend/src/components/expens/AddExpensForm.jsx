@@ -85,6 +85,7 @@ export function AddExpensForm(){
         try{
             await AddNewExpens(expens);
             alert(`Trošak je dodat!`);
+            navigate(`/travel-plans/${id}/details`);
         } catch(error){
             alert("Greška prilikom kreiranja!");
             }

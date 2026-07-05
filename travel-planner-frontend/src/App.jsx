@@ -19,7 +19,7 @@ import { AddExpensForm } from './components/expens/AddExpensForm'
 import { Checklist } from './components/checklist/Checklist'
 import { AddChecklistItemForm } from './components/checklist/AddChecklistItemForm'
 import { UserList } from './components/user/UserList'
-import { SharedPlanView } from './components/shareLink/SharedPlanView '
+import { SharedPlanView } from './components/shareLink/SharedPlanView'
 import { Navbar } from './components/layout/Navbar'
 
 function App() {

@@ -82,7 +82,7 @@ namespace TravelService.Controllers
 
         }
 
-        [HttpPatch("activities/edit/{id}")]
+        [HttpPatch("activities/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> EditActivity(int id, [FromBody] UpdateActivityDto dto, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {

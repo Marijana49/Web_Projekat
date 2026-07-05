@@ -17,7 +17,7 @@ namespace TravelService.Controllers
             _shareTokenValidator = shareTokenValidator;
         }
 
-        [HttpPost("newDestination/{id}")]
+        [HttpPost("{id}")]
         [Authorize(Roles = "USER, ADMIN")]
         public async Task<IActionResult> AddNewDestination(int id, [FromBody] CreateDestinationDto dto)
         {
@@ -29,7 +29,7 @@ namespace TravelService.Controllers
             return Ok();
         }
 
-        [HttpGet("travel-plans/destinations/{id}")]
+        [HttpGet("destinations/plan/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTravelPlanDestinations(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
@@ -50,7 +50,7 @@ namespace TravelService.Controllers
             return Unauthorized();
         }
 
-        [HttpDelete("destinations/delete/{id}")]
+        [HttpDelete("destinations/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteDestination(int id, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
@@ -80,7 +80,7 @@ namespace TravelService.Controllers
             return Ok(destination);
         }
 
-        [HttpPatch("destinations/edit/{id}")]
+        [HttpPatch("destinations/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> EditDestination(int id, [FromBody] UpdateDestinationDto dto, [FromHeader(Name = "X-Share-Token")] string? shareToken)
         {
