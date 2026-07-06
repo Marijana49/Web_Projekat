@@ -54,9 +54,7 @@ namespace TravelService
                         {
                             options.AddPolicy("AllowReactApp", policy =>
                             {
-                                policy.SetIsOriginAllowed(origin =>
-                                        origin.StartsWith("http://localhost:5173") ||
-                                        origin.StartsWith("http://192.168."))
+                                policy.AllowAnyOrigin()
                                       .AllowAnyHeader()
                                       .AllowAnyMethod();
                             });
