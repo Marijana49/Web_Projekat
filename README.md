@@ -1,6 +1,6 @@
 # Travel Planner App
 
-Travel planning web application — manage plans, destinations, activities, expenses, checklist and share plan via QR code.
+Travel planning web application — manage plans, destinations, activities, view activities on interactive map, expenses, checklist and share plan via QR code.
 
 **System Architecture**
 
@@ -140,3 +140,23 @@ The sharing token has a lifetime (7 days by default) and can be revoked at any t
 
 
 The plan owner can generate a PDF report with plan details.
+
+
+**Interactive map**
+
+Activity locations are automatically geocoded (converted from address to map 
+coordinates) using the free OpenStreetMap Nominatim API — no API key required.
+
+- Requires outbound internet access from the TravelService backend to 
+  nominatim.openstreetmap.org
+- If an address cannot be resolved (e.g. misspelled or too vague), the 
+  activity is still saved, but won't appear on the map
+
+
+The map displays numbered markers for each activity (in visit order) 
+   connected by a route line.
+   
+Frontend map rendering uses react-leaflet and leaflet
+
+
+        npm install react-leaflet leaflet
