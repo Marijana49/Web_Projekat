@@ -43,9 +43,15 @@ namespace Data.Migrations.Travel
                     b.Property<int?>("DestinationId")
                         .HasColumnType("int");
 
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -18,6 +18,9 @@ namespace Data.Models
         public int? DestinationId { get; set; }
         public Destination Destination { get; set; }
 
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+
         public Activity() { }
 
         public Activity(string name, DateOnly date, TimeOnly time, string location, string description, double budget, ActivityStatus status)

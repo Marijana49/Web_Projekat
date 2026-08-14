@@ -756,3 +756,18 @@ textarea:focus {
   gap: 8px;
   margin-left: auto;
 }
+
+.marker-number {
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}

@@ -9,10 +9,11 @@ namespace TravelService.Services.Service
     public class ActivityService : IActivityService
     {
         private readonly TravelPlanDbContext _context;
-
-        public ActivityService(TravelPlanDbContext context)
+        private readonly IGeocodingService _geocodingService;
+        public ActivityService(TravelPlanDbContext context, IGeocodingService geocodingService)
         {
             _context = context;
+            _geocodingService = geocodingService;
         }
         public async Task CreateNewActivityAsync(int id, CreateActivityDto dto)
         {
@@ -28,6 +29,8 @@ namespace TravelService.Services.Service
                 throw new ArgumentException($"Aktivnost mora biti unutar okvira plana: od {plan.StartDate} do {plan.EndDate}");
             }
 
+            var (lat, lon) = await _geocodingService.GeocodeAsync(dto.Location);
+
             var activity = new Activity
             {
                 Name = dto.Name,
@@ -39,6 +42,8 @@ namespace TravelService.Services.Service
                 Status = dto.Status,
                 TravelPlanId = dto.TravelPlanId,
                 DestinationId = dto.DestinationId,
+                Latitude = lat,
+                Longitude = lon,
             };
 
             _context.Activitys.Add(activity);
@@ -74,6 +79,8 @@ namespace TravelService.Services.Service
                 Status = a.Status,
                 TravelPlanId = a.TravelPlanId,
                 DestinationId = a.DestinationId,
+                Latitude = a.Latitude,
+                Longitude = a.Longitude,
             }).ToList();
 
             return actvityList;
@@ -100,6 +107,8 @@ namespace TravelService.Services.Service
                 Status = activity.Status,
                 TravelPlanId = activity.TravelPlanId,
                 DestinationId = activity.DestinationId,
+                Latitude = activity.Latitude,
+                Longitude = activity.Longitude,
             };
         }
 
@@ -129,6 +138,14 @@ namespace TravelService.Services.Service
                 }
 
                 activity.Date = newDate;
+            }
+
+            if(!string.IsNullOrEmpty(updateActivityDto.Location) && updateActivityDto.Location != activity.Location)
+            {
+                activity.Location = updateActivityDto.Location;
+                var (lat, lon) = await _geocodingService.GeocodeAsync(updateActivityDto.Location);
+                activity.Latitude = lat;
+                activity.Longitude = lon;
             }
 
             if (!string.IsNullOrEmpty(updateActivityDto.Name)) activity.Name = updateActivityDto.Name;

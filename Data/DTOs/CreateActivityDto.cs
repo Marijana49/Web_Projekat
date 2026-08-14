@@ -25,5 +25,7 @@ namespace Data.DTOs
         public ActivityStatus Status { get; set; }
         public int TravelPlanId { get; set; }
         public int? DestinationId { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
     }
 }

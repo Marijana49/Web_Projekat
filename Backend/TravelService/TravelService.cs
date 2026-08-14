@@ -94,6 +94,7 @@ namespace TravelService
                         {
                             client.BaseAddress = new Uri("http://localhost:19081/Backend/SharingService/");
                         });
+                        builder.Services.AddHttpClient<IGeocodingService, NominatimGeocodingService>();
 
                         builder.Services.AddControllers();
                         builder.Services.AddEndpointsApiExplorer();
