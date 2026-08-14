@@ -6,18 +6,22 @@ namespace TravelService.Services.Service
     public class NominatimGeocodingService : IGeocodingService
     {
         private readonly HttpClient _httpClient;
-
-        public NominatimGeocodingService(HttpClient httpClient)
+        private readonly string _baseUrl;
+        public NominatimGeocodingService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("TravelPlannerApp/1.0");
+            _baseUrl = configuration["Geocoding:NominatimBaseUrl"]
+              ?? "https://nominatim.openstreetmap.org/search";
+
+            var userAgent = configuration["Geocoding:UserAgent"] ?? "TravelPlannerApp/1.0";
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
         }
         public async Task<(double? Latitude, double? Longitude)> GeocodeAsync(string address)
         {
             if (string.IsNullOrWhiteSpace(address))
                 return (null, null);
 
-            var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(address)}&format=json&limit=1";
+            var url = $"{_baseUrl}?q={Uri.EscapeDataString(address)}&format=json&limit=1";
 
             try
             {
